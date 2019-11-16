@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.Icon;;
 
 public class MainWindowView {
@@ -69,12 +72,33 @@ public class MainWindowView {
 		
 		
 		
+		
+		
+		
+		
 		JPanel center = new JPanel();
 		center.setBackground(Color.white);
 		mainfrm.getContentPane().add(center,BorderLayout.CENTER);
+		center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
+		JPanel cleft = new JPanel();
+		cleft.setLayout(new BoxLayout(cleft, BoxLayout.Y_AXIS));
+		center.add(cleft);
+
+		OpenedChat c1 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c1);
+		
+
+		
+		
+		
+		
+		
+	
+		
+		
 		
 		JPanel cright = new JPanel();
-		JPanel cleft = new JPanel();
+	
 		
 	}
 	public void mostrarVentana() {
