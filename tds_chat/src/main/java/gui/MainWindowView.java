@@ -16,34 +16,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+
+import tds.BubbleText;
+
 import javax.swing.Icon;;
 
 public class MainWindowView {
 	private JFrame mainfrm;
-	private JButton userInf_btn,msgSea_btn,chatOpt_btn;
-	
+	private JButton userInf_btn, msgSea_btn, chatOpt_btn;
 
-	
 	public MainWindowView() {
 		initialize();
 	}
 
 	private void initialize() {
-		
+
 		mainfrm = new JFrame();
 		mainfrm.setTitle("ChatApp");
 		mainfrm.setBounds(300, 200, 1000, 700);
 		mainfrm.getContentPane().setLayout(new BorderLayout());
 		mainfrm.setResizable(false);
-	//	mainfrm.getContentPane().setBackground(new Color(13,115,119));
-		
-		//Panel Barra Superior
+		// mainfrm.getContentPane().setBackground(new Color(13,115,119));
+
+		// Panel Barra Superior
 		final JPanel topBar = new JPanel();
 		topBar.setBackground(Color.cyan);
-		mainfrm.getContentPane().add(topBar,BorderLayout.NORTH);
+		mainfrm.getContentPane().add(topBar, BorderLayout.NORTH);
 		topBar.setLayout(new FlowLayout());
-		
+
 		ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
 		ImageIcon icStatus = new ImageIcon("pics/rec.png");
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
@@ -69,42 +72,93 @@ public class MainWindowView {
 		topBar.add(Box.createRigidArea(new Dimension(400, 30)));
 		topBar.add(mg);
 		topBar.add(chOp);
-		
-		
-		
-		
-		
-		
-		
+
 		JPanel center = new JPanel();
 		center.setBackground(Color.white);
-		mainfrm.getContentPane().add(center,BorderLayout.CENTER);
+		mainfrm.getContentPane().add(center, BorderLayout.CENTER);
 		center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
 		JPanel cleft = new JPanel();
+
 		cleft.setLayout(new BoxLayout(cleft, BoxLayout.Y_AXIS));
 		center.add(cleft);
-
+		
+		JScrollPane js = new JScrollPane(cleft, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		js.setMinimumSize(new Dimension(330, 800));
+		center.add(js);
+		
 		OpenedChat c1 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
 		cleft.add(c1);
+
+		OpenedChat c2 = new OpenedChat(icUser, "Real Zaragoza", "nuestro equipo aaa");
+		cleft.add(c2);
+
+		OpenedChat c3 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c3);
+
+		OpenedChat c4 = new OpenedChat(icUser, "Real Zaragoza", "nuestro equipo aaa");
+		cleft.add(c4);
+		OpenedChat c5 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c5);
+
+		OpenedChat c6 = new OpenedChat(icUser, "Real Zaragoza", "nuestro equipo aaa");
+		cleft.add(c6);
+
+		OpenedChat c7 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c7);
+
+		OpenedChat c8 = new OpenedChat(icUser, "Real Zaragoza", "nuestro equipo aaa");
+		cleft.add(c8);
+		OpenedChat c9 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c9);
+
+		OpenedChat c10 = new OpenedChat(icUser, "Real Zaragoza", "nuestro equipo aaa");
+		cleft.add(c10);
+
+		OpenedChat c11 = new OpenedChat(icUser, "Pipi Estrada", "Ya he pagao eso bro");
+		cleft.add(c11);
+
+	
+		cleft.add(Box.createVerticalGlue());
+
+
+		//Este Panel incluye el JScrollPAne con el chat y la barra en 
+		//la que se escribe y se envian emogis, hay que subdividirla en 2
 		
+		JPanel cright = new JPanel();
+		//cright.add(Box.createRigidArea(new Dimension(500, 800)));
+		cright.setLayout(new BorderLayout());
+		center.add(cright);
+		
+		JPanel cright_south = new JPanel();
+		cright_south.setLayout(new FlowLayout());
+		cright.add(cright_south,BorderLayout.SOUTH);
+		
+		//añadir icono de emojis, fieldtext , boton de enviar
+		
+		
+		ImageIcon icEmo = new ImageIcon("pics/happy.png");
+		JButton emoBt = new  JButton(icEmo);
+		cright_south.add(emoBt);
+		
+		JTextField msgT = new JTextField(30);
+		cright_south.add(msgT);
+		
+		ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
+		JButton sendBt = new JButton(icSend);
+		cright_south.add(sendBt);
 
 		
 		
 		
 		
-		
-	
-		
-		
-		
-		JPanel cright = new JPanel();
-	
-		
+
 	}
+
 	public void mostrarVentana() {
 		mainfrm.setVisible(true);
 
 	}
+
 //BORRAR MAIN
 	public static void main(String[] args) {
 		MainWindowView mWv = new MainWindowView();

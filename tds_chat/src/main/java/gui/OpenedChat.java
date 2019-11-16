@@ -23,6 +23,7 @@ public class OpenedChat extends JPanel{
 		name =  nm;
 		ultMsg = ult;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
 	
 		JLabel icon =new  JLabel(icono);	
 		add(icon);
