@@ -3,7 +3,11 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import jmgror.tds_chat.RegistroUsuario;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -29,7 +33,6 @@ public class LoginView {
 		loginfrm = new JFrame();
 		loginfrm.setResizable(false);
 		loginfrm.setTitle("GayChat");
-
 		
 
 		loginfrm.setBounds(700, 300, 458, 301);
@@ -95,9 +98,30 @@ public class LoginView {
 		panel_south.setOpaque(false);
 		loginfrm.getContentPane().add(panel_south, BorderLayout.SOUTH);
 
-		 inic = new JButton("Iniciar Sesión");
-		 regis = new JButton("Registrarse");
-
+		inic = new JButton("Iniciar Sesión");
+		inic.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				boolean inicio;
+				//Siempre verdadero de momento
+				inicio=true;
+				if(inicio) {
+					MainWindowView main = new MainWindowView();
+					main.setVisible(true);
+					loginfrm.dispose();
+				}
+				
+			}
+		});
+		
+		regis = new JButton("Registrarse");
+		regis.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				new RegistroUsuario(loginfrm);
+				
+			}
+		});
 		panel_south.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
 		inic.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		regis.setFont(new Font("Monospaced", Font.PLAIN, 15));

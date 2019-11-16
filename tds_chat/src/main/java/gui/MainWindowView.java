@@ -24,27 +24,25 @@ import tds.BubbleText;
 
 import javax.swing.Icon;;
 
-public class MainWindowView {
-	private JFrame mainfrm;
+public class MainWindowView extends JFrame{
+	//private JFrame mainfrm;
+	private JPanel contentPane;
 	private JButton userInf_btn, msgSea_btn, chatOpt_btn;
 
 	public MainWindowView() {
-		initialize();
-	}
-
-	private void initialize() {
-
-		mainfrm = new JFrame();
-		mainfrm.setTitle("ChatApp");
-		mainfrm.setBounds(300, 200, 1000, 700);
-		mainfrm.getContentPane().setLayout(new BorderLayout());
-		mainfrm.setResizable(false);
+		this.setTitle("ChatApp");
+		this.setBounds(300, 200, 1000, 700);
+		contentPane = new JPanel();
+		contentPane.setLayout(new BorderLayout());
+		this.setContentPane(contentPane);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// mainfrm.getContentPane().setBackground(new Color(13,115,119));
-
+		
 		// Panel Barra Superior
 		final JPanel topBar = new JPanel();
 		topBar.setBackground(Color.cyan);
-		mainfrm.getContentPane().add(topBar, BorderLayout.NORTH);
+		contentPane.add(topBar, BorderLayout.NORTH);
 		topBar.setLayout(new FlowLayout());
 
 		ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
@@ -75,7 +73,7 @@ public class MainWindowView {
 
 		JPanel center = new JPanel();
 		center.setBackground(Color.white);
-		mainfrm.getContentPane().add(center, BorderLayout.CENTER);
+		contentPane.add(center, BorderLayout.CENTER);
 		center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
 		JPanel cleft = new JPanel();
 
@@ -147,21 +145,18 @@ public class MainWindowView {
 		JButton sendBt = new JButton(icSend);
 		cright_south.add(sendBt);
 
-		
-		
-		
-		
-
 	}
 
-	public void mostrarVentana() {
-		mainfrm.setVisible(true);
+	
 
-	}
+	/*public void mostrarVentana() {
+		this.setVisible(true);
+
+	}*/
 
 //BORRAR MAIN
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		MainWindowView mWv = new MainWindowView();
 		mWv.mostrarVentana();
-	}
+	}*/
 }
