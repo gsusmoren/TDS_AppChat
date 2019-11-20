@@ -84,8 +84,7 @@ public class OpenedChat extends JPanel {
 						if(c instanceof SelectedChat) {
 							centro.remove(c);
 						}
-						centro.validate();
-						centro.repaint();
+						
 					}
 						
 						

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -28,9 +30,12 @@ public class SelectedChat extends JPanel{
 	cright_south = new JPanel();
 	cright_south.setLayout(new BoxLayout(cright_south,BoxLayout.X_AXIS));
 	add(cright_south,BorderLayout.SOUTH);
-	
+	this.setSize(750, 700);
+	this.setMaximumSize(new Dimension(750, 700));
+	this.setMinimumSize(new Dimension(750, 700));
 	ImageIcon icEmo = new ImageIcon("pics/happy.png");
 	emoBt = new JButton(icEmo);
+	this.setBackground(Color.gray);
 	
 	cright_south.add(emoBt);
 	
@@ -40,9 +45,9 @@ public class SelectedChat extends JPanel{
 	cright_south.add(msgT);
 	ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
 	sendBt = new JButton(icSend);
+	
 	cright_south.add(sendBt);
-
-	JPanel cright_center = new JPanel();
+	final JPanel cright_center = new JPanel();
 	
 	add(cright_center, BorderLayout.CENTER);
 	
@@ -56,24 +61,29 @@ public class SelectedChat extends JPanel{
 	
 	cright_center.setSize(600,800);
 	cright_center.setMinimumSize(new Dimension(600, 800));
-	
+	cright_center.setMaximumSize(new Dimension(600, 800));
 	cright_center.setBackground(Color.GRAY);
 	
-	BubbleText b1 = new BubbleText(cright_center, "Prueba  1 klkkkkkkkkkkkkkk kkkkkkkkk kkkkkk kkkkkkkkke", Color.cyan,"Jesus", BubbleText.SENT,20);
-	cright_center.add(b1);
-	BubbleText b2 = new BubbleText(cright_center, "Prueba  2 klkkkkkkkkkkkkkkkkkkkkkkkkkkk", Color.cyan,"Jesus", BubbleText.RECEIVED,20);
-	cright_center.add(b2);
-	BubbleText b3 = new BubbleText(cright_center, "Prueba  1 klkkkkkkkkkkkkkk kkkkkkkkk kkkkkk kkkkkkkkke", Color.cyan,"Jesus", BubbleText.SENT,20);
-	cright_center.add(b3);
+	sendBt.addActionListener(new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			if(msgT.getText().length()>0) {
+				BubbleText borboja = new BubbleText(cright_center, msgT.getText(), Color.cyan, "Usuario", BubbleText.SENT);
+				cright_center.add(borboja);
+				//cambiar Last
+			}
+			msgT.setText("");
+		msgT.grabFocus();
+			
+		}
+	});
+
+
+
 
 	}
 	
-	public void EnviarMensaje() {
-		
-		
-		
-	}
-	
+
 	
 	
 	

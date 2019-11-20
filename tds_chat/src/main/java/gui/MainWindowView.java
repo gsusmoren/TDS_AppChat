@@ -98,9 +98,9 @@ public class MainWindowView extends JFrame {
 		contentPane.add(center, BorderLayout.CENTER);
 		center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
 		JPanel cleft = new JPanel();
-		
-		cleft.setMinimumSize(new Dimension(350, 500));
-		cleft.setMaximumSize(new Dimension(350, 500));
+		cleft.setSize(new Dimension(300, 500));
+		cleft.setMinimumSize(new Dimension(300, 500));
+		cleft.setMaximumSize(new Dimension(300, 500));
 		cleft.setLayout(new BoxLayout(cleft, BoxLayout.Y_AXIS));
 		center.add(cleft);
 		
