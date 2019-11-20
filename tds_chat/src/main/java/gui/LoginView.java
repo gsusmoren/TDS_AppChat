@@ -28,7 +28,7 @@ public class LoginView {
 	private void initialize() {
 		loginfrm = new JFrame();
 		loginfrm.setResizable(false);
-		loginfrm.setTitle("GayChat");
+		loginfrm.setTitle("AppChat");
 
 		
 
@@ -64,6 +64,7 @@ public class LoginView {
 		textLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				textLogin.setText("");
 				textLogin.setFocusable(true);
 				textLogin.setFont(f_2);
