@@ -16,11 +16,12 @@ import tds.BubbleText;
 
 @SuppressWarnings("serial")
 public class SelectedChat extends JPanel{
-	JPanel cright_south;
+	private JPanel cright_south;
+	private JTextField msgT;
+	private JButton emoBt;
+	private JButton sendBt;
 	
-	
-	
-	
+
 	public SelectedChat() {
 		
 	setLayout(new BorderLayout());
@@ -29,19 +30,18 @@ public class SelectedChat extends JPanel{
 	add(cright_south,BorderLayout.SOUTH);
 	
 	ImageIcon icEmo = new ImageIcon("pics/happy.png");
-	JButton emoBt = new JButton(icEmo);
+	emoBt = new JButton(icEmo);
 	
 	cright_south.add(emoBt);
 	
-	JTextField msgT = new JTextField();
+	msgT = new JTextField();
 	msgT.setMinimumSize(new Dimension(300, 30));
 	msgT.setFont(new Font("Monospaced", Font.PLAIN, 25));
 	cright_south.add(msgT);
-	
 	ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
-	JButton sendBt = new JButton(icSend);
+	sendBt = new JButton(icSend);
 	cright_south.add(sendBt);
-	
+
 	JPanel cright_center = new JPanel();
 	
 	add(cright_center, BorderLayout.CENTER);
@@ -67,6 +67,14 @@ public class SelectedChat extends JPanel{
 	cright_center.add(b3);
 
 	}
+	
+	public void EnviarMensaje() {
+		
+		
+		
+	}
+	
+	
 	
 	
 	

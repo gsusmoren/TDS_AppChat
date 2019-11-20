@@ -11,7 +11,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
@@ -33,6 +33,7 @@ public class OpenedChat extends JPanel {
 	private LocalDate lstDate;
 	private String ultMsg;
 	private boolean abierto;
+
 
 	public OpenedChat(ImageIcon ic, String nm, String ult,final JPanel centro) {
 		icono = ic;
@@ -76,11 +77,27 @@ public class OpenedChat extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
+					if(centro.getComponentCount() == 2) {
+					Component[] listaComp = centro.getComponents();
+					
+					for(Component c : listaComp) {
+						if(c instanceof SelectedChat) {
+							centro.remove(c);
+						}
+						centro.validate();
+						centro.repaint();
+					}
+						
+						
+						
+						
+					}
 										
 					setBackground(Color.BLACK);
 					centro.add(chat);
 					centro.validate();
 					centro.repaint();
+					System.out.println(centro.getComponentCount());
 				}
 				
 			}

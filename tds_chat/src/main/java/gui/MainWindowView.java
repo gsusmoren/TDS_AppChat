@@ -42,6 +42,7 @@ public class MainWindowView extends JFrame {
 	// private JFrame mainfrm;
 	private JPanel contentPane;
 	private JButton userInf_btn, msgSea_btn, chatOpt_btn;
+	 
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
@@ -113,6 +114,8 @@ public class MainWindowView extends JFrame {
 
 		OpenedChat c1 = new OpenedChat(icUser, "pipi Estrada", "Ya he pagao eso broooooooooo",center);
 		cleft.add(c1);
+		c1.getChat();
+		
 	
 
 
