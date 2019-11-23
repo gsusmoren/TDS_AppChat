@@ -5,11 +5,11 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
+
 import java.awt.Image;
 
 import java.awt.event.MouseAdapter;
@@ -43,6 +43,8 @@ public class OpenedChat extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
 		this.setMaximumSize(new Dimension(300, 70));
+		
+		//Resize imagenes e iconos
 		Image im = icono.getImage();
 		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 		icono = new ImageIcon(scaled);
@@ -96,7 +98,7 @@ public class OpenedChat extends JPanel {
 					centro.add(chat);
 					centro.validate();
 					centro.repaint();
-					System.out.println(centro.getComponentCount());
+					
 				}
 				
 			}

@@ -16,7 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -28,31 +28,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 
-import tds.BubbleText;
 
-import javax.swing.Icon;
 
+@SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
-	// private JFrame mainfrm;
 	private JPanel contentPane;
-	private JButton userInf_btn, msgSea_btn, chatOpt_btn;
+	private JButton userInf_btn;
 	 
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
-		this.setBounds(300, 200, 1000, 700);
+		this.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y,Constantes.mainWx_size , Constantes.mainWy_size);
 		contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
 		this.setContentPane(contentPane);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// mainfrm.getContentPane().setBackground(new Color(13,115,119));
+
+		
 
 		// Panel Barra Superior
 		final JPanel topBar = new JPanel();
@@ -64,14 +59,14 @@ public class MainWindowView extends JFrame {
 		contentPane.add(topBar, BorderLayout.NORTH);
 		topBar.setLayout(new FlowLayout());
 
-		ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
+		final ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
 		ImageIcon icStatus = new ImageIcon("pics/rec.png");
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 		ImageIcon icUInf = new ImageIcon("pics/inhigo.jpg");
 		userInf_btn = new JButton("Iñigo Errejón", icUInf);
 		ImageIcon icSea = new ImageIcon("pics/magnifying-glass.png");
 		
-	
+		
 		JLabel us = new JLabel(icUser);
 		JLabel st = new JLabel(icStatus);
 		JLabel op = new JLabel(icOpt);
@@ -84,6 +79,18 @@ public class MainWindowView extends JFrame {
 		chOp.setMaximumSize(new Dimension(30, 30));
 		
 		topBar.add(us);
+		final JFrame copiaFrame = this;
+		us.addMouseListener(new MouseAdapter() {
+		
+			public void mouseClicked(MouseEvent e) {
+			EditProfileWindow eProf = new EditProfileWindow(copiaFrame,icUser,"+\"k pasa poyeta\"+");
+				
+				
+				
+
+			}
+		});
+		
 		topBar.add(Box.createRigidArea(new Dimension(120, 30)));
 		topBar.add(st);
 		topBar.add(op);
@@ -91,7 +98,6 @@ public class MainWindowView extends JFrame {
 		topBar.add(Box.createRigidArea(new Dimension(400, 30)));
 		topBar.add(mg);
 		topBar.add(chOp);
-		System.out.println(topBar.getHeight());
 		 final JPanel center = new JPanel();
 		center.setBackground(Color.white);
 
@@ -158,71 +164,7 @@ public class MainWindowView extends JFrame {
 		//SelectedChat chat_1 = new SelectedChat();
 		//center.add(chat_1);
 	
-		/*
-		 * JPanel cright = new JPanel();
-		 * 
-		 * cright.setLayout(new BorderLayout()); center.add(cright);
-		 * 
-		 * JPanel cright_south = new JPanel(); cright_south.setLayout(new
-		 * BoxLayout(cright_south, BoxLayout.X_AXIS)); cright.add(cright_south,
-		 * BorderLayout.SOUTH);
-		 * 
-		 * // añadir icono de emojis, fieldtext , boton de enviar
-		 * 
-		 * ImageIcon icEmo = new ImageIcon("pics/happy.png"); JButton emoBt = new
-		 * JButton(icEmo); cright_south.add(emoBt);
-		 * 
-		 * JTextField msgT = new JTextField(); msgT.setMinimumSize(new Dimension(300,
-		 * 30)); msgT.setFont(new Font("Monospaced", Font.PLAIN, 25));
-		 * cright_south.add(msgT);
-		 * 
-		 * ImageIcon icSend = new ImageIcon("pics/right-arrow.png"); JButton sendBt =
-		 * new JButton(icSend); cright_south.add(sendBt);
-		 * 
-		 * JPanel cright_center = new JPanel();
-		 * 
-		 * 
-		 * cright.add(cright_center, BorderLayout.CENTER);
-		 * 
-		 * 
-		 * //Mensaje inicial panel vacío /* JLabel panelVacio = new
-		 * JLabel("No hay Chats abiertos"); panelVacio.setFont(new Font("Monospaced",
-		 * Font.PLAIN, 25)); cright_center.add(Box.createRigidArea(new Dimension(360,
-		 * 200))); cright_center.add(panelVacio);
-		 * 
-		 * 
-		 * 
-		 * cright_center.setLayout(new BoxLayout(cright_center, BoxLayout.Y_AXIS));
-		 * 
-		 * 
-		 * 
-		 * 
-		 * // nuevo chat seleccionado JScrollPane jsCh = new JScrollPane(cright_center,
-		 * JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-		 * JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); cright.add(jsCh);
-		 * 
-		 * 
-		 * cright_center.setSize(600,800); cright_center.setMinimumSize(new
-		 * Dimension(600, 800));
-		 * 
-		 * cright_center.setBackground(Color.GRAY);
-		 * 
-		 * BubbleText b1 = new BubbleText(cright_center,
-		 * "Prueba  1 klkkkkkkkkkkkkkk kkkkkkkkk kkkkkk kkkkkkkkke", Color.cyan,"Jesus",
-		 * BubbleText.SENT,20); cright_center.add(b1); BubbleText b2 = new
-		 * BubbleText(cright_center, "Prueba  2 klkkkkkkkkkkkkkkkkkkkkkkkkkkk",
-		 * Color.cyan,"Jesus", BubbleText.RECEIVED,20); cright_center.add(b2);
-		 * BubbleText b3 = new BubbleText(cright_center,
-		 * "Prueba  1 klkkkkkkkkkkkkkk kkkkkkkkk kkkkkk kkkkkkkkke", Color.cyan,"Jesus",
-		 * BubbleText.SENT,20); cright_center.add(b3);
-		 * 
-		 * 
-		 * 
-		 * /* JLabel panelVacio = new JLabel("No hay Chats abiertos");
-		 * panelVacio.setFont(new Font("Monospaced", Font.PLAIN, 25));
-		 * cright_center.add(Box.createRigidArea(new Dimension(360, 200)));
-		 * cright_center.add(panelVacio);
-		 */
+		
 
 	}
 
