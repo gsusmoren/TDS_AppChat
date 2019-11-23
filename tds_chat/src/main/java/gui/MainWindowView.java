@@ -16,10 +16,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -83,10 +81,8 @@ public class MainWindowView extends JFrame {
 		us.addMouseListener(new MouseAdapter() {
 		
 			public void mouseClicked(MouseEvent e) {
+				//pasar saludo del usuario
 			EditProfileWindow eProf = new EditProfileWindow(copiaFrame,icUser,"+\"k pasa poyeta\"+");
-				
-				
-				
 
 			}
 		});
