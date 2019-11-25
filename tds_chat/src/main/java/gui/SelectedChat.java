@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +11,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowFocusListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,7 +44,6 @@ public class SelectedChat extends JPanel {
 
 		cright_south.add(emoBt);
 
-
 		msgT = new JTextField();
 		msgT.setMinimumSize(new Dimension(300, 30));
 		msgT.setFont(new Font("Monospaced", Font.PLAIN, 25));
@@ -63,8 +58,8 @@ public class SelectedChat extends JPanel {
 
 		cright_center.setLayout(new BoxLayout(cright_center, BoxLayout.Y_AXIS));
 
-		JScrollPane jsCh = new JScrollPane(cright_center, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane jsCh = new JScrollPane(cright_center, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(jsCh);
 
@@ -72,9 +67,8 @@ public class SelectedChat extends JPanel {
 		cright_center.setMinimumSize(new Dimension(600, 800));
 		cright_center.setMaximumSize(new Dimension(600, 800));
 		cright_center.setBackground(Color.GRAY);
-		
-		//Son 25 emogis
 
+		// Son 25 emogis
 
 		sendBt.addActionListener(new ActionListener() {
 
@@ -94,56 +88,52 @@ public class SelectedChat extends JPanel {
 		emoBt.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				final JFrame  emos = new JFrame();
-				emos.setBounds(emoBt.getLocationOnScreen().x,emoBt.getLocationOnScreen().y-300, 600, 300);
+				final JFrame emos = new JFrame();
+				emos.setBounds(emoBt.getLocationOnScreen().x, emoBt.getLocationOnScreen().y - 300, 600, 300);
 				emos.setBackground(Color.black);
-		
+
 				emos.setUndecorated(true);
 				emos.setVisible(true);
-				
-				JPanel emoPanel = new  JPanel();
+
+				JPanel emoPanel = new JPanel();
 				emos.getContentPane().add(emoPanel);
-				emoPanel.setLayout(new GridLayout(5,5));
+				emoPanel.setLayout(new GridLayout(5, 5));
+				//hay 25 emogis
 				JLabel emo[] = new JLabel[25];
-				
-				for ( int i =0;i<25;i++) {
+
+				for (int i = 0; i < 25; i++) {
+					//Copia del iterado como final para poder usarlo con el mouseListener
 					final int i2 = i;
 					emo[i] = new JLabel(BubbleText.getEmoji(i));
 					emoPanel.add(emo[i]);
-					
+
 					emo[i].addMouseListener(new MouseAdapter() {
-						
+
 						public void mouseClicked(MouseEvent e) {
-							//Introducir Nombre del Usuario que los envía
-							BubbleText emoSent = new BubbleText(cright_center,i2,Color.green, "OYOS", BubbleText.SENT,15);
+							// Introducir Nombre del Usuario que los envía
+							BubbleText emoSent = new BubbleText(cright_center, i2, Color.CYAN, "JUANPABLO", BubbleText.SENT,
+									15);
 							cright_center.add(emoSent);
 							cright_center.repaint();
 							emos.dispose();
 						}
 					});
-									
+
 				}
-			
-			emos.addFocusListener(new FocusListener() {
-				
-				public void focusLost(FocusEvent e) {
-					emos.dispose();
-					
-				}
-				
-				public void focusGained(FocusEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-				
-				
-				
-				
-				
-				
-					
+
+				emos.addFocusListener(new FocusListener() {
+
+					public void focusLost(FocusEvent e) {
+						emos.dispose();
+
+					}
+
+					public void focusGained(FocusEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+
 			}
 
 		});

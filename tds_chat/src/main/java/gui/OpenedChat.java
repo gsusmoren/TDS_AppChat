@@ -35,14 +35,16 @@ public class OpenedChat extends JPanel {
 	private boolean abierto;
 
 
-	public OpenedChat(ImageIcon ic, String nm, String ult,final JPanel centro) {
+	public OpenedChat(ImageIcon ic, String nm,String ult ,final JPanel centro) {
 		icono = ic;
 		name = nm;
 		ultMsg = ult;
 		abierto = false;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
-		this.setMaximumSize(new Dimension(300, 70));
+		this.setSize(300, 60);
+		this.setMaximumSize(new Dimension(300, 60));
+		this.setMinimumSize(new Dimension(300, 60));
 		
 		//Resize imagenes e iconos
 		Image im = icono.getImage();
