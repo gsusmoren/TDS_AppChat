@@ -82,7 +82,6 @@ public class EditProfileWindow extends JDialog {
 
 							saludo = textS.getText();
 							saludoLabel.setText(saludo);
-
 							diagIn.dispose();
 							auxJD.revalidate();
 							auxJD.repaint();
