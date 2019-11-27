@@ -121,7 +121,6 @@ public class EditProfileWindow extends JDialog {
 					Image im = nImageIcon.getImage();
 					Image scaled = im.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 					nImageIcon = new ImageIcon(scaled);
-					
 					imagenPerfil = nImageIcon;
 					imagenPLabel.setIcon(nImageIcon);
 					

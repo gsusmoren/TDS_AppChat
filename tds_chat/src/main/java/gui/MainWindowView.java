@@ -21,19 +21,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
@@ -94,9 +81,8 @@ public class MainWindowView extends JFrame {
 		topBar.add(st);
 		topBar.add(op);
 		topBar.add(userInf_btn);
-		
-		
-		//userInf_btn.setVisible(false);
+
+		// userInf_btn.setVisible(false);
 		topBar.add(Box.createRigidArea(new Dimension(400, 30)));
 		topBar.add(mg);
 		topBar.add(chOp);
@@ -117,23 +103,22 @@ public class MainWindowView extends JFrame {
 		js.setMaximumSize(new Dimension(300, 700));
 		js.setMinimumSize(new Dimension(300, 700));
 		center.add(js);
-		
-		
-		//Se le da acción al boton del usuario de la barra superior
+
+		// Se le da acción al boton del usuario de la barra superior
 		userInf_btn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				JDialog contactInfo = new JDialog(copiaFrame,"Nombre Completo del Contacto",true);
-				
+				JDialog contactInfo = new JDialog(copiaFrame, "Nombre Completo del Contacto", true);
+
 				contactInfo.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 300, 500);
-				
+
 				JPanel conInfPanel = new JPanel();
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
-				
+
 				JLabel name = new JLabel("Nombre Contacto");
 				JLabel tel = new JLabel("Telf :           ");
 				JLabel pic = new JLabel(icUInf);
-				conInfPanel.add(Box.createRigidArea(new Dimension(100,50)));
+				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
 				conInfPanel.add(pic);
 				conInfPanel.add(name);
 				conInfPanel.add(tel);
@@ -141,16 +126,15 @@ public class MainWindowView extends JFrame {
 				pic.setAlignmentX(CENTER_ALIGNMENT);
 				name.setAlignmentX(CENTER_ALIGNMENT);
 				tel.setAlignmentX(CENTER_ALIGNMENT);
-				
 				contactInfo.setVisible(true);
 			}
-		});	
+		});
 
 		final JPopupMenu m = new JPopupMenu("Crear Chat");
 		JMenuItem m1 = new JMenuItem("Nuevo Chat");
 		JMenuItem m2 = new JMenuItem("Nuevo Grupo");
 		JMenuItem m3 = new JMenuItem("Crear Contacto");
-		JMenuItem m4 = new JMenuItem("Hazte Premium");
+		JMenuItem mPremium = new JMenuItem("Hazte Premium");
 		JMenuItem m5 = new JMenuItem("Modificar Grupo");
 		JMenuItem m6 = new JMenuItem("Mostrar Contactos");
 		JMenuItem m8 = new JMenuItem("Mostrar Estadísticas");
@@ -159,7 +143,7 @@ public class MainWindowView extends JFrame {
 		m.add(m1);
 		m.add(m2);
 		m.add(m3);
-		m.add(m4);
+		m.add(mPremium);
 		m.add(m5);
 		m.add(m6);
 		m.add(m7);
@@ -185,9 +169,6 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
-				lista.addElement("Pepe");
-				lista.addElement("Pepe");
-				lista.addElement("Pepe");
 				lista.addElement("Pepe");
 				lista.addElement("Pepe");
 				lista.addElement("Pepe");
@@ -233,6 +214,68 @@ public class MainWindowView extends JFrame {
 				});
 				j.setUndecorated(true);
 				j.setVisible(true);
+
+			}
+		});
+
+		mPremium.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				JDialog prmDialog = new JDialog(copiaFrame, true);
+				prmDialog.setResizable(false);
+				prmDialog.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500, 500);
+				JPanel prmPanel = new JPanel();
+				// Ver si el usuario puede aplicar algún descuento.
+				prmDialog.add(prmPanel);
+				prmPanel.setLayout(new BoxLayout(prmPanel, BoxLayout.Y_AXIS));
+				prmPanel.setBackground(Color.MAGENTA);
+				prmPanel.add(Box.createRigidArea(new Dimension(200, 20)));
+				JLabel titulo = new JLabel("ChatApp Premium");
+				titulo.setFont(new Font("Monospaced", Font.BOLD, 35));
+				prmPanel.add(titulo);
+				titulo.setAlignmentX(CENTER_ALIGNMENT);
+				
+				JTextArea desc = new JTextArea(
+						"Con ChatApp Premium podrás \nobtener tus estadísticas y \nuna imagen con todos tus \nContactos registrados desde\n9'99$/año* ");
+
+				desc.setOpaque(false);
+				desc.setEditable(false);
+				desc.setFont(new Font("Monospaced", Font.PLAIN, 20));
+				desc.setMaximumSize(new Dimension(350, 150));
+				// desc.setMinimumSize(new Dimension(200,300));
+				desc.setPreferredSize(new Dimension(350, 150));
+				
+				
+				
+				JTextArea desc1 = new JTextArea(
+						"\n\n*Existe la posiblidad de aplicar ciertos\ndescuentos, compruebalo por ti mismo\ncontrantando el servicio.");
+				
+				
+
+				desc1.setOpaque(false);
+				desc1.setEditable(false);
+				desc1.setFont(new Font("Monospaced", Font.PLAIN, 14));
+				desc1.setMaximumSize(new Dimension(350, 100));
+				// desc.setMinimumSize(new Dimension(200,300));
+				desc1.setPreferredSize(new Dimension(350, 100));
+				
+	
+				
+				prmPanel.add(desc);
+				desc.setAlignmentX(CENTER_ALIGNMENT);
+				
+				prmPanel.add(desc1);
+				desc1.setAlignmentX(CENTER_ALIGNMENT);
+				
+				prmPanel.add(Box.createRigidArea(new Dimension(200, 50)));
+				
+				
+				JButton aceptar = new JButton("!Vamos!");
+				
+				prmPanel.add(aceptar);
+				aceptar.setAlignmentX(BOTTOM_ALIGNMENT);
+
+				prmDialog.setVisible(true);
 
 			}
 		});
