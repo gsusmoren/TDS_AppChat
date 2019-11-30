@@ -221,15 +221,16 @@ public class MainWindowView extends JFrame {
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				JDialog prmDialog = new JDialog(copiaFrame, true);
+				final JDialog prmDialog = new JDialog(copiaFrame, true);
 				prmDialog.setResizable(false);
 				prmDialog.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500, 500);
-				JPanel prmPanel = new JPanel();
+				 JPanel prmPanel = new JPanel();
 				// Ver si el usuario puede aplicar algún descuento.
 				prmDialog.add(prmPanel);
 				prmPanel.setLayout(new BoxLayout(prmPanel, BoxLayout.Y_AXIS));
-				prmPanel.setBackground(Color.MAGENTA);
+				prmPanel.setBackground(new Color(246, 219, 142));
 				prmPanel.add(Box.createRigidArea(new Dimension(200, 20)));
+				prmPanel.add(Box.createRigidArea(new Dimension(30,30)));
 				JLabel titulo = new JLabel("ChatApp Premium");
 				titulo.setFont(new Font("Monospaced", Font.BOLD, 35));
 				prmPanel.add(titulo);
@@ -263,18 +264,34 @@ public class MainWindowView extends JFrame {
 				
 				prmPanel.add(desc);
 				desc.setAlignmentX(CENTER_ALIGNMENT);
-				
+
 				prmPanel.add(desc1);
 				desc1.setAlignmentX(CENTER_ALIGNMENT);
 				
 				prmPanel.add(Box.createRigidArea(new Dimension(200, 50)));
 				
-				
+				JPanel bot = new JPanel();
+				bot.setOpaque(false);
+				bot.setLayout(new FlowLayout());
+				prmPanel.add(bot);
 				JButton aceptar = new JButton("!Vamos!");
-				
-				prmPanel.add(aceptar);
 				aceptar.setAlignmentX(BOTTOM_ALIGNMENT);
-
+				JButton cancelar = new JButton("Mejor en otro momento");
+				cancelar.setAlignmentX(BOTTOM_ALIGNMENT);
+				
+				
+				bot.add(aceptar);
+				bot.add(cancelar);
+				
+				cancelar.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						prmDialog.dispose();
+						
+					}
+				});
+				
+				prmDialog.setUndecorated(true);
 				prmDialog.setVisible(true);
 
 			}
