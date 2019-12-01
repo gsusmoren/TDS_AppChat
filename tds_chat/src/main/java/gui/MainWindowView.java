@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
@@ -224,18 +225,18 @@ public class MainWindowView extends JFrame {
 				final JDialog prmDialog = new JDialog(copiaFrame, true);
 				prmDialog.setResizable(false);
 				prmDialog.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500, 500);
-				 JPanel prmPanel = new JPanel();
+				final JPanel prmPanel = new JPanel();
 				// Ver si el usuario puede aplicar algún descuento.
 				prmDialog.add(prmPanel);
 				prmPanel.setLayout(new BoxLayout(prmPanel, BoxLayout.Y_AXIS));
 				prmPanel.setBackground(new Color(246, 219, 142));
 				prmPanel.add(Box.createRigidArea(new Dimension(200, 20)));
-				prmPanel.add(Box.createRigidArea(new Dimension(30,30)));
+				prmPanel.add(Box.createRigidArea(new Dimension(30, 30)));
 				JLabel titulo = new JLabel("ChatApp Premium");
 				titulo.setFont(new Font("Monospaced", Font.BOLD, 35));
 				prmPanel.add(titulo);
 				titulo.setAlignmentX(CENTER_ALIGNMENT);
-				
+
 				JTextArea desc = new JTextArea(
 						"Con ChatApp Premium podrás \nobtener tus estadísticas y \nuna imagen con todos tus \nContactos registrados desde\n9'99$/año* ");
 
@@ -245,13 +246,9 @@ public class MainWindowView extends JFrame {
 				desc.setMaximumSize(new Dimension(350, 150));
 				// desc.setMinimumSize(new Dimension(200,300));
 				desc.setPreferredSize(new Dimension(350, 150));
-				
-				
-				
+
 				JTextArea desc1 = new JTextArea(
 						"\n\n*Existe la posiblidad de aplicar ciertos\ndescuentos, compruebalo por ti mismo\ncontrantando el servicio.");
-				
-				
 
 				desc1.setOpaque(false);
 				desc1.setEditable(false);
@@ -259,17 +256,15 @@ public class MainWindowView extends JFrame {
 				desc1.setMaximumSize(new Dimension(350, 100));
 				// desc.setMinimumSize(new Dimension(200,300));
 				desc1.setPreferredSize(new Dimension(350, 100));
-				
-	
-				
+
 				prmPanel.add(desc);
 				desc.setAlignmentX(CENTER_ALIGNMENT);
 
 				prmPanel.add(desc1);
 				desc1.setAlignmentX(CENTER_ALIGNMENT);
-				
+
 				prmPanel.add(Box.createRigidArea(new Dimension(200, 50)));
-				
+
 				JPanel bot = new JPanel();
 				bot.setOpaque(false);
 				bot.setLayout(new FlowLayout());
@@ -278,19 +273,114 @@ public class MainWindowView extends JFrame {
 				aceptar.setAlignmentX(BOTTOM_ALIGNMENT);
 				JButton cancelar = new JButton("Mejor en otro momento");
 				cancelar.setAlignmentX(BOTTOM_ALIGNMENT);
-				
-				
+
 				bot.add(aceptar);
 				bot.add(cancelar);
-				
+
 				cancelar.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
 						prmDialog.dispose();
-						
+
 					}
 				});
-				
+
+				aceptar.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+
+						final JDialog prmDialog2 = new JDialog(copiaFrame, true);
+						prmDialog2.setResizable(false);
+						prmDialog2.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500,
+								500);
+						JPanel prmPanel2 = new JPanel();
+						prmDialog2.add(prmPanel2);
+						
+						prmPanel2.add(Box.createRigidArea(new Dimension(200,40)));
+						prmPanel2.setLayout(new BoxLayout(prmPanel2, BoxLayout.Y_AXIS));
+						prmPanel2.setBackground(new Color(246, 219, 142));
+
+						// TODO
+						// If tiene descuento -> mostrarlo
+						// mostrar precio final.
+
+						JTextArea desc2 = new JTextArea(
+								"Su precio final es de 19'99$/año.\nIntroduzca su cuenta de PayPal®\npara finalizar la transacción.");
+
+						prmPanel2.add(desc2);
+
+						desc2.setEditable(false);
+						desc2.setFont(new Font("Monospaced", Font.PLAIN, 20));
+						desc2.setMaximumSize(new Dimension(400, 200));
+						desc2.setPreferredSize(new Dimension(400, 200));
+						prmPanel2.add(desc2);
+						desc2.setAlignmentX(CENTER_ALIGNMENT);
+						desc2.setOpaque(false);
+						JLabel paypalLogo = new JLabel(new ImageIcon("pics/PP.png"));
+						prmPanel2.add(paypalLogo);
+						paypalLogo.setAlignmentX(CENTER_ALIGNMENT);
+
+						final JTextField ppLogin = new JTextField("Correo Paypal");
+						ppLogin.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+
+								ppLogin.setText("");
+
+							}
+						});
+						ppLogin.setMaximumSize(new Dimension(400, 40));
+						ppLogin.setMinimumSize(new Dimension(400, 40));
+						ppLogin.setPreferredSize(new Dimension(400, 40));
+						prmPanel2.add(ppLogin);
+
+						final JPasswordField ppCont = new JPasswordField("Contraseña");
+
+						ppCont.setEchoChar((char) 0);
+						ppCont.setFocusable(false);
+
+						ppCont.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {
+
+								ppCont.setText("");
+								ppCont.setEchoChar('♥');
+								ppCont.setFocusable(true);
+
+							}
+						});
+						ppCont.setMaximumSize(new Dimension(400, 40));
+						ppCont.setMinimumSize(new Dimension(400, 40));
+						ppCont.setPreferredSize(new Dimension(400, 40));
+						prmPanel2.add(ppCont);
+
+						JButton accPP = new JButton("Aceptar");
+						JButton salirPP = new JButton("Salir");
+
+						JPanel botPP = new JPanel();
+						botPP.setLayout(new FlowLayout());
+
+						botPP.add(accPP);
+						botPP.add(salirPP);
+						
+						prmPanel2.add(botPP);
+						botPP.setAlignmentX(CENTER_ALIGNMENT);
+						botPP.setOpaque(false);
+						
+						salirPP.addActionListener(new ActionListener() {
+							
+							public void actionPerformed(ActionEvent e) {
+								prmDialog.dispose();
+								prmDialog2.dispose();
+							}
+						});
+						
+						
+						prmDialog2.setUndecorated(true);
+						prmDialog2.setVisible(true);
+
+					}
+				});
+
 				prmDialog.setUndecorated(true);
 				prmDialog.setVisible(true);
 

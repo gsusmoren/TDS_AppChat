@@ -73,7 +73,7 @@ public class RegistroUsuario extends JPanel {
 			ventana.setTitle("Registro de usuario");
 			this.setBackground(new Color(50,50,50));
 			setLayout(new BorderLayout());
-			
+			ventana.setResizable(false);
 			this.add(Box.createRigidArea(new Dimension(20,20)),BorderLayout.NORTH);
 			
 			/*JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);

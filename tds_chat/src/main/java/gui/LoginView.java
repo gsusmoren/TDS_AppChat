@@ -31,7 +31,6 @@ public class LoginView {
 		loginfrm.setTitle("AppChat");
 
 		
-
 		loginfrm.setBounds(700, 300, 458, 301);
 		loginfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loginfrm.getContentPane().setLayout(new BorderLayout(0, 0));
