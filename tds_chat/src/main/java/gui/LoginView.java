@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -83,10 +85,11 @@ public class LoginView {
 
 		textPassword.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				textPassword.setFocusable(true);
 				textPassword.setFont(f_2);
 				textPassword.setText("");
 				textPassword.setEchoChar('♥');
-				textPassword.setFocusable(true);
+			
 
 			}
 		});
@@ -113,7 +116,16 @@ public class LoginView {
 
 		textPassword.setMaximumSize(new Dimension(400, 40));
 		panel_center.add(textPassword);
-
+		
+		
+		regis.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				
+			}
+		});
+		
 	}
 
 	public void mostrarVentana() {
