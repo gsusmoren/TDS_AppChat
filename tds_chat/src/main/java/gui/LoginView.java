@@ -132,7 +132,6 @@ public class LoginView {
 		loginfrm.setVisible(true);
 
 	}
-//BORRAR MAIN
 	public static void main(String[] args) {
 		LoginView lv = new LoginView();
 		lv.mostrarVentana();

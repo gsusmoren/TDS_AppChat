@@ -1,0 +1,4 @@
+-Enlazar Login y Registro con MainWindow
+-Al enviar un mensaje que se quede abajo el scroll
+-Al clicar en hazte premium ver si ya eres premium
+-quitar la imagen y lupa y tres puntos si no hay un chat abierto
