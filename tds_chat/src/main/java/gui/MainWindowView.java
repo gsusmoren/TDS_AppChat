@@ -73,7 +73,7 @@ public class MainWindowView extends JFrame {
 
 			public void mouseClicked(MouseEvent e) {
 				// pasar saludo del usuario
-				EditProfileWindow eProf = new EditProfileWindow(copiaFrame, icUser, "+\"k pasa poyeta\"+");
+				EditProfileWindow eProf = new EditProfileWindow(copiaFrame, icUser, "¡Hola klk!");
 
 			}
 		});
