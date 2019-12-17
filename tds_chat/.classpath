@@ -24,6 +24,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="chatWindowLib.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jesus.DESKTOP-I6N1RBN/Desktop/Universidad 2019-2020/TDS/TDS_AppChat/tds_chat/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

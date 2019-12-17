@@ -74,7 +74,7 @@ public class SelectedChat extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
-					BubbleText borboja = new BubbleText(cright_center, msgT.getText(), Color.cyan, "Usuario",
+					BubbleText borboja = new BubbleText(cright_center, msgT.getText(), Color.cyan, "JUANPABLO",
 							BubbleText.SENT);
 					cright_center.add(borboja);
 					// cambiar Last
