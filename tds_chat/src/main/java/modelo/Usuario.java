@@ -1,25 +1,29 @@
 package modelo;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
 public class Usuario {
 
 	private String nombre;
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	private int movil;
 	private String contrasena;
 	private ImageIcon imagen;
 	private boolean premium;
+	private List<Contacto> contactos;
 
-	public Usuario(String nombre, Date fechaNacimiento, int movil, String contrasena, ImageIcon imagen) {
+	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String contrasena, ImageIcon imagen) {
 
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.movil = movil;
 		this.contrasena = contrasena;
 		this.imagen = imagen;
+		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
 	}
 
@@ -31,11 +35,11 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -71,6 +75,13 @@ public class Usuario {
 		this.premium = premium;
 	}
 	
+	public boolean addContacto(Contacto c) {
+		return this.contactos.add(c);
+	}
+	public boolean removeContacto(Contacto c) {
+		return this.contactos.remove(c);
+		
+	}
 	
 
 }
