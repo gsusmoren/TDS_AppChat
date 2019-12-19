@@ -11,12 +11,13 @@ public class Usuario {
 	private String nombre;
 	private LocalDate fechaNacimiento;
 	private int movil;
+	private String usuario;
 	private String contrasena;
 	private ImageIcon imagen;
 	private boolean premium;
 	private List<Contacto> contactos;
 
-	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String contrasena, ImageIcon imagen) {
+	public Usuario(String nombre, LocalDate fechaNacimiento, int movil,String usuario,String contrasena, ImageIcon imagen) {
 
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
@@ -25,6 +26,7 @@ public class Usuario {
 		this.imagen = imagen;
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
+		this.usuario = usuario;
 	}
 
 	public String getNombre() {
@@ -75,6 +77,14 @@ public class Usuario {
 		this.premium = premium;
 	}
 	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
 	public boolean addContacto(Contacto c) {
 		return this.contactos.add(c);
 	}
