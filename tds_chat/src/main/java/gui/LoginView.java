@@ -121,7 +121,7 @@ public class LoginView {
 		regis.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				RegistroUsuario2 reg = new RegistroUsuario2(loginfrm);
 				
 			}
 		});

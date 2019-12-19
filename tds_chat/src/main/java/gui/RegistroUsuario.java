@@ -123,59 +123,6 @@ public class RegistroUsuario extends JPanel {
 			gbc_warningNombre.gridy = 1;
 			datosPersonales.add(warningNombre, gbc_warningNombre);
 			
-	
-			txtApellidos = new JTextField("Apellidos");
-			txtApellidos.setBorder(new LineBorder(Color.white, 1));
-			txtApellidos.setFont(f);
-			txtApellidos.setFocusable(false);
-			GridBagConstraints gbc_txtApellidos = new GridBagConstraints();
-			gbc_txtApellidos.gridwidth = 3;
-			gbc_txtApellidos.insets = new Insets(0, 0, 5, 5);
-			gbc_txtApellidos.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtApellidos.gridx = 1;
-			gbc_txtApellidos.gridy = 2;
-			datosPersonales.add(txtApellidos, gbc_txtApellidos);
-			txtApellidos.setColumns(20);
-			
-			txtApellidos.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					txtApellidos.setFocusable(true);
-					txtApellidos.setText("");
-					txtApellidos.setFont(f_2);
-					
-				}
-			});
-			
-			warningApellidos = new JLabel("*");
-			warningApellidos.setForeground(Color.RED);
-			GridBagConstraints gbc_warningApellidos = new GridBagConstraints();
-			gbc_warningApellidos.anchor = GridBagConstraints.WEST;
-			gbc_warningApellidos.insets = new Insets(0, 0, 5, 0);
-			gbc_warningApellidos.gridx = 5;
-			gbc_warningApellidos.gridy = 2;
-			datosPersonales.add(warningApellidos, gbc_warningApellidos);
-
-			txtDNI = new JTextField("DNI");
-			txtDNI.setBorder(new LineBorder(Color.white, 1));
-			txtDNI.setFont(f);
-			txtDNI.setFocusable(false);
-			GridBagConstraints gbc_txtDNI = new GridBagConstraints();
-			gbc_txtDNI.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtDNI.gridwidth=2;
-			gbc_txtDNI.insets = new Insets(0, 0, 5, 5);
-			gbc_txtDNI.gridx = 1;
-			gbc_txtDNI.gridy = 3;
-			datosPersonales.add(txtDNI, gbc_txtDNI);
-			txtDNI.setColumns(15);
-			
-			txtDNI.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					txtDNI.setText("");
-					txtDNI.setFocusable(true);
-					txtDNI.setFont(f_2);
-				}
-			});
-	
 			txtEdad = new JDateChooser();
 			txtEdad.setBorder(new LineBorder(Color.white, 1));
 			txtEdad.setFont(f);
@@ -202,9 +149,64 @@ public class RegistroUsuario extends JPanel {
 			gbc_warningDNIEmail.gridx = 5;
 			gbc_warningDNIEmail.gridy = 3;
 			datosPersonales.add(warningDNIEdad, gbc_warningDNIEmail);
+			
+			/*txtEdad = new JDateChooser();
+			txtEdad.setBorder(new LineBorder(Color.white, 1));
+			txtEdad.setFont(f);
+			txtEdad.setFocusable(false);
+			txtEdad.setDateFormatString("Fecha de nacimiento");
+			GridBagConstraints gbc_txtApellidos = new GridBagConstraints();
+			gbc_txtApellidos.gridwidth = 3;
+			gbc_txtApellidos.insets = new Insets(0, 0, 5, 5);
+			gbc_txtApellidos.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txtApellidos.gridx = 1;
+			gbc_txtApellidos.gridy = 2;
+			datosPersonales.add(txtEdad, gbc_txtApellidos);
+			//txtApellidos.setColumns(20);
+			
+			txtApellidos.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					txtApellidos.setFocusable(true);
+					txtApellidos.setText("");
+					txtApellidos.setFont(f_2);
+					
+				}
+			});
+			
+			warningApellidos = new JLabel("*");
+			warningApellidos.setForeground(Color.RED);
+			GridBagConstraints gbc_warningApellidos = new GridBagConstraints();
+			gbc_warningApellidos.anchor = GridBagConstraints.WEST;
+			gbc_warningApellidos.insets = new Insets(0, 0, 5, 0);
+			gbc_warningApellidos.gridx = 5;
+			gbc_warningApellidos.gridy = 2;
+			datosPersonales.add(warningApellidos, gbc_warningApellidos);
+			*/
+			txtDNI = new JTextField("DNI");
+			txtDNI.setBorder(new LineBorder(Color.white, 1));
+			txtDNI.setFont(f);
+			txtDNI.setFocusable(false);
+			GridBagConstraints gbc_txtDNI = new GridBagConstraints();
+			gbc_txtDNI.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txtDNI.gridwidth=2;
+			gbc_txtDNI.insets = new Insets(0, 0, 5, 5);
+			gbc_txtDNI.gridx = 1;
+			gbc_txtDNI.gridy = 3;
+			datosPersonales.add(txtDNI, gbc_txtDNI);
+			txtDNI.setColumns(15);
+			
+			txtDNI.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					txtDNI.setText("");
+					txtDNI.setFocusable(true);
+					txtDNI.setFont(f_2);
+				}
+			});
+			
+			
 	
 			
-			txtEmail = new JTextField("Email");
+			txtEmail = new JTextField("Móvil");
 			txtEmail.setBorder(new LineBorder(Color.white, 1));
 			txtEmail.setFont(f);
 			txtEmail.setFocusable(false);
