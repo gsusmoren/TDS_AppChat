@@ -11,7 +11,7 @@ public class Usuario {
 	private String nombre;
 	private LocalDate fechaNacimiento;
 	private int movil;
-	private String usuario;
+	private String nick;
 	private String contrasena;
 	private ImageIcon imagen;
 	private String email;
@@ -25,18 +25,18 @@ public class Usuario {
 		this.movil = movil;
 		this.email = email;
 		this.contrasena = contrasena;
-		this.usuario = nick;
+		this.nick = nick;
 		this.imagen = imagen;
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
 	}
 
 	public String getNick() {
-		return usuario;
+		return nick;
 	}
 
 	public void setNick(String usuario) {
-		this.usuario = usuario;
+		this.nick = usuario;
 	}
 
 	public int getCodigo() {

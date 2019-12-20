@@ -1,5 +1,5 @@
 package dao;
 
-public class AdaptadorContactoIndividualTDS {
+public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivualDAO{
 
 }

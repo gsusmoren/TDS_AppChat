@@ -1,5 +1,5 @@
 package dao;
 
-public class AdaptadorGrupoTDS {
+public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO {
 
 }

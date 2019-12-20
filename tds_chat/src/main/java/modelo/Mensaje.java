@@ -2,24 +2,32 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import javax.swing.ImageIcon;
-
 public class Mensaje {
 	private final String texto;
+	private int codigo;
 	private final LocalDateTime hora;
-	private final ImageIcon emogi;
-	
+	private final int emoji;
+
 	public Mensaje(String texto) {
 		super();
+		this.codigo = 0;
 		this.texto = texto;
 		this.hora = LocalDateTime.now();
-		this.emogi = null;
+		this.emoji = -1;
 	}
-	
-	public Mensaje(ImageIcon emoji) {
+
+	public Mensaje(int emoji) {
 		this.texto = "";
 		this.hora = LocalDateTime.now();
-		this.emogi = emoji;
+		this.emoji = emoji;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getTexto() {
@@ -30,10 +38,11 @@ public class Mensaje {
 		return hora;
 	}
 
-	public ImageIcon getEmogi() {
-		return emogi;
+	public int getEmoji() {
+		return emoji;
 	}
-	//emogi excluido
+
+	// emogi excluido
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -64,9 +73,5 @@ public class Mensaje {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Usuario;
+import modelo.Venta;
+import persistencia.AdaptadorVentaTDS;
 import modelo.Contacto;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
@@ -41,8 +43,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		if (existe) return;
 		
 		/*REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS (AMBOS TIPOS DE CONTACTOS?????)*/
-		
-		
+		/*AdaptadorContactoIndividualTDS adaptadorVenta = AdaptadorVentaTDS.getUnicaInstancia();
+		for (Venta v : cliente.getVentas())
+			adaptadorVenta.registrarVenta(v);
+		*/
 		eUsuario = new Entidad();
 		eUsuario.setNombre("usuario");
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(

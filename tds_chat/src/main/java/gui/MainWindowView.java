@@ -231,6 +231,11 @@ m2.addActionListener(new ActionListener() {
 				l1.addElement("Zerpas");
 				
 				final JList l=new JList(l1);
+				//TODO hacer jcrollpare
+				
+				JScrollPane scrPane = new JScrollPane(l);
+				grupo.getContentPane().add(scrPane,BorderLayout.WEST);
+				l.setBackground(Color.cyan);
 				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				l.setMinimumSize(new Dimension(130, 480));
 				l.setMaximumSize(new Dimension(130, 480));

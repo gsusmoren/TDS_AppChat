@@ -1,5 +1,9 @@
 package dao;
 
-public interface IAdaptadorContactoInidivualDAO {
+import modelo.ContactoIndividual;
 
+public interface IAdaptadorContactoInidivualDAO {
+	
+	public void registrarContactoIndividual(ContactoIndividual c);
+	
 }

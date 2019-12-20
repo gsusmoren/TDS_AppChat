@@ -2,6 +2,7 @@ package modelo;
 
 public class ContactoIndividual extends Contacto {
 	private int movil;
+	
 	public ContactoIndividual(String nombre, int movil) {
 		super(nombre);
 		this.movil = movil;
