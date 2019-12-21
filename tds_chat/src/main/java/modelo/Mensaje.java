@@ -5,21 +5,36 @@ import java.time.LocalDateTime;
 import javax.swing.ImageIcon;
 
 public class Mensaje {
-	private final String texto;
-	private final LocalDateTime hora;
-	private final ImageIcon emogi;
+	private int codigo ;
+	private  String texto;
+	private  LocalDateTime hora;
+	private  int emoji;
 	
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public void setHora(LocalDateTime hora) {
+		this.hora = hora;
+	}
+
+	public void setEmoji(int emoji) {
+		this.emoji = emoji;
+	}
+
 	public Mensaje(String texto) {
 		super();
+		this.setCodigo(0);
 		this.texto = texto;
 		this.hora = LocalDateTime.now();
-		this.emogi = null;
+		this.emoji = -1;
 	}
 	
-	public Mensaje(ImageIcon emoji) {
+	public Mensaje(int emoji) {
+		this.setCodigo(0);
 		this.texto = "";
 		this.hora = LocalDateTime.now();
-		this.emogi = emoji;
+		this.emoji = emoji;
 	}
 
 	public String getTexto() {
@@ -30,14 +45,24 @@ public class Mensaje {
 		return hora;
 	}
 
-	public ImageIcon getEmogi() {
-		return emogi;
+	public int getEmoji() {
+		return emoji;
 	}
-	//emogi excluido
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + codigo;
+		result = prime * result + emoji;
 		result = prime * result + ((hora == null) ? 0 : hora.hashCode());
 		result = prime * result + ((texto == null) ? 0 : texto.hashCode());
 		return result;
@@ -52,6 +77,10 @@ public class Mensaje {
 		if (getClass() != obj.getClass())
 			return false;
 		Mensaje other = (Mensaje) obj;
+		if (codigo != other.codigo)
+			return false;
+		if (emoji != other.emoji)
+			return false;
 		if (hora == null) {
 			if (other.hora != null)
 				return false;
@@ -64,9 +93,7 @@ public class Mensaje {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
+
 
 }

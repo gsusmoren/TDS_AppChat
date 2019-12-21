@@ -7,26 +7,44 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 public class Usuario {
-
+	private int codigo;
 	private String nombre;
 	private LocalDate fechaNacimiento;
 	private int movil;
-	private String usuario;
+	private String nick;
 	private String contrasena;
 	private ImageIcon imagen;
+	private String email;
 	private boolean premium;
 	private List<Contacto> contactos;
 
-	public Usuario(String nombre, LocalDate fechaNacimiento, int movil,String usuario,String contrasena, ImageIcon imagen) {
-
+	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String email , String contrasena, String nick,ImageIcon imagen) {
+		this.codigo = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.movil = movil;
+		this.email = email;
 		this.contrasena = contrasena;
+		this.nick = nick;
 		this.imagen = imagen;
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
-		this.usuario = usuario;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String usuario) {
+		this.nick = usuario;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int id) {
+		this.codigo = id;
 	}
 
 	public String getNombre() {
@@ -47,6 +65,10 @@ public class Usuario {
 
 	public int getMovil() {
 		return movil;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public void setMovil(int movil) {
@@ -77,14 +99,6 @@ public class Usuario {
 		this.premium = premium;
 	}
 	
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
 	public boolean addContacto(Contacto c) {
 		return this.contactos.add(c);
 	}
