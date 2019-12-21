@@ -10,6 +10,7 @@ import java.util.List;
  *
  *Cuando usuario llame a un método de Conctacto, debe tener la misma funcionalidad
  */
+
 public  class Grupo extends Contacto {
 	
 	private List<Contacto> contactos;
