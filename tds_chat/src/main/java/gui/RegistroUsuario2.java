@@ -201,6 +201,13 @@ public class RegistroUsuario2 extends JPanel {
 			}
 		});
 		
+		btnRegistrar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+						
+			}
+		});
+		
 		ventana.setContentPane(this);
 		ventana.revalidate();
 		ventana.repaint();

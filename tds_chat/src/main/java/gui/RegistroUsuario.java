@@ -200,9 +200,10 @@ public class RegistroUsuario extends JPanel {
 				
 			}
 		});
-		
+		this.revalidate();
+		this.repaint();
 		ventana.add(this);
-		this.setVisible(true);
+		ventana.setVisible(true);
 		
 	}
 	

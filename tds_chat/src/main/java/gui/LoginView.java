@@ -121,11 +121,21 @@ public class LoginView {
 		regis.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				RegistroUsuario2 reg = new RegistroUsuario2(loginfrm);
 				
 			}
 		});
 		
+		inic.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				loginfrm.dispose();
+				loginfrm=new MainWindowView();
+				loginfrm.setVisible(true);
+				
+			}
+		});
 	}
 
 	public void mostrarVentana() {
