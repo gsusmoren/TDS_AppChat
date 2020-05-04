@@ -7,69 +7,85 @@
  * Enter para enviar
  * Preguntar al profesor los iconos
  * 
+ * Arreglar barra superior hacer que aparezca cuando se habre un chat 
+ * 
  * 
  */
 
 package gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
-	private JPanel contentPane;
-	private JButton userInf_btn; // Este se debe de mostrar luego
+	private JPanel contentPane = new JPanel();
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
 		this.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 				Constantes.mainWy_size);
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		this.setContentPane(contentPane);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Panel de la derecha compuesto por dos paneles , uno barra superior y otro
+		// grnde abajo
+		final JPanel rPanel = new JPanel();
+		final JPanel topRpanel = new JPanel();
+		final JPanel botRpabel = new JPanel();
+		rPanel.add(topRpanel, BorderLayout.NORTH);
+		rPanel.add(botRpabel, BorderLayout.CENTER);
+		
+		/** Comenzando de 0 **/
+		// Panel de la izquierda de la vista principal, este contiene la barra superior
+		// y los chats debajo
+		final JPanel lPanel = new JPanel();
+		lPanel.setSize(300, Constantes.mainWy_size);
+		lPanel.setPreferredSize(new Dimension(300, Constantes.mainWy_size));
+		lPanel.setMinimumSize(new Dimension(300, Constantes.mainWy_size));
+		lPanel.setMaximumSize(new Dimension(300, Constantes.mainWy_size));
+		lPanel.setLayout(new BoxLayout(lPanel, BoxLayout.Y_AXIS));
+		contentPane.add(lPanel);
+		contentPane.add(rPanel);
 
-		// Panel Barra Superior
-		final JPanel topBar = new JPanel();
-		topBar.setBackground(Color.cyan);
-		topBar.setSize(1000, 30);
-		topBar.setMaximumSize(new Dimension(1000, 30));
-		topBar.setMinimumSize(new Dimension(1000, 30));
+		// Barra superior del lado izquierdo
+		final JPanel topLpanel = new JPanel();
+		topLpanel.setLayout(new BoxLayout(topLpanel, BoxLayout.X_AXIS));
+		topLpanel.setSize(300, 70);
+		topLpanel.setMinimumSize(new Dimension(300, 70));
+		topLpanel.setPreferredSize(new Dimension(300, 70));
+		topLpanel.setBackground(Color.CYAN);
 
-		contentPane.add(topBar, BorderLayout.NORTH);
-		topBar.setLayout(new FlowLayout());
-
+		// iconos superiores
 		final ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
-		ImageIcon icStatus = new ImageIcon("pics/rec.png");
+
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
-		final ImageIcon icUInf = new ImageIcon("pics/inhigo.jpg");
-		userInf_btn = new JButton("Iñigo Errejón", icUInf);
-		ImageIcon icSea = new ImageIcon("pics/magnifying-glass.png");
 
-		JLabel us = new JLabel(icUser);
-		JLabel st = new JLabel(icStatus);
-		JLabel op = new JLabel(icOpt);
-		JLabel mg = new JLabel(icSea);
-		JLabel chOp = new JLabel(icOpt);
-		us.setMaximumSize(new Dimension(30, 30));
-		st.setMaximumSize(new Dimension(30, 30));
-		op.setMaximumSize(new Dimension(30, 30));
-		mg.setMaximumSize(new Dimension(30, 30));
-		chOp.setMaximumSize(new Dimension(30, 30));
+		JLabel userLb = new JLabel(icUser);
 
-		topBar.add(us);
+		JLabel opLb = new JLabel(icOpt);
+		userLb.setMaximumSize(new Dimension(60, 60));
+
+		opLb.setMaximumSize(new Dimension(60, 60));
+		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
+		topLpanel.add(userLb);
+		topLpanel.add(Box.createRigidArea(new Dimension(170, 60)));
+
+		topLpanel.add(opLb);
+		lPanel.add(topLpanel);
 		final JFrame copiaFrame = this;
-		us.addMouseListener(new MouseAdapter() {
+		userLb.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
 				// pasar saludo del usuario
@@ -78,103 +94,59 @@ public class MainWindowView extends JFrame {
 			}
 		});
 
-		topBar.add(Box.createRigidArea(new Dimension(120, 30)));
-		topBar.add(st);
-		topBar.add(op);
-		topBar.add(userInf_btn);
+		// Panel inferior izquierdo (para openedchats)
+		final JPanel botLPanel = new JPanel();
+		botLPanel.setLayout(new BoxLayout(botLPanel, BoxLayout.Y_AXIS));
+		botLPanel.setSize(new Dimension(300, 700));
+		botLPanel.setMinimumSize(new Dimension(300, 700));
+		botLPanel.setMaximumSize(new Dimension(300, 700));
+		botLPanel.setBackground(Color.GRAY);
+		lPanel.add(botLPanel);
 
-		// userInf_btn.setVisible(false);
-		topBar.add(Box.createRigidArea(new Dimension(400, 30)));
-		topBar.add(mg);
-		topBar.add(chOp);
-		final JPanel center = new JPanel();
-		center.setBackground(Color.white);
-
-		contentPane.add(center, BorderLayout.CENTER);
-		center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
-		final JPanel cleft = new JPanel();
-		cleft.setSize(new Dimension(300, 500));
-		cleft.setMinimumSize(new Dimension(300, 500));
-		cleft.setMaximumSize(new Dimension(300, 500));
-		cleft.setLayout(new BoxLayout(cleft, BoxLayout.Y_AXIS));
-		center.add(cleft);
-
-		JScrollPane js = new JScrollPane(cleft, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		js.setMaximumSize(new Dimension(300, 700));
-		js.setMinimumSize(new Dimension(300, 700));
-		center.add(js);
+		lPanel.add(js);
 
-		// Se le da acción al boton del usuario de la barra superior
-		userInf_btn.addActionListener(new ActionListener() {
+		// Boton de Opciones
+		final JPopupMenu menuDots = new JPopupMenu("Crear Chat");
 
-			public void actionPerformed(ActionEvent e) {
-				JDialog contactInfo = new JDialog(copiaFrame, "Nombre Completo del Contacto", true);
-
-				contactInfo.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 300, 500);
-
-				JPanel conInfPanel = new JPanel();
-				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
-
-				JLabel name = new JLabel("Nombre Contacto");
-				JLabel tel = new JLabel("Telf :           ");
-				JLabel pic = new JLabel(icUInf);
-				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
-				conInfPanel.add(pic);
-				conInfPanel.add(name);
-				conInfPanel.add(tel);
-				contactInfo.add(conInfPanel);
-				pic.setAlignmentX(CENTER_ALIGNMENT);
-				name.setAlignmentX(CENTER_ALIGNMENT);
-				tel.setAlignmentX(CENTER_ALIGNMENT);
-				contactInfo.setVisible(true);
-			}
-		});
-
-		final JPopupMenu m = new JPopupMenu("Crear Chat");
-		JMenuItem m1 = new JMenuItem("Nuevo Chat");
-		JMenuItem m2 = new JMenuItem("Nuevo Grupo");
-		JMenuItem m3 = new JMenuItem("Crear Contacto");
+		JMenuItem mNuevoChat = new JMenuItem("Nuevo Chat");
+		JMenuItem mNuevoGrupo = new JMenuItem("Nuevo Grupo");
+		JMenuItem mCrearContacto = new JMenuItem("Agregar Contacto");
 		JMenuItem mPremium = new JMenuItem("Hazte Premium");
-		JMenuItem m5 = new JMenuItem("Modificar Grupo");
-		JMenuItem m6 = new JMenuItem("Mostrar Contactos");
-		JMenuItem m8 = new JMenuItem("Mostrar Estadísticas");
-		JMenuItem m7 = new JMenuItem("Cerrar Sesion");
+		JMenuItem mModGrupo = new JMenuItem("Modificar Grupo");
+		JMenuItem mContactos = new JMenuItem("Mostrar Contactos");
+		JMenuItem mEstadisticas = new JMenuItem("Mostrar Estadísticas");
+		JMenuItem mExit = new JMenuItem("Cerrar Sesion");
 
-		m.add(m1);
-		m.add(m2);
-		m.add(m3);
-		m.add(mPremium);
-		m.add(m5);
-		m.add(m6);
-		m.add(m7);
-		m.add(m8);
+		menuDots.add(mNuevoChat);
+		menuDots.add(mNuevoGrupo);
+		menuDots.add(mCrearContacto);
+		menuDots.add(mPremium);
+		menuDots.add(mModGrupo);
+		menuDots.add(mContactos);
+		menuDots.add(mEstadisticas);
+		menuDots.add(mExit);
 
-		// final JPanel center = new JPanel();
-		center.setBackground(Color.white);
-
-		// m1.addActionListener(new A);
-		// final JFrame frameP = this;
-
-		op.addMouseListener(new MouseAdapter() {
+		opLb.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
-					m.show(e.getComponent(), e.getX(), e.getY());
+					menuDots.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 		});
 
-		m1.addActionListener(new ActionListener() {
+		mNuevoChat.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
-				j.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 300, 300);
+				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
 				lista.addElement("Pepe");
+				lista.addElement("Jose");
+				lista.addElement("Amigo");
 				lista.addElement("Pepe");
-				lista.addElement("Pepe");
-				lista.addElement("Pepe");
-				lista.addElement("Pepe");
+				lista.addElement("Contacto 1");
 
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
@@ -195,11 +167,11 @@ public class MainWindowView extends JFrame {
 
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
-							OpenedChat o1 = new OpenedChat(icUser, (String) l.getSelectedValue(), "", center);
+							OpenedChat o1 = new OpenedChat(icUser, (String) l.getSelectedValue(), "", botRpabel);
 
-							cleft.add(o1);
-							cleft.revalidate();
-							cleft.repaint();
+							lPanel.add(o1);
+							lPanel.revalidate();
+							lPanel.repaint();
 							j.dispose();
 						}
 
@@ -219,114 +191,12 @@ public class MainWindowView extends JFrame {
 			}
 		});
 
-m2.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				final JDialog grupo = new JDialog();
-				grupo.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y,500, 500);
-				final DefaultListModel<String> l1=new DefaultListModel<String>();
-				l1.addElement("Pepe");
-				l1.addElement("Juan");
-				l1.addElement("Carlos");
-				l1.addElement("Zerpas");
-				
-				final JList l=new JList(l1);
-				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				l.setMinimumSize(new Dimension(130, 480));
-				l.setMaximumSize(new Dimension(130, 480));
-				l.setPreferredSize(new Dimension(130, 480));
-				l.setBorder(BorderFactory.createTitledBorder("Contactos"));
-				grupo.getContentPane().add(l,BorderLayout.WEST);
-				final DefaultListModel<String> l2=new DefaultListModel<String>();
-				final JList ll=new JList(l2);
-				ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				ll.setMinimumSize(new Dimension(130, 480));
-				ll.setMaximumSize(new Dimension(130, 480));
-				ll.setPreferredSize(new Dimension(130, 480));
-				ll.setBorder(BorderFactory.createTitledBorder("Contactos añadidos"));
-				grupo.getContentPane().add(ll,BorderLayout.EAST);
-				
-				JPanel p1=new JPanel();
-				p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-				final JTextField nombre=new JTextField("Nombre del grupo");
-				nombre.addMouseListener(new MouseAdapter() {
-					
-					public void mouseClicked(MouseEvent e) {
-						nombre.setText("");
-						
-					}
-				});
-				nombre.setMaximumSize(new Dimension(350, 20));
-				ImageIcon icDer = new ImageIcon("pics/flecha-derecha.png");
-				ImageIcon icIzqu = new ImageIcon("pics/flecha-hacia-la-izquierda.png");
-
-				JButton quitar=new JButton(icIzqu);
-				JButton añadir=new JButton(icDer);
-				nombre.setColumns(15);
-				nombre.setAlignmentX(CENTER_ALIGNMENT);
-				p1.add(nombre);
-				p1.add(Box.createRigidArea(new Dimension(50, 150)));
-				p1.add(añadir);
-				p1.add(quitar);
-				grupo.getContentPane().add(p1,BorderLayout.CENTER);
-				
-				JButton bAc=new JButton("Aceptar");
-				JButton bCanc=new JButton("Cancelar");
-				JPanel bot=new JPanel();
-				bot.setLayout(new FlowLayout());
-				bot.add(bAc);
-				bot.add(bCanc);
-				grupo.add(bot,BorderLayout.SOUTH);
-				grupo.setVisible(true);
-				
-				añadir.addActionListener(new ActionListener() {
-					
-					public void actionPerformed(ActionEvent e) {
-						if(l.getSelectedIndex()!=-1) {
-							l2.addElement((String)l.getSelectedValue());
-							l1.removeElement(l.getSelectedValue());
-						}
-						
-					}
-				});
-				
-				quitar.addActionListener(new ActionListener() {
-					
-					public void actionPerformed(ActionEvent e) {
-						if(ll.getSelectedIndex()!=1) {
-							l1.addElement((String)ll.getSelectedValue());
-							l2.removeElement(ll.getSelectedValue());
-						}
-						
-					}
-				});
-				
-				bAc.addActionListener(new ActionListener() {
-					
-					public void actionPerformed(ActionEvent e) {
-						OpenedChat chatnew=new OpenedChat(icUser, nombre.getText(), "", center);
-						cleft.add(chatnew);
-						cleft.revalidate();
-						cleft.repaint();
-						grupo.dispose();
-					}
-				});
-				
-				bCanc.addActionListener(new ActionListener() {
-					
-					public void actionPerformed(ActionEvent e) {
-						grupo.dispose();
-						
-					}
-				});
-			}
-		});
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				final JDialog prmDialog = new JDialog(copiaFrame, true);
 				prmDialog.setResizable(false);
-				prmDialog.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500, 500);
+				prmDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500, 500);
 				final JPanel prmPanel = new JPanel();
 				// Ver si el usuario puede aplicar algún descuento.
 				prmDialog.add(prmPanel);
@@ -393,12 +263,12 @@ m2.addActionListener(new ActionListener() {
 
 						final JDialog prmDialog2 = new JDialog(copiaFrame, true);
 						prmDialog2.setResizable(false);
-						prmDialog2.setBounds(cleft.getLocationOnScreen().x + 300, cleft.getLocationOnScreen().y, 500,
+						prmDialog2.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500,
 								500);
 						JPanel prmPanel2 = new JPanel();
 						prmDialog2.add(prmPanel2);
-						
-						prmPanel2.add(Box.createRigidArea(new Dimension(200,40)));
+
+						prmPanel2.add(Box.createRigidArea(new Dimension(200, 40)));
 						prmPanel2.setLayout(new BoxLayout(prmPanel2, BoxLayout.Y_AXIS));
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
@@ -463,20 +333,19 @@ m2.addActionListener(new ActionListener() {
 
 						botPP.add(accPP);
 						botPP.add(salirPP);
-						
+
 						prmPanel2.add(botPP);
 						botPP.setAlignmentX(CENTER_ALIGNMENT);
 						botPP.setOpaque(false);
-						
+
 						salirPP.addActionListener(new ActionListener() {
-							
+
 							public void actionPerformed(ActionEvent e) {
 								prmDialog.dispose();
 								prmDialog2.dispose();
 							}
 						});
-						
-						
+
 						prmDialog2.setUndecorated(true);
 						prmDialog2.setVisible(true);
 
@@ -488,16 +357,17 @@ m2.addActionListener(new ActionListener() {
 
 			}
 		});
+
 	}
 
-	public void mostrarVentana() {
+	public void mostrarVentana1() {
 		this.setVisible(true);
 
 	}
 
 //BORRAR MAIN
 	public static void main(String[] args) {
-		MainWindowView mWv = new MainWindowView();
-		mWv.mostrarVentana();
+		MainWindowView mWv1 = new MainWindowView();
+		mWv1.mostrarVentana1();
 	}
 }

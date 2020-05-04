@@ -21,7 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import tds.BubbleText;
-
+/**
+ * Este es el panel que aparece al clicar en una conversacion de la 
+ * barra de la izquierda
+ * @author Jesus
+ *
+ */
 @SuppressWarnings("serial")
 public class SelectedChat extends JPanel {
 	private JPanel cright_south;
@@ -30,7 +35,7 @@ public class SelectedChat extends JPanel {
 	private JButton sendBt;
 
 	public SelectedChat() {
-
+		
 		setLayout(new BorderLayout());
 		cright_south = new JPanel();
 		cright_south.setLayout(new BoxLayout(cright_south, BoxLayout.X_AXIS));

@@ -1,5 +1,6 @@
 package dao;
 
+import beans.Entidad;
 import modelo.ContactoIndividual;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
@@ -25,7 +26,18 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 	
 	
 	public void registrarContactoIndividual(ContactoIndividual c) {
-		// TODO Auto-generated method stub
+		Entidad eCIndividual;
+		boolean existe = true;
+		try {
+			eCIndividual = servPersistencia.recuperarEntidad(c.getMovil());
+			
+		} catch (NullPointerException e) {
+			existe = false;
+		}
+		if(existe) return;
+		
+		//registrar primero los atributos que son objetos
+		
 
 	}
 
