@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import tds.BubbleText;
 
@@ -95,20 +96,21 @@ public class SelectedChat extends JPanel {
 
 		midPanel = new JPanel();
 		
-		midPanel.setPreferredSize(new Dimension(600, 545));
-		midPanel.setSize(new Dimension(600, 545));
-		midPanel.setMaximumSize(new Dimension(600, 545));
-		midPanel.setMinimumSize(new Dimension(600, 545));
-		
+
 		midPanel.setBackground(Color.GRAY);
-		add(midPanel,BorderLayout.CENTER);
+		//add(midPanel,BorderLayout.CENTER);
 
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-
+		
 		JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		jsCh.setPreferredSize(new Dimension(600, 545));
+		jsCh.setSize(new Dimension(600, 545));
+		jsCh.setMaximumSize(new Dimension(600, 545));
+		jsCh.setMinimumSize(new Dimension(600, 545));
+		
 
-		add(jsCh);
+		add(jsCh,BorderLayout.CENTER);
 
 	
 
