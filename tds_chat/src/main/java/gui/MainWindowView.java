@@ -42,10 +42,7 @@ public class MainWindowView extends JFrame {
 		// Panel de la derecha compuesto por dos paneles , uno barra superior y otro
 		// grnde abajo
 		final JPanel rPanel = new JPanel();
-		final JPanel topRpanel = new JPanel();
-		final JPanel botRpabel = new JPanel();
-		rPanel.add(topRpanel, BorderLayout.NORTH);
-		rPanel.add(botRpabel, BorderLayout.CENTER);
+	
 		
 		/** Comenzando de 0 **/
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
@@ -103,7 +100,7 @@ public class MainWindowView extends JFrame {
 		botLPanel.setBackground(Color.GRAY);
 		lPanel.add(botLPanel);
 
-		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lPanel.add(js);
 
@@ -167,11 +164,11 @@ public class MainWindowView extends JFrame {
 
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
-							OpenedChat o1 = new OpenedChat(icUser, (String) l.getSelectedValue(), "", botRpabel);
+							OpenedChat o1 = new OpenedChat(icUser, (String) l.getSelectedValue(), "", rPanel);
 
-							lPanel.add(o1);
-							lPanel.revalidate();
-							lPanel.repaint();
+							botLPanel.add(o1);
+							botLPanel.revalidate();
+							botLPanel.repaint();
 							j.dispose();
 						}
 

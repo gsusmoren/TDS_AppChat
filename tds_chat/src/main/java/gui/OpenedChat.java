@@ -35,7 +35,7 @@ public class OpenedChat extends JPanel {
 	private boolean abierto;
 
 
-	public OpenedChat(ImageIcon ic, String nm,String ult ,final JPanel centro) {
+	public OpenedChat(ImageIcon ic, String nm,String ult ,final JPanel derPanel) {
 		icono = ic;
 		name = nm;
 		ultMsg = ult;
@@ -76,30 +76,31 @@ public class OpenedChat extends JPanel {
 		last.setMaximumSize(new Dimension(200, 20));
 		last.setPreferredSize(new Dimension(200, 20));
 		pRightBot.add(last);
+		//El chat desplegado que se abrirá en la derecha
 		chat = new SelectedChat();
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
-					if(centro.getComponentCount() == 2) {
-					Component[] listaComp = centro.getComponents();
+					//Queremos eliminar lo que hay en ese panel con anterioridad
+					//quizá lo tenga que hacer la clase que lo crea
+					if(derPanel.getComponentCount() == 2) {
+					Component[] listaComp = derPanel.getComponents();
 					
 					for(Component c : listaComp) {
 						if(c instanceof SelectedChat) {
-							centro.remove(c);
+							derPanel.remove(c);
 						}
 						
 					}
 						
 						
-						
-						
 					}
 										
 					setBackground(Color.BLACK);
-					centro.add(chat);
-					centro.validate();
-					centro.repaint();
+					derPanel.add(chat);
+					derPanel.validate();
+					derPanel.repaint();
 					
 				}
 				

@@ -29,7 +29,9 @@ import tds.BubbleText;
  */
 @SuppressWarnings("serial")
 public class SelectedChat extends JPanel {
-	private JPanel cright_south;
+	private JPanel botPanel;
+	private JPanel midPanel;
+	private JPanel topPanel;
 	private JTextField msgT;
 	private JButton emoBt;
 	private JButton sendBt;
@@ -37,56 +39,72 @@ public class SelectedChat extends JPanel {
 	public SelectedChat() {
 		
 		setLayout(new BorderLayout());
-		cright_south = new JPanel();
-		cright_south.setLayout(new BoxLayout(cright_south, BoxLayout.X_AXIS));
-		add(cright_south, BorderLayout.SOUTH);
-		this.setSize(750, 700);
-		this.setMaximumSize(new Dimension(750, 700));
-		this.setMinimumSize(new Dimension(750, 700));
+		setSize(750, 700);
+		
+		setMaximumSize(new Dimension(750, 750));
+		setMinimumSize(new Dimension(750, 700));
+		setBackground(Color.green);
+		//topPanel
+		
+		
+		topPanel = new JPanel();
+		topPanel.setPreferredSize(new Dimension(550, 70));
+		add(topPanel,BorderLayout.NORTH);
+		//barra inferior
+		botPanel = new JPanel();
+		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.X_AXIS));
+		
 		ImageIcon icEmo = new ImageIcon("pics/happy.png");
 		emoBt = new JButton(icEmo);
-		this.setBackground(Color.gray);
-
-		cright_south.add(emoBt);
+	
+	
+		botPanel.add(emoBt);
 
 		msgT = new JTextField();
-		msgT.setMinimumSize(new Dimension(300, 30));
+		msgT.setMinimumSize(new Dimension(550, 50));
+		msgT.setPreferredSize(new Dimension(550, 50));
+		msgT.setMaximumSize(new Dimension(550, 50));
 		msgT.setFont(new Font("Monospaced", Font.PLAIN, 25));
-		cright_south.add(msgT);
+		botPanel.add(msgT);
 		ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
 		sendBt = new JButton(icSend);
+		botPanel.add(sendBt);
+		add(botPanel, BorderLayout.SOUTH);
+		
+		
+		
+		midPanel = new JPanel();
 
-		cright_south.add(sendBt);
-		final JPanel cright_center = new JPanel();
+		add(midPanel, BorderLayout.CENTER);
 
-		add(cright_center, BorderLayout.CENTER);
+		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 
-		cright_center.setLayout(new BoxLayout(cright_center, BoxLayout.Y_AXIS));
-
-		JScrollPane jsCh = new JScrollPane(cright_center, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(jsCh);
 
-		cright_center.setSize(600, 800);
-		cright_center.setMinimumSize(new Dimension(600, 800));
-		cright_center.setMaximumSize(new Dimension(600, 800));
-		cright_center.setBackground(Color.GRAY);
-
+		midPanel.setSize(600, 545);
+		midPanel.setMinimumSize(new Dimension(600, 545));
+		midPanel.setMaximumSize(new Dimension(600, 545));
+		midPanel.setPreferredSize(new Dimension(600, 545));
+		midPanel.setBackground(Color.GRAY);
+		
 		// Son 25 emogis
 
-		sendBt.addActionListener(new ActionListener() {
+		sendBt.addActionListener(new ActionListener() { 
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
-					BubbleText borboja = new BubbleText(cright_center, msgT.getText(), Color.cyan, "JUANPABLO",
+					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, "JUANPABLO",
 							BubbleText.SENT);
-					cright_center.add(borboja);
+					midPanel.add(borboja);
 					// cambiar Last
+					repaint();
 				}
 				msgT.setText("");
 				msgT.grabFocus();
-
+				
 			}
 		});
 
@@ -116,10 +134,10 @@ public class SelectedChat extends JPanel {
 
 						public void mouseClicked(MouseEvent e) {
 							// Introducir Nombre del Usuario que los envía
-							BubbleText emoSent = new BubbleText(cright_center, i2, Color.CYAN, "JUANPABLO", BubbleText.SENT,
+							BubbleText emoSent = new BubbleText(midPanel, i2, Color.CYAN, "JUANPABLO", BubbleText.SENT,
 									15);
-							cright_center.add(emoSent);
-							cright_center.repaint();
+							midPanel.add(emoSent);
+							midPanel.repaint();
 							emos.dispose();
 						}
 					});
