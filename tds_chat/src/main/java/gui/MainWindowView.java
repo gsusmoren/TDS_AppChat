@@ -39,10 +39,11 @@ public class MainWindowView extends JFrame {
 		this.setContentPane(contentPane);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Panel de la derecha compuesto por dos paneles , uno barra superior y otro
-		// grnde abajo
+		// Panel de la derecha
+		
 		final JPanel rPanel = new JPanel();
-	
+		rPanel.setBackground(Color.gray);
+		
 		
 		/** Comenzando de 0 **/
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
@@ -62,7 +63,7 @@ public class MainWindowView extends JFrame {
 		topLpanel.setSize(300, 70);
 		topLpanel.setMinimumSize(new Dimension(300, 70));
 		topLpanel.setPreferredSize(new Dimension(300, 70));
-		topLpanel.setBackground(Color.CYAN);
+		topLpanel.setBackground(Color.gray);
 
 		// iconos superiores
 		final ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
@@ -97,8 +98,7 @@ public class MainWindowView extends JFrame {
 		botLPanel.setSize(new Dimension(300, 700));
 		botLPanel.setMinimumSize(new Dimension(300, 700));
 		botLPanel.setMaximumSize(new Dimension(300, 700));
-		botLPanel.setBackground(Color.GRAY);
-		lPanel.add(botLPanel);
+		botLPanel.setBackground(Color.pink);
 
 		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

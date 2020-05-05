@@ -5,15 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,9 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import tds.BubbleText;
+
 /**
- * Este es el panel que aparece al clicar en una conversacion de la 
- * barra de la izquierda
+ * Este es el panel que aparece al clicar en una conversacion de la barra de la
+ * izquierda
+ * 
  * @author Jesus
  *
  */
@@ -35,29 +41,45 @@ public class SelectedChat extends JPanel {
 	private JTextField msgT;
 	private JButton emoBt;
 	private JButton sendBt;
+	private JButton contactInfo;
 
 	public SelectedChat() {
-		
+
 		setLayout(new BorderLayout());
-		setSize(750, 700);
-		
+		// setSize(750, 700);
+
 		setMaximumSize(new Dimension(750, 750));
 		setMinimumSize(new Dimension(750, 700));
 		setBackground(Color.green);
-		//topPanel
-		
-		
+		// topPanel
+
 		topPanel = new JPanel();
 		topPanel.setPreferredSize(new Dimension(550, 70));
-		add(topPanel,BorderLayout.NORTH);
-		//barra inferior
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+		topPanel.setBackground(Color.CYAN);
+
+		// get imagen del usuario abierto y su nombre y su info
+		final ImageIcon icUInf = new ImageIcon("pics/inhigo.jpg");
+		contactInfo = new JButton("Iñigo Errejón", icUInf);
+		ImageIcon icSearch = new ImageIcon("pics/magnifying-glass.png");
+		ImageIcon icDots = new ImageIcon("pics/menu.png");
+		JLabel lupaLb = new JLabel(icSearch);
+		JLabel puntos = new JLabel(icDots);
+
+		topPanel.add(Box.createRigidArea(new Dimension(20, 60)));
+		topPanel.add(contactInfo);
+		topPanel.add(Box.createRigidArea(new Dimension(410, 60)));
+		topPanel.add(lupaLb);
+		topPanel.add(puntos);
+
+		add(topPanel, BorderLayout.NORTH);
+		// barra inferior
 		botPanel = new JPanel();
 		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.X_AXIS));
-		
+
 		ImageIcon icEmo = new ImageIcon("pics/happy.png");
 		emoBt = new JButton(icEmo);
-	
-	
+
 		botPanel.add(emoBt);
 
 		msgT = new JTextField();
@@ -69,13 +91,17 @@ public class SelectedChat extends JPanel {
 		ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
 		sendBt = new JButton(icSend);
 		botPanel.add(sendBt);
-		add(botPanel, BorderLayout.SOUTH);
-		
-		
-		
-		midPanel = new JPanel();
+		add(botPanel,BorderLayout.SOUTH);
 
-		add(midPanel, BorderLayout.CENTER);
+		midPanel = new JPanel();
+		
+		midPanel.setPreferredSize(new Dimension(600, 545));
+		midPanel.setSize(new Dimension(600, 545));
+		midPanel.setMaximumSize(new Dimension(600, 545));
+		midPanel.setMinimumSize(new Dimension(600, 545));
+		
+		midPanel.setBackground(Color.GRAY);
+		add(midPanel,BorderLayout.CENTER);
 
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 
@@ -84,15 +110,39 @@ public class SelectedChat extends JPanel {
 
 		add(jsCh);
 
-		midPanel.setSize(600, 545);
-		midPanel.setMinimumSize(new Dimension(600, 545));
-		midPanel.setMaximumSize(new Dimension(600, 545));
-		midPanel.setPreferredSize(new Dimension(600, 545));
-		midPanel.setBackground(Color.GRAY);
-		
+	
+
+		// Informacion del contacto
+
+		contactInfo.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				JFrame infoFrame = new JFrame();
+				// Poner nombre del contacto real
+				JDialog contactInfo = new JDialog(infoFrame, "Nombre Completo del Contacto", true);
+				contactInfo.setBounds(300, 300, 300, 350);
+				contactInfo.setResizable(false);
+
+				JPanel conInfPanel = new JPanel();
+				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
+				JLabel name = new JLabel("Nombre Contacto");
+				JLabel tel = new JLabel("Telf :           ");
+				JLabel pic = new JLabel(icUInf);
+				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
+				conInfPanel.add(pic);
+				conInfPanel.add(name);
+				conInfPanel.add(tel);
+				contactInfo.add(conInfPanel);
+				pic.setAlignmentX(CENTER_ALIGNMENT);
+				name.setAlignmentX(CENTER_ALIGNMENT);
+				tel.setAlignmentX(CENTER_ALIGNMENT);
+				contactInfo.setVisible(true);
+			}
+		});
+
 		// Son 25 emogis
 
-		sendBt.addActionListener(new ActionListener() { 
+		sendBt.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
@@ -100,11 +150,13 @@ public class SelectedChat extends JPanel {
 							BubbleText.SENT);
 					midPanel.add(borboja);
 					// cambiar Last
-					repaint();
+
 				}
 				msgT.setText("");
 				msgT.grabFocus();
-				
+
+			validate();
+			repaint();
 			}
 		});
 
@@ -121,11 +173,11 @@ public class SelectedChat extends JPanel {
 				JPanel emoPanel = new JPanel();
 				emos.getContentPane().add(emoPanel);
 				emoPanel.setLayout(new GridLayout(5, 5));
-				//hay 25 emogis
+				// hay 25 emogis
 				JLabel emo[] = new JLabel[25];
 
 				for (int i = 0; i < 25; i++) {
-					//Copia del iterado como final para poder usarlo con el mouseListener
+					// Copia del iterado como final para poder usarlo con el mouseListener
 					final int i2 = i;
 					emo[i] = new JLabel(BubbleText.getEmoji(i));
 					emoPanel.add(emo[i]);

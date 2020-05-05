@@ -94,7 +94,6 @@ public class OpenedChat extends JPanel {
 						
 					}
 						
-						
 					}
 										
 					setBackground(Color.BLACK);
