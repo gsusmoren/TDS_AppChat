@@ -40,7 +40,7 @@ public class LoginView {
 		//loginfrm.setUndecorated(true);
 		
 		
-		JPanel panel_north = new JPanel();
+		final JPanel panel_north = new JPanel();
 		panel_north.setOpaque(false);
 		loginfrm.getContentPane().add(panel_north, BorderLayout.NORTH);
 		
@@ -49,7 +49,7 @@ public class LoginView {
 		lblTitu.setFont(new Font("Monospaced", Font.PLAIN, 50));
 		panel_north.add(lblTitu);
 		
-		JPanel panel_center = new JPanel();
+		final JPanel panel_center = new JPanel();
 		panel_center.setOpaque(false);
 		loginfrm.getContentPane().add(panel_center, BorderLayout.CENTER);
 		panel_center.setLayout(new BoxLayout(panel_center, BoxLayout.Y_AXIS));
@@ -94,7 +94,7 @@ public class LoginView {
 			}
 		});
 
-		JPanel panel_south = new JPanel();
+		final JPanel panel_south = new JPanel();
 		panel_south.setOpaque(false);
 		loginfrm.getContentPane().add(panel_south, BorderLayout.SOUTH);
 
@@ -121,7 +121,13 @@ public class LoginView {
 		regis.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				RegistroUsuario2 reg = new RegistroUsuario2(loginfrm);
+				
+				loginfrm.getContentPane().remove(panel_north);
+				loginfrm.getContentPane().remove(panel_center);
+				loginfrm.getContentPane().remove(panel_south);
+				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				loginfrm.revalidate();
+				loginfrm.repaint();
 				
 			}
 		});

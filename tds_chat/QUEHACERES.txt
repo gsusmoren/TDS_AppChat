@@ -1,5 +1,5 @@
 -Enlazar Login y Regis con MainWindow
 -Al enviar un mensaje que se quede abajo el scroll.........
 -Al clicar en hazte premium ver si ya eres prem
--quitar la imagen y lupa y tres puntos si no hay un chat abierto
+-quitar la imagen y lupa y tres puntos si no hay un chat abierto DONE
 -Hacer DAO

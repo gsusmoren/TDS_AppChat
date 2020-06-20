@@ -40,7 +40,9 @@ public class RegistroUsuario extends JPanel {
 	private JPasswordField txtClave2;
 	private JTextField txtEmail;
 
-	
+	/*
+	 * El REgistroUsuario no debería conocer el frame en el que va a ser puesto no??
+	 */
 	public RegistroUsuario(JFrame frame) {
 		ventana=frame;
 		ventana.setResizable(false);
@@ -55,11 +57,13 @@ public class RegistroUsuario extends JPanel {
 		datos.setOpaque(false);
 		this.add(datos,BorderLayout.CENTER);
 		JLabel l=new JLabel("Introduzca sus datos: ");
+		l.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		l.setForeground(Color.WHITE);
 		datos.add(l);
 
 		this.txtNombre = new JTextField("Nombre");
 		txtNombre.setBorder(new LineBorder(Color.white, 1));
+		txtNombre.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtNombre.setFocusable(false);
 		txtNombre.setMaximumSize(new Dimension(350, 20));
 		txtNombre.setMaximumSize(new Dimension(350, 20));
@@ -76,6 +80,7 @@ public class RegistroUsuario extends JPanel {
 		datos.add(Box.createRigidArea(new Dimension(10, 20)));
 
 		this.txtUsuario = new JTextField("Usuario");
+		txtUsuario.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtUsuario.setBorder(new LineBorder(Color.white, 1));
 		txtUsuario.setFocusable(false);
 		txtUsuario.setMaximumSize(new Dimension(350, 20));
@@ -97,6 +102,7 @@ public class RegistroUsuario extends JPanel {
 		
 		this.txtMovil = new JTextField("Movil");
 		txtMovil.setBorder(new LineBorder(Color.white, 1));
+		txtMovil.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtMovil.setFocusable(false);
 		txtMovil.setMaximumSize(new Dimension(450, 20));
 		txtMovil.setMaximumSize(new Dimension(450, 20));
@@ -114,6 +120,7 @@ public class RegistroUsuario extends JPanel {
 
 		this.txtEmail = new JTextField("Email");
 		txtEmail.setBorder(new LineBorder(Color.white, 1));
+		txtEmail.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtEmail.setFocusable(false);
 		txtEmail.setMaximumSize(new Dimension(450, 20));
 		txtEmail.setMaximumSize(new Dimension(450, 20));
@@ -133,6 +140,7 @@ public class RegistroUsuario extends JPanel {
 		
 		this.txtFecha = new JDateChooser();
 		txtFecha.setBorder(new LineBorder(Color.white, 1));
+		txtFecha.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtFecha.setFocusable(false);
 		txtFecha.setMaximumSize(new Dimension(450, 20));
 		txtFecha.setMaximumSize(new Dimension(450, 20));
@@ -143,6 +151,7 @@ public class RegistroUsuario extends JPanel {
 		
 		this.txtClave = new JPasswordField("Clave");
 		txtClave.setBorder(new LineBorder(Color.white, 1));
+		txtClave.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtClave.setEchoChar((char)0);
 		txtClave.setFocusable(false);
 		txtClave.setMaximumSize(new Dimension(350, 20));
@@ -161,6 +170,7 @@ public class RegistroUsuario extends JPanel {
 		});
 
 		this.txtClave2 = new JPasswordField("Repetir clave");
+		txtClave2.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		txtClave2.setEchoChar((char)0);
 		txtClave2.setBorder(new LineBorder(Color.white, 1));
 		txtClave2.setFocusable(false);
@@ -206,11 +216,5 @@ public class RegistroUsuario extends JPanel {
 		ventana.setVisible(true);
 		
 	}
-	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setBounds(200, 200, 458, 301);
-		RegistroUsuario r = new RegistroUsuario(frame);
-		frame.setVisible(true);
-	}
+
 }
