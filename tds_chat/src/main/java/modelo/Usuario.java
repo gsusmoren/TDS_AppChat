@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 public class Usuario {
-	private int codigo;
+	private int id;
 	private String nombre;
 	private LocalDate fechaNacimiento;
 	private int movil;
@@ -17,9 +17,13 @@ public class Usuario {
 	private String email;
 	private boolean premium;
 	private List<Contacto> contactos;
+	private Descuento descuento;
 
-	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String email , String contrasena, String nick,ImageIcon imagen) {
-		this.codigo = 0;
+	// Constructor de Usuario
+
+	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String email, String contrasena, String nick,
+			ImageIcon imagen) {
+		this.id = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.movil = movil;
@@ -31,36 +35,21 @@ public class Usuario {
 		this.premium = false;
 	}
 
+	// Getters
 	public String getNick() {
 		return nick;
 	}
 
-	public void setNick(String usuario) {
-		this.nick = usuario;
-	}
-
-	public int getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(int id) {
-		this.codigo = id;
+	public int getId() {
+		return id;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public int getMovil() {
@@ -71,20 +60,37 @@ public class Usuario {
 		return email;
 	}
 
-	public void setMovil(int movil) {
-		this.movil = movil;
-	}
-
 	public String getContrasena() {
 		return contrasena;
 	}
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
-
 	public ImageIcon getImagen() {
 		return imagen;
+	}
+
+	// Setters
+	public void setNick(String usuario) {
+		this.nick = usuario;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public void setMovil(int movil) {
+		this.movil = movil;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
 	}
 
 	public void setImagen(ImageIcon imagen) {
@@ -98,14 +104,17 @@ public class Usuario {
 	public void setPremium(boolean premium) {
 		this.premium = premium;
 	}
-	
+
+	// Metodos Adicionales
 	public boolean addContacto(Contacto c) {
+		// comprobar si ya existe
 		return this.contactos.add(c);
 	}
+
 	public boolean removeContacto(Contacto c) {
+		// comprobar que ya existe
 		return this.contactos.remove(c);
-		
+
 	}
-	
 
 }

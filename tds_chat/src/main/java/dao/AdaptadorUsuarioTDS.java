@@ -34,7 +34,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		boolean existe = true;
 		
 		try {
-			eUsuario = servPersistencia.recuperarEntidad(u.getCodigo());
+			eUsuario = servPersistencia.recuperarEntidad(u.getId());
 		} catch (NullPointerException e) {
 			existe = false;
 		}
@@ -51,18 +51,18 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		//AÑADIR PREMIUM????????????
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		
-		u.setCodigo(eUsuario.getId());
+		u.setId(eUsuario.getId());
 	}
 
 	public void borrarUsuario(Usuario u) {
 		
-		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getCodigo());
+		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 		
 		servPersistencia.borrarEntidad(eUsuario);
 	}
 	
 	public void modificarUsuario(Usuario u) {
-		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getCodigo());
+		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 		
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "nombre");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "nombre", u.getNombre());

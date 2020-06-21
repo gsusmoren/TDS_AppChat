@@ -102,7 +102,7 @@ public class SelectedChat extends JPanel {
 
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 		
-		JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		final JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsCh.setPreferredSize(new Dimension(600, 545));
 		jsCh.setSize(new Dimension(600, 545));
@@ -191,6 +191,7 @@ public class SelectedChat extends JPanel {
 							BubbleText emoSent = new BubbleText(midPanel, i2, Color.CYAN, "JUANPABLO", BubbleText.SENT,
 									15);
 							midPanel.add(emoSent);
+							midPanel.validate();
 							midPanel.repaint();
 							emos.dispose();
 						}
