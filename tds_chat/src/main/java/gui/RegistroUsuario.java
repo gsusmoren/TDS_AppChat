@@ -201,6 +201,8 @@ public class RegistroUsuario extends JPanel {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.setContentPane(jpanelAnterior);
+				ventana.dispose();
+				
 
 			}
 		});

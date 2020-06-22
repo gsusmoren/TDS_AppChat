@@ -1,5 +1,6 @@
 package dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorUsuarioTDS unicaInstancia;
+	private SimpleDateFormat formatoFecha;
 	
 	public static AdaptadorUsuarioTDS getUnicaInstancia() {
 		if (unicaInstancia == null)
@@ -27,6 +29,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	
 	private AdaptadorUsuarioTDS() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
+		formatoFecha = new SimpleDateFormat("dd-MM-yy");
 	}
 
 	public void registrarUsuario(Usuario u) {
@@ -46,8 +49,12 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		eUsuario = new Entidad();
 		eUsuario.setNombre("usuario");
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(
-				Arrays.asList(new Propiedad("nombre",u.getNombre()), new Propiedad("fecha",u.getFechaNacimiento().toString()), new Propiedad("movil",String.valueOf(u.getMovil()))
-						, new Propiedad("email", u.getEmail()), new Propiedad("contraseña", u.getContrasena()), new Propiedad("nicku", u.getNick()))));
+				Arrays.asList(new Propiedad("nombre",String.valueOf(u.getNombre())), 
+						new Propiedad("fechaNacimiento",formatoFecha.format(u.getFechaNacimiento())), 
+						new Propiedad("movil",String.valueOf(u.getMovil())), 
+						new Propiedad("email", String.valueOf(u.getEmail())), 
+						new Propiedad("contraseña", String.valueOf(u.getContrasena())), 
+						new Propiedad("login", String.valueOf(u.getNick())))));
 		//AÑADIR PREMIUM????????????
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		
@@ -65,13 +72,17 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 		
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "nombre");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "nombre", u.getNombre());
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "nombre", String.valueOf(u.getNombre()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "movil");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "movil", String.valueOf(u.getMovil()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "email");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "email", u.getEmail());
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "email", String.valueOf(u.getEmail()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "contraseña");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "contraseña", u.getContrasena());
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "contraseña", String.valueOf(u.getContrasena()));
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "fechaNacimiento");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "fechaNacimiento", formatoFecha.format(u.getFechaNacimiento()));
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "login");
+		servPersistencia.anadirPropiedadEntidad(eUsuario,"login", String.valueOf(u.getNick()));
 		//CONTACTOOOOOOOOOOOOOOOOOOOOOSSSSSSS
 	}
 
