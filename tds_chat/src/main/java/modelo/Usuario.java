@@ -16,8 +16,8 @@ public class Usuario {
 	private ImageIcon imagen;
 	private String email;
 	private boolean premium;
-	private List<Contacto> contactos;
 	private Descuento descuento;
+	private List<Contacto> contactos;
 
 	// Constructor de Usuario
 
@@ -107,7 +107,7 @@ public class Usuario {
 
 	// Metodos Adicionales
 	public boolean addContacto(Contacto c) {
-		// comprobar si ya existe
+		// comprobar si ya existe0
 		return this.contactos.add(c);
 	}
 

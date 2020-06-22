@@ -31,6 +31,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		formatoFecha = new SimpleDateFormat("dd-MM-yy");
 	}
 
+	//REGISTRAR USUARIO
 	public void registrarUsuario(Usuario u) {
 		Entidad eUsuario;
 		boolean existe = true;
@@ -42,11 +43,15 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		}
 		if (existe) return;
 		
-		/*REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS (AMBOS TIPOS DE CONTACTOS?????)*/
+		//REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS
+		AdaptadorContactoIndividualTDS adaptCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
+		AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
+		
 		
 		
 		eUsuario = new Entidad();
-		eUsuario.setNombre("usuario");
+		eUsuario.setNombre("Usuario");
+		
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(
 				Arrays.asList(new Propiedad("nombre",String.valueOf(u.getNombre())), 
 						new Propiedad("fechaNacimiento",formatoFecha.format(u.getFechaNacimiento())), 
