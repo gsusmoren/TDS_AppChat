@@ -4,11 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Contacto {
+	private int codigo;
 	private String nombre;
 	private List<Mensaje> listaMensajes;
 
 	public Contacto(String nombre) {
 		this.nombre = nombre;
+		this.codigo = 0;
 		this.listaMensajes = new LinkedList<Mensaje>();
 	}
 
@@ -29,7 +31,10 @@ public abstract class Contacto {
 	}
 	public boolean removeMensaje(Mensaje m) {
 		return this.listaMensajes.remove(m);
-		
+	}
+	
+	public int getCodigo(){
+		return codigo;
 	}
 	
 	
