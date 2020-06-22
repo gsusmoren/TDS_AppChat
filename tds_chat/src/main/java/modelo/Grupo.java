@@ -12,9 +12,11 @@ import java.util.List;
  */
 
 public  class Grupo extends Contacto {
-	
+	private Usuario admin;
 	private List<Contacto> contactos;
-
+	//¿Como sabemos el usuario actual que está creando el grupo?
+	//ver demás recursos
+	
 	public Grupo(String nombre) {
 		super(nombre);
 		this.contactos = new LinkedList<Contacto>();

@@ -2,7 +2,9 @@ package dao;
 
 import java.util.List;
 
+import beans.Entidad;
 import modelo.Grupo;
+import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
 public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
@@ -17,9 +19,26 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 			return unicaInstancia;
 	}
 	
+	public AdaptadorGrupoTDS() {
+		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
+	}
+	
 		
 	public void registrarGrupo(Grupo grupo) {
-		// TODO Auto-generated method stub
+		
+		Entidad eGrupo;
+		boolean existe = true;
+		
+		// Si la entidad está registrada no la registra de nuevo
+		try {
+			eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
+		} catch (NullPointerException e) {
+			existe = false;
+		}
+		
+		if (existe)
+			return;
+		// Registrar primero los atributos que son objetos
 		
 	}
 

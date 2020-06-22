@@ -33,7 +33,7 @@ public abstract class Contacto {
 		return this.listaMensajes.remove(m);
 	}
 	
-	public int getCodigo(){
+	public int getId(){
 		return codigo;
 	}
 	
