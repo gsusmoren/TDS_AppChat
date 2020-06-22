@@ -174,6 +174,8 @@ public class MainWindowView extends JFrame {
 
 					}
 				});
+				
+				
 
 				bCancelar.addActionListener(new ActionListener() {
 
@@ -185,6 +187,109 @@ public class MainWindowView extends JFrame {
 				j.setUndecorated(true);
 				j.setVisible(true);
 
+			}
+		});
+		
+		mNuevoGrupo.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				final JDialog grupo = new JDialog();
+				grupo.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y,500, 500);
+				final DefaultListModel<String> l1=new DefaultListModel<String>();
+				l1.addElement("Pepe");
+				l1.addElement("Juan");
+				l1.addElement("Carlos");
+				l1.addElement("Zerpas");
+				
+				final JList l=new JList(l1);
+				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				l.setMinimumSize(new Dimension(130, 480));
+				l.setMaximumSize(new Dimension(130, 480));
+				l.setPreferredSize(new Dimension(130, 480));
+				l.setBorder(BorderFactory.createTitledBorder("Contactos"));
+				grupo.getContentPane().add(l,BorderLayout.WEST);
+				final DefaultListModel<String> l2=new DefaultListModel<String>();
+				final JList ll=new JList(l2);
+				ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				ll.setMinimumSize(new Dimension(130, 480));
+				ll.setMaximumSize(new Dimension(130, 480));
+				ll.setPreferredSize(new Dimension(130, 480));
+				ll.setBorder(BorderFactory.createTitledBorder("Contactos añadidos"));
+				grupo.getContentPane().add(ll,BorderLayout.EAST);
+				
+				JPanel p1=new JPanel();
+				p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
+				final JTextField nombre=new JTextField("Nombre del grupo");
+				nombre.addMouseListener(new MouseAdapter() {
+					
+					public void mouseClicked(MouseEvent e) {
+						nombre.setText("");
+						
+					}
+				});
+				nombre.setMaximumSize(new Dimension(350, 20));
+				ImageIcon icDer = new ImageIcon("pics/flecha-derecha.png");
+				ImageIcon icIzqu = new ImageIcon("pics/flecha-hacia-la-izquierda.png");
+
+				JButton quitar=new JButton(icIzqu);
+				JButton añadir=new JButton(icDer);
+				nombre.setColumns(15);
+				nombre.setAlignmentX(CENTER_ALIGNMENT);
+				p1.add(nombre);
+				p1.add(Box.createRigidArea(new Dimension(50, 150)));
+				p1.add(añadir);
+				p1.add(quitar);
+				grupo.getContentPane().add(p1,BorderLayout.CENTER);
+				
+				JButton bAc=new JButton("Aceptar");
+				JButton bCanc=new JButton("Cancelar");
+				JPanel bot=new JPanel();
+				bot.setLayout(new FlowLayout());
+				bot.add(bAc);
+				bot.add(bCanc);
+				grupo.add(bot,BorderLayout.SOUTH);
+				grupo.setVisible(true);
+				
+				añadir.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						if(l.getSelectedIndex()!=-1) {
+							l2.addElement((String)l.getSelectedValue());
+							l1.removeElement(l.getSelectedValue());
+						}
+						
+					}
+				});
+				
+				quitar.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						if(ll.getSelectedIndex()!=1) {
+							l1.addElement((String)ll.getSelectedValue());
+							l2.removeElement(ll.getSelectedValue());
+						}
+						
+					}
+				});
+				
+				bAc.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						OpenedChat chatnew=new OpenedChat(icUser, nombre.getText(), "", rPanel);
+						botLPanel.add(chatnew);
+						botLPanel.revalidate();
+						botLPanel.repaint();
+						grupo.dispose();
+					}
+				});
+				
+				bCanc.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						grupo.dispose();
+						
+					}
+				});
 			}
 		});
 

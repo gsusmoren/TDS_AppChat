@@ -8,7 +8,7 @@ import tds.driver.ServicioPersistencia;
 public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivualDAO {
 
 	private static ServicioPersistencia servPersistencia;
-	private static AdaptadorContactoIndividualTDS unicaInstancia;
+	private static AdaptadorContactoIndividualTDS unicaInstancia = null;
 
 	public static AdaptadorContactoIndividualTDS getUnicaInstancia() {
 		// patron singleton
@@ -29,15 +29,14 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		Entidad eCIndividual;
 		boolean existe = true;
 		try {
-			eCIndividual = servPersistencia.recuperarEntidad(c.getMovil());
-			
+			eCIndividual = servPersistencia.recuperarEntidad(c.getId());
 		} catch (NullPointerException e) {
 			existe = false;
 		}
+		
 		if(existe) return;
 		
 		//registrar primero los atributos que son objetos
-		
 
 	}
 

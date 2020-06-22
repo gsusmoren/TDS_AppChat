@@ -1,22 +1,26 @@
 package dao;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Usuario;
 import modelo.Contacto;
+import modelo.Descuento;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
 public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 	private static ServicioPersistencia servPersistencia;
-	private static AdaptadorUsuarioTDS unicaInstancia;
+	private static AdaptadorUsuarioTDS unicaInstancia = null;
 	private SimpleDateFormat formatoFecha;
 	
 	public static AdaptadorUsuarioTDS getUnicaInstancia() {
@@ -46,8 +50,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		//REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS
 		AdaptadorContactoIndividualTDS adaptCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
 		AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
-		
-		
+		//Devolver contactos
+		//for(Contacto c : u.)
 		
 		eUsuario = new Entidad();
 		eUsuario.setNombre("Usuario");
@@ -59,7 +63,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad("email", String.valueOf(u.getEmail())), 
 						new Propiedad("contraseña", String.valueOf(u.getContrasena())), 
 						new Propiedad("login", String.valueOf(u.getNick())))));
-		//AÑADIR PREMIUM????????????
+		//AÑADIR PREMIUM Y MAS PROPIEDADES DE USUARIO
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		
 		u.setId(eUsuario.getId());
@@ -94,12 +98,26 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		// TODO Auto-generated method stub
 		//Comprobar si ya se ha recuperado el usuario con POOL
 		//if(PoolDAO.get)
+		if(PoolDAO.getUnicaInstancia().contiene(cod)){
+			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(cod);
+		}
 		
 		Entidad eUsuario;
 		List<Contacto> contactos = new LinkedList<Contacto>();
+		String nombre;
+		String fechaNacimiento;
+		String movil;
+		String nick;
+		String contrasena;
+		String imagen;
+		String email;
+		boolean premium;
 		
 		eUsuario = servPersistencia.recuperarEntidad(cod);
 		
+		nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombre");
+		fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaNacimiento");
+		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");
 		
 		return null;
 	}

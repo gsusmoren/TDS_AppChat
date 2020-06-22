@@ -10,7 +10,7 @@ public class Usuario {
 	private int id;
 	private String nombre;
 	private LocalDate fechaNacimiento;
-	private int movil;
+	private String movil;
 	private String nick;
 	private String contrasena;
 	private ImageIcon imagen;
@@ -21,7 +21,7 @@ public class Usuario {
 
 	// Constructor de Usuario
 
-	public Usuario(String nombre, LocalDate fechaNacimiento, int movil, String email, String contrasena, String nick,
+	public Usuario(String nombre, LocalDate fechaNacimiento, String movil, String email, String contrasena, String nick,
 			ImageIcon imagen) {
 		this.id = 0;
 		this.nombre = nombre;
@@ -52,7 +52,7 @@ public class Usuario {
 		return fechaNacimiento;
 	}
 
-	public int getMovil() {
+	public String getMovil() {
 		return movil;
 	}
 
@@ -85,7 +85,7 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public void setMovil(int movil) {
+	public void setMovil(String movil) {
 		this.movil = movil;
 	}
 
