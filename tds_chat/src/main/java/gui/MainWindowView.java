@@ -468,8 +468,10 @@ public class MainWindowView extends JFrame {
 	}
 
 //BORRAR MAIN
+	/*
 	public static void main(String[] args) {
 		MainWindowView mWv1 = new MainWindowView();
 		mWv1.mostrarVentana1();
 	}
+	*/
 }

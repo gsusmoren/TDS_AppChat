@@ -13,16 +13,16 @@ public class Usuario {
 	private String movil;
 	private String nick;
 	private String contrasena;
-	private ImageIcon imagen;
+	private String imagen;
 	private String email;
 	private boolean premium;
-	private Descuento descuento;
+	private Descuento descuento; //Propiedad calculada
 	private List<Contacto> contactos;
 
 	// Constructor de Usuario
 
 	public Usuario(String nombre, LocalDate fechaNacimiento, String movil, String email, String contrasena, String nick,
-			ImageIcon imagen) {
+			String imagen) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
@@ -30,9 +30,10 @@ public class Usuario {
 		this.email = email;
 		this.contrasena = contrasena;
 		this.nick = nick;
-		this.imagen = imagen;
+		this.imagen = imagen; //Cambiada a String con la localizacion 
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
+		//inicializar descuentos aqui?
 	}
 
 	// Getters
@@ -64,8 +65,11 @@ public class Usuario {
 		return contrasena;
 	}
 
-	public ImageIcon getImagen() {
+	public String getImagen() {
 		return imagen;
+	}
+	public List<Contacto> getContactos(){
+		return new LinkedList<Contacto>(contactos);
 	}
 
 	// Setters
@@ -93,7 +97,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 
-	public void setImagen(ImageIcon imagen) {
+	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 
