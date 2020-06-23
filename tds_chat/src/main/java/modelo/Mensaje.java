@@ -7,8 +7,28 @@ import javax.swing.ImageIcon;
 public class Mensaje {
 	private int codigo ;
 	private  String texto;
+	private Usuario emisor;
+	private Contacto receptor;
 	private  LocalDateTime hora;
 	private  int emoji;
+	
+	public Mensaje(Usuario e, Contacto r, String texto) {
+		super();
+		this.texto = texto;
+		this.emisor = e;
+		this.receptor = r;
+		this.hora = LocalDateTime.now();
+		this.emoji = -1;
+	}
+	
+	public Mensaje(Usuario e, Contacto r, int emoji) {
+		super();
+		this.texto = "";
+		this.emisor = e;
+		this.receptor = r;
+		this.hora = LocalDateTime.now();
+		this.emoji = emoji;
+	}
 	
 	public void setTexto(String texto) {
 		this.texto = texto;
@@ -22,20 +42,6 @@ public class Mensaje {
 		this.emoji = emoji;
 	}
 
-	public Mensaje(String texto) {
-		super();
-		this.setCodigo(0);
-		this.texto = texto;
-		this.hora = LocalDateTime.now();
-		this.emoji = -1;
-	}
-	
-	public Mensaje(int emoji) {
-		this.setCodigo(0);
-		this.texto = "";
-		this.hora = LocalDateTime.now();
-		this.emoji = emoji;
-	}
 
 	public String getTexto() {
 		return texto;
@@ -55,6 +61,22 @@ public class Mensaje {
 
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}
+
+	public Usuario getEmisor() {
+		return emisor;
+	}
+
+	public void setEmisor(Usuario emisor) {
+		this.emisor = emisor;
+	}
+
+	public Contacto getReceptor() {
+		return receptor;
+	}
+
+	public void setReceptor(Contacto receptor) {
+		this.receptor = receptor;
 	}
 
 	@Override

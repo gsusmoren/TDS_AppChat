@@ -9,4 +9,5 @@ public interface IAdaptadorMensajeDAO {
 	public void borrarTodosMensajes();
 	public Mensaje recuperarMensaje(int cod);
 	public List<Mensaje> recuperarTodosMensajes();
+	//¿BORRAR MENSAJE?
 }

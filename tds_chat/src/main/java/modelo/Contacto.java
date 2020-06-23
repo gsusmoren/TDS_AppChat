@@ -37,5 +37,9 @@ public abstract class Contacto {
 		return codigo;
 	}
 	
+	public void setId(int id){
+		this.codigo = id;
+	}
+	
 	
 }

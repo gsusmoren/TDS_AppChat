@@ -19,7 +19,7 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 	// HORA?????
 	private SimpleDateFormat hourFormat;
 
-	private static AdaptadorMensajeTDS unicaInstancia;
+	private static AdaptadorMensajeTDS unicaInstancia = null;
 
 	public static AdaptadorMensajeTDS getUnicaInstancia() {
 		if (unicaInstancia == null)
@@ -44,7 +44,10 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 			existe = false;
 		}
 		if(existe) return;
-		//Crear entidad mensaje
+		
+		//Añadir RECEPTOR y EMISOR del mensaje
+		
+		
 		eMensaje = new Entidad();
 		eMensaje.setNombre("mensaje");
 		eMensaje.setPropiedades(new ArrayList<Propiedad>(
@@ -56,6 +59,8 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 		//asignar identificador unico
 		m.setCodigo(eMensaje.getId());
 	}
+	
+	//¿BORRAR MENSAJE?
 	
 	public void borrarTodosMensajes() {
 		//No estoy seguro de que sea correcto, lo mismo esta operacion la tiene q hacer el contacto
