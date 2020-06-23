@@ -48,6 +48,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		//registrar primero los atributos que son objetos
 		AdaptadorUsuarioTDS aUsuario = AdaptadorUsuarioTDS.getUnicaInstancia();
 		aUsuario.registrarUsuario(c.getUsuario());
+		
 		eCIndividual = new Entidad();
 		eCIndividual.setNombre("ContactoIndividual");
 		eCIndividual.setPropiedades(Arrays.asList(

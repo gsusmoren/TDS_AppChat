@@ -197,8 +197,13 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	}
 
 	public List<Usuario> recuperarTodosUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+	List<Entidad> eUsuarios = servPersistencia.recuperarEntidades("Usuario");
+	List<Usuario> usuarios = new LinkedList<Usuario>();
+	
+	for(Entidad eU : eUsuarios) {
+		usuarios.add(recuperarUsuario(eU.getId()));
+	}
+		return usuarios;
 	}
 	
 	
