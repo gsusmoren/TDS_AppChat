@@ -15,6 +15,7 @@ public class Usuario {
 	private String contrasena;
 	private String imagen;
 	private String email;
+	private String saludo;
 	private boolean premium;
 	private Descuento descuento; //Propiedad calculada
 	private List<Contacto> contactos;
@@ -22,7 +23,7 @@ public class Usuario {
 	// Constructor de Usuario
 
 	public Usuario(String nombre, LocalDate fechaNacimiento, String movil, String email, String contrasena, String nick,
-			String imagen) {
+			String imagen,String saludo) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
@@ -31,6 +32,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.nick = nick;
 		this.imagen = imagen; //Cambiada a String con la locali
+		this.saludo = saludo;
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
 	}
@@ -66,6 +68,9 @@ public class Usuario {
 
 	public String getImagen() {
 		return imagen;
+	}
+	public String getSaludo() {
+		return saludo;
 	}
 	public List<Contacto> getContactos(){
 		return new LinkedList<Contacto>(contactos);
@@ -106,6 +111,9 @@ public class Usuario {
 
 	public void setPremium(boolean premium) {
 		this.premium = premium;
+	}
+	public void setSaludo(String str) {
+		this.saludo = str;
 	}
 
 	// Metodos Adicionales

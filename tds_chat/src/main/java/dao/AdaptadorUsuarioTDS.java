@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
+import java.util.StringTokenizer;
 
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Usuario;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
-import modelo.Descuento;
+
 import modelo.Grupo;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
@@ -72,9 +71,11 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				new Propiedad("nombre", u.getNombre()),
 				new Propiedad("fechaNacimiento", formatoFecha.format(u.getFechaNacimiento())),
 				new Propiedad("movil", u.getMovil()),
+				new Propiedad("nick", u.getNick()), 
 				new Propiedad("password", u.getContrasena()),
 				new Propiedad("email", u.getEmail()),
 				new Propiedad("imagen", u.getImagen()),
+				new Propiedad("saludo",u.getSaludo()),
 				//premium como string
 				new Propiedad("premium", String.valueOf(u.isPremium()))
 				
@@ -119,13 +120,15 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "imagen", u.getImagen());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "premium");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "premium", String.valueOf(u.isPremium()));
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "saludo");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "saludo", u.getSaludo());
 		//Eliminar y añadir Contactos
 		
 		String ctcs = getCodigosContactoInd(u.getContactos());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "contactos");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "contactos", ctcs);
 		
-		String grps = getCodigosContactoInd(u.getContactos());
+		String grps = getCodigosGrupos(u.getContactos());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "grupos");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "grupos", grps);
 		
@@ -133,32 +136,64 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		
 	}
 
-	public Usuario recuperarUsuario(int cod) {
-		// TODO Auto-generated method stub
+	public Usuario recuperarUsuario(int codigo) {
+	
 		// Comprobar si ya se ha recuperado el usuario con POOL
-		// if(PoolDAO.get)
-		if (PoolDAO.getUnicaInstancia().contiene(cod)) {
-			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(cod);
+		if (PoolDAO.getUnicaInstancia().contiene(codigo)) {
+			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 		}
 
 		Entidad eUsuario;
-		List<Contacto> contactos = new LinkedList<Contacto>();
+		
 		String nombre;
 		String fechaNacimiento;
 		String movil;
 		String nick;
-		String contrasena;
+		String password;
 		String imagen;
+		String saludo;
 		String email;
-		boolean premium;
+		String premium;
+		List<Contacto> conInd = new LinkedList<Contacto>();
+		List<Contacto> grupos = new LinkedList<Contacto>();
+		
 
-		eUsuario = servPersistencia.recuperarEntidad(cod);
+		eUsuario = servPersistencia.recuperarEntidad(codigo);
 
 		nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombre");
 		fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaNacimiento");
 		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");
-
-		return null;
+		nick = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nick");
+		password = servPersistencia.recuperarPropiedadEntidad(eUsuario, "password");
+		imagen = servPersistencia.recuperarPropiedadEntidad(eUsuario, "imagen");
+		saludo = servPersistencia.recuperarPropiedadEntidad(eUsuario, "saludo");
+		email = servPersistencia.recuperarPropiedadEntidad(eUsuario, "email");
+		premium = servPersistencia.recuperarPropiedadEntidad(eUsuario, "premium");
+		
+		Usuario u = new Usuario(nombre,LocalDate.parse(fechaNacimiento), movil, email, password, nick, imagen, saludo);
+		u.setId(codigo);
+		
+		if(premium.equals("true")) {
+			u.setPremium(true);
+		}else u.setPremium(false);
+		
+		//Añadir el usuario al pool antes de llamar a los demás adaptadores
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, u);
+		
+		//Recuperar propiedades que son objetos 
+		//Uso de método auxiliar usando códigos devuelve contacto
+		
+		conInd = obtenerContactoIndDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, "contactos"));
+		grupos = obtenerGruposDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, "grupos"));
+		
+		for(Contacto ind : conInd) {
+			u.addContacto(ind);
+		}
+		for(Contacto g : grupos) {
+			u.addContacto(g);
+		}
+		
+		return u;
 	}
 
 	public List<Usuario> recuperarTodosUsuarios() {
@@ -170,7 +205,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	
 	
 	/*
-	 * Métodos auxiliares
+	 * -------------------Métodos auxiliares----------------------------
 	 */
 	
 	//Obtener códigos de los contactos por su listas
@@ -195,6 +230,38 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			}
 		}
 		return cadena.trim();
+	}
+	
+	//Obtener Grupo desde Codigos
+	private List<Contacto> obtenerGruposDesdeCodigos(String gps){
+		List<Contacto> grupos = new LinkedList<Contacto>()	;
+		
+		if (gps == null || gps.equals(""))
+			return grupos;
+		
+		StringTokenizer strTok = new StringTokenizer(gps," ");
+		AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
+		
+		while(strTok.hasMoreTokens())
+			grupos.add(adapGP.recuperarGrupo(Integer.valueOf((String) strTok.nextElement())));
+		return grupos;
+			
+		
+	}
+	
+	//Obtener Grupo desde Codigos
+	private List<Contacto> obtenerContactoIndDesdeCodigos(String cts){
+		List<Contacto> conts = new LinkedList<Contacto>()	;
+		
+		if (cts == null || cts.equals(""))
+			return conts;
+		
+		StringTokenizer strTok = new StringTokenizer(cts," ");
+		AdaptadorGrupoTDS adapCI = AdaptadorGrupoTDS.getUnicaInstancia();
+		
+		while(strTok.hasMoreTokens())
+			conts.add(adapCI.recuperarGrupo(Integer.valueOf((String) strTok.nextElement())));
+		return conts;
 	}
 	
 
