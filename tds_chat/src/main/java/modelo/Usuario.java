@@ -30,10 +30,9 @@ public class Usuario {
 		this.email = email;
 		this.contrasena = contrasena;
 		this.nick = nick;
-		this.imagen = imagen; //Cambiada a String con la localizacion 
+		this.imagen = imagen; //Cambiada a String con la locali
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
-		//inicializar descuentos aqui?
 	}
 
 	// Getters

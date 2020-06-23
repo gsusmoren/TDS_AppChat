@@ -36,8 +36,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 		formatoFecha = new SimpleDateFormat("dd-MM-yy");
 	}
-
+	//==================
 	// REGISTRAR USUARIO
+	//==================
 	public void registrarUsuario(Usuario u) {
 		Entidad eUsuario;
 		boolean existe = true;
@@ -63,10 +64,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				adapGP.registrarGrupo(gp);
 			}
 		}
-		
-	
-	
-		
+
 		eUsuario = new Entidad();
 		eUsuario.setNombre("Usuario");
 
@@ -74,11 +72,11 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				new Propiedad("nombre", u.getNombre()),
 				new Propiedad("fechaNacimiento", formatoFecha.format(u.getFechaNacimiento())),
 				new Propiedad("movil", u.getMovil()),
-				new Propiedad("contraseña", u.getContrasena()),
+				new Propiedad("password", u.getContrasena()),
 				new Propiedad("email", u.getEmail()),
 				new Propiedad("imagen", u.getImagen()),
 				//premium como string
-				new Propiedad("imagen", String.valueOf(u.isPremium()))
+				new Propiedad("premium", String.valueOf(u.isPremium()))
 				
 				)));
 		
@@ -87,30 +85,52 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		u.setId(eUsuario.getId());
 	}
 
+	//==================
+	//  BORRAR USUARIO
+	//==================
 	public void borrarUsuario(Usuario u) {
 
 		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 
 		servPersistencia.borrarEntidad(eUsuario);
 	}
-
+	
+	//==================
+	//MODIFICAR USUARIO
+	//==================
+	
 	public void modificarUsuario(Usuario u) {
 		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "nombre");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "nombre", String.valueOf(u.getNombre()));
-		servPersistencia.eliminarPropiedadEntidad(eUsuario, "movil");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "movil", String.valueOf(u.getMovil()));
-		servPersistencia.eliminarPropiedadEntidad(eUsuario, "email");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "email", String.valueOf(u.getEmail()));
-		servPersistencia.eliminarPropiedadEntidad(eUsuario, "contraseña");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "contraseña", String.valueOf(u.getContrasena()));
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "nombre", u.getNombre());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "fechaNacimiento");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "fechaNacimiento",
 				formatoFecha.format(u.getFechaNacimiento()));
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "movil");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "movil", u.getMovil());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "email");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "email", u.getEmail());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "password");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "password", u.getContrasena());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "login");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "login", String.valueOf(u.getNick()));
-		// CONTACTOOOOOOOOOOOOOOOOOOOOOSSSSSSS
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "login", u.getNick());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "imagen");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "imagen", u.getImagen());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "premium");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "premium", String.valueOf(u.isPremium()));
+		//Eliminar y añadir Contactos
+		
+		String ctcs = getCodigosContactoInd(u.getContactos());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "contactos");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "contactos", ctcs);
+		
+		String grps = getCodigosContactoInd(u.getContactos());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "grupos");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "grupos", grps);
+		
+		
+		
 	}
 
 	public Usuario recuperarUsuario(int cod) {
@@ -145,5 +165,37 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	/*
+	 * Métodos auxiliares
+	 */
+	
+	//Obtener códigos de los contactos por su listas
+	private String getCodigosContactoInd(List<Contacto> cts) {
+		String cadena = "";
+		for(Contacto c : cts) {
+			if(c instanceof ContactoIndividual) {
+				ContactoIndividual ci = (ContactoIndividual) c;
+				cadena += ci.getId()+ " ";		
+			}
+		}
+		return cadena.trim();
+	}
+	
+	//Obtener códigos de los grupos como string dada la lista
+	private String getCodigosGrupos(List<Contacto> cts) {
+		String cadena = "";
+		for(Contacto c : cts) {
+			if(c instanceof Grupo) {
+				Grupo gr = (Grupo) c;
+				cadena += gr.getId()+ " ";
+			}
+		}
+		return cadena.trim();
+	}
+	
 
 }
