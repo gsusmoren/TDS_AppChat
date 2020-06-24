@@ -7,6 +7,7 @@ public class ContactoIndividual extends Contacto {
 	public ContactoIndividual(String nombre,int movil) {
 		super(nombre);
 		this.movil=movil;
+		
 	}
 	
 	public ContactoIndividual(String nombre, int movil, Usuario u){

@@ -2,34 +2,34 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import javax.swing.ImageIcon;
+
 
 public class Mensaje {
-	private int codigo ;
-	private  String texto;
+	private int codigo;
+	private String texto;
+	private LocalDateTime hora;
+	private int emoji;
 	private Usuario emisor;
 	private Contacto receptor;
-	private  LocalDateTime hora;
-	private  int emoji;
-	
-	public Mensaje(Usuario e, Contacto r, String texto) {
-		super();
+
+	public Mensaje( String texto) {
+
 		this.texto = texto;
-		this.emisor = e;
-		this.receptor = r;
+		this.emisor = null;
+		this.receptor = null;
 		this.hora = LocalDateTime.now();
 		this.emoji = -1;
 	}
-	
-	public Mensaje(Usuario e, Contacto r, int emoji) {
-		super();
+
+	public Mensaje( int emoji) {
+
 		this.texto = "";
-		this.emisor = e;
-		this.receptor = r;
+		this.emisor = null;
+		this.receptor = null;
 		this.hora = LocalDateTime.now();
 		this.emoji = emoji;
 	}
-	
+
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
@@ -41,7 +41,6 @@ public class Mensaje {
 	public void setEmoji(int emoji) {
 		this.emoji = emoji;
 	}
-
 
 	public String getTexto() {
 		return texto;
@@ -55,11 +54,11 @@ public class Mensaje {
 		return emoji;
 	}
 
-	public int getCodigo() {
+	public int getId() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setId(int codigo) {
 		this.codigo = codigo;
 	}
 
@@ -115,7 +114,5 @@ public class Mensaje {
 			return false;
 		return true;
 	}
-
-
 
 }
