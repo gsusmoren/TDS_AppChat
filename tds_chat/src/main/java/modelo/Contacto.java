@@ -25,6 +25,10 @@ public abstract class Contacto {
 	public List<Mensaje> getListaMensajes() {
 		return listaMensajes;
 	}
+	public void setListaMensajes(List<Mensaje> mns){
+		this.listaMensajes = mns;
+	}
+	
 	public boolean addMensaje(Mensaje m) {
 		return this.listaMensajes.add(m);
 		
