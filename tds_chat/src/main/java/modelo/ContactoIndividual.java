@@ -2,7 +2,7 @@ package modelo;
 
 public class ContactoIndividual extends Contacto {
 	private int movil; 
-	private Usuario u;
+	private Usuario u; //usuario asociado al movil
 	
 	public ContactoIndividual(String nombre,int movil) {
 		super(nombre);
@@ -21,6 +21,7 @@ public class ContactoIndividual extends Contacto {
 	public void setMovil(int movil) {
 		this.movil = movil;
 	}
+	
 	
 	public Usuario getUsuario(){
 		return u;

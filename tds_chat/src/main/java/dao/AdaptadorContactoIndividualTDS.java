@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Arrays;
+import java.util.List;
 
 import beans.Entidad;
 import beans.Propiedad;
@@ -26,8 +27,6 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 	private AdaptadorContactoIndividualTDS() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 	}
-	
-	
 	
 	
 	public void registrarContactoIndividual(ContactoIndividual c) {
@@ -101,6 +100,11 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		//OBTENER LOS MENSAJES E INTRODUCIRLOS EN EL CONTACTO INDIVIDUAL
 		
 		return contact;
+	}
+
+	public List<ContactoIndividual> recuperarTodosContactosIndividuales() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

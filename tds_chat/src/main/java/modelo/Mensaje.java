@@ -2,8 +2,6 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-
-
 public class Mensaje {
 	private int codigo;
 	private String texto;
@@ -12,7 +10,7 @@ public class Mensaje {
 	private Usuario emisor;
 	private Contacto receptor;
 
-	public Mensaje( String texto) {
+	public Mensaje(String texto) {
 
 		this.texto = texto;
 		this.emisor = null;
@@ -21,7 +19,7 @@ public class Mensaje {
 		this.emoji = -1;
 	}
 
-	public Mensaje( int emoji) {
+	public Mensaje(int emoji) {
 
 		this.texto = "";
 		this.emisor = null;
