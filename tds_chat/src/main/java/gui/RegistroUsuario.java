@@ -197,20 +197,22 @@ public class RegistroUsuario extends JPanel {
 
 		datos.add(btnRegistrar, BorderLayout.SOUTH);
 		datos.add(btnCancelar, BorderLayout.SOUTH);
-
+		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			ventana.setContentPane(jpanelAnterior);
-			ventana.se
+				ventana.setContentPane(jpanelAnterior);
+				ventana.setTitle("AppChat");
+				ventana.getContentPane().revalidate();
+				ventana.getContentPane().repaint();
 			}
 		});
 		
+		
+		ventana.setContentPane(this);
 		this.revalidate();
 		this.repaint();
-		ventana.add(this);
 		ventana.setVisible(true);
 		
-
 	}
 
 }
