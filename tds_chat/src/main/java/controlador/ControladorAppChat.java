@@ -55,8 +55,6 @@ public class ControladorAppChat {
 		return false;
 
 	}
-	
-	
 
 	public Usuario getUsuarioActual() {
 

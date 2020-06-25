@@ -53,7 +53,7 @@ public class RegistroUsuario extends JPanel {
 		ventana.setResizable(false);
 		this.add(Box.createRigidArea(new Dimension(20, 20)), BorderLayout.NORTH);
 
-		JPanel datos = new JPanel();
+		final JPanel datos = new JPanel();
 		datos.setOpaque(false);
 		this.add(datos, BorderLayout.CENTER);
 		JLabel l = new JLabel("Introduzca sus datos: ");
@@ -200,16 +200,21 @@ public class RegistroUsuario extends JPanel {
 
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventana.setContentPane(jpanelAnterior);
-				ventana.dispose();
+				//ventana.getContentPane().removeAll();
 				
-
+				                ventana.setTitle("Login");
+                ventana.removeAll();
+                ventana.setContentPane(jpanelAnterior);
+                ventana.revalidate();
+                ventana.repaint();
 			}
 		});
+		
 		this.revalidate();
 		this.repaint();
 		ventana.add(this);
 		ventana.setVisible(true);
+		
 
 	}
 
