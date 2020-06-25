@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,17 +47,19 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		for (Mensaje m : c.getListaMensajes()){
 			aMensaje.registrarMensaje(m);
 		}
+	
 		//registrar primero los atributos que son objetos
 		AdaptadorUsuarioTDS aUsuario = AdaptadorUsuarioTDS.getUnicaInstancia();
 		aUsuario.registrarUsuario(c.getUsuario());
 		
 		eCIndividual = new Entidad();
 		eCIndividual.setNombre("ContactoIndividual");
-		eCIndividual.setPropiedades(Arrays.asList(
+		eCIndividual.setPropiedades(
+				new ArrayList<Propiedad>( Arrays.asList(
 				new Propiedad("nombre", c.getNombre()),
-				new Propiedad("movil", String.valueOf(c.getMovil())),
-				new Propiedad("usuario", String.valueOf(c.getUsuario())),
-				new Propiedad("listaMensajes", String.valueOf(c.getListaMensajes()))));
+				new Propiedad("movil", c.getMovil()),
+				new Propiedad("usuario", String.valueOf(c.getUsuario().getId())),
+				new Propiedad("listaMensajes", obtenerIdListaMensajes(c.getListaMensajes())))));
 		
 		eCIndividual = servPersistencia.registrarEntidad(eCIndividual);
 		c.setId(eCIndividual.getId());
@@ -77,7 +80,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "nombre");
 		servPersistencia.anadirPropiedadEntidad(eCIndividual, "nombre", c.getNombre());
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "movil");
-		servPersistencia.anadirPropiedadEntidad(eCIndividual, "movil", String.valueOf(c.getMovil()));
+		servPersistencia.anadirPropiedadEntidad(eCIndividual, "movil", c.getMovil());
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "usuario");
 		servPersistencia.anadirPropiedadEntidad(eCIndividual, "usuario", String.valueOf(c.getUsuario()));
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "listaMensajes");
@@ -89,7 +92,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 			return (ContactoIndividual) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 		Entidad eCIndividual = servPersistencia.recuperarEntidad(codigo);
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eCIndividual, "nombre");
-		int movil = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eCIndividual, "movil"));
+		String movil = servPersistencia.recuperarPropiedadEntidad(eCIndividual, "movil");
 		int usuario = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eCIndividual, "usuario"));
 		ContactoIndividual contact = new ContactoIndividual(nombre, movil);
 		contact.setId(codigo);
@@ -108,8 +111,13 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 	}
 
 	public List<ContactoIndividual> recuperarTodosContactosIndividuales() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ContactoIndividual> c = new LinkedList<ContactoIndividual>();
+		List<Entidad> entidades = servPersistencia.recuperarEntidades("ContactoIndividual");
+
+		for (Entidad eContacto : entidades) {
+			c.add(recuperarContactoIndividual(eContacto.getId()));
+		}
+		return c;
 	}
 	
 	private String obtenerIdListaMensajes(List<Mensaje> listaMensajes){

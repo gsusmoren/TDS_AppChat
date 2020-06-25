@@ -13,24 +13,43 @@ import java.util.List;
 
 public  class Grupo extends Contacto {
 	private Usuario admin;
-	private List<Contacto> contactos;
+	private List<ContactoIndividual> contactos;
 	//¿Como sabemos el usuario actual que está creando el grupo?
 	//ver demás recursos
 	
 	public Grupo(String nombre) {
 		super(nombre);
-		this.contactos = new LinkedList<Contacto>();
+		this.contactos = new LinkedList<ContactoIndividual>();
 	}
 	
 	
-	public boolean addContacto(Contacto c) {
+	public boolean addContacto(ContactoIndividual c) {
 		return this.contactos.add(c);
 	}
 	
-	public boolean removeContacto(Contacto c) {
+	public boolean removeContacto(ContactoIndividual c) {
 		return this.contactos.remove(c);
 	}
 	
+	
+	
+	public List<ContactoIndividual> getContactos() {
+		return contactos;
+	}
+
+
+	public void setContactos(List<ContactoIndividual> contactos) {
+		this.contactos = contactos;
+	}
+
+
+	public Usuario getAdmin(){
+		return admin;
+	}
+	
+	public void setAdmin(Usuario a){
+		this.admin = a;
+	}
 	
 	
 }
