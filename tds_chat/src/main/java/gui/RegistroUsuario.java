@@ -200,13 +200,8 @@ public class RegistroUsuario extends JPanel {
 
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//ventana.getContentPane().removeAll();
-				
-				                ventana.setTitle("Login");
-                ventana.removeAll();
-                ventana.setContentPane(jpanelAnterior);
-                ventana.revalidate();
-                ventana.repaint();
+			ventana.setContentPane(jpanelAnterior);
+			ventana.se
 			}
 		});
 		

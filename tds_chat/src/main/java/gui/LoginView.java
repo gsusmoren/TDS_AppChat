@@ -122,10 +122,12 @@ public class LoginView {
 			
 			public void actionPerformed(ActionEvent e) {
 				
+				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				
 				loginfrm.getContentPane().remove(panel_north);
 				loginfrm.getContentPane().remove(panel_center);
 				loginfrm.getContentPane().remove(panel_south);
-				RegistroUsuario reg = new RegistroUsuario(loginfrm);
+				
 				loginfrm.revalidate();
 				loginfrm.repaint();
 				
@@ -148,6 +150,7 @@ public class LoginView {
 		loginfrm.setVisible(true);
 
 	}
+	
 	public static void main(String[] args) {
 		LoginView lv = new LoginView();
 		lv.mostrarVentana();
