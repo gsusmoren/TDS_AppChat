@@ -56,6 +56,7 @@ public class ControladorAppChat {
 
 	}
 	
+	
 
 	public Usuario getUsuarioActual() {
 
@@ -67,7 +68,7 @@ public class ControladorAppChat {
 		Usuario usuario = catalogoUsuarios.getUsuario(login);
 		
 		if( usuario != null && usuario.getContrasena().equals(passwd)) {
-			//Establecemos el usuario actual al hacer login
+			//Establecemos el usuario principal actual al hacer login
 			this.usuarioActual = usuario;
 			return true;
 		}
