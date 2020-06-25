@@ -53,6 +53,7 @@ public class CatalogoUsuarios {
 		}
 		return null;
 	}
+	
 	//Usuario por nick
 	public Usuario getUsuario(String nick) {
 		return usuarios.get(nick);
@@ -61,11 +62,12 @@ public class CatalogoUsuarios {
 	//Añadir Usuario al Catalogo
 	public void addUsuario(Usuario u) {
 		usuarios.put(u.getNick(),u);
-		
 	}
+	
 	public void removeUsuario(Usuario u) {
 		usuarios.remove(u.getNick());
 	}
+	
 	//Recupera todos los Usuarios para trabajar con ellos en memoria
 	private void cargarCatalogo() throws DAOException{
 		List<Usuario> usuariosDB = adaptUS.recuperarTodosUsuarios();
@@ -73,6 +75,5 @@ public class CatalogoUsuarios {
 			usuarios.put(us.getNick(), us);
 		}
 	}
-	
-			
+		
 }

@@ -1,7 +1,9 @@
 package dao;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import beans.Entidad;
 import beans.Propiedad;
@@ -64,7 +66,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		Entidad eCIndividual;
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
 		for (Mensaje m : c.getListaMensajes()){
-			//BORRAR CADA UNO DE LOS MENSAJES
+			aMensaje.borrarMensaje(m);
 		}
 		eCIndividual = servPersistencia.recuperarEntidad(c.getId());
 		servPersistencia.borrarEntidad(eCIndividual);
@@ -79,7 +81,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "usuario");
 		servPersistencia.anadirPropiedadEntidad(eCIndividual, "usuario", String.valueOf(c.getUsuario()));
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "listaMensajes");
-		servPersistencia.anadirPropiedadEntidad(eCIndividual, "listaMensajes", String.valueOf(c.getListaMensajes()));
+		servPersistencia.anadirPropiedadEntidad(eCIndividual, "listaMensajes", obtenerIdListaMensajes(c.getListaMensajes()));
 	}
 
 	public ContactoIndividual recuperarContactoIndividual(int codigo) {
@@ -98,6 +100,9 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		contact.setUsuario(u);
 		
 		//OBTENER LOS MENSAJES E INTRODUCIRLOS EN EL CONTACTO INDIVIDUAL
+		List<Mensaje> mens =  obtenerMensajesCodigo(
+				servPersistencia.recuperarPropiedadEntidad(eCIndividual, "mensajes"));
+		contact.setListaMensajes(mens);
 		
 		return contact;
 	}
@@ -106,5 +111,24 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	private String obtenerIdListaMensajes(List<Mensaje> listaMensajes){
+		String mensajes="";
+		for(Mensaje m : listaMensajes){
+			mensajes += m.getId() + " ";
+		}
+		return mensajes.substring(0, mensajes.length()-1);
+	}
+	
+	private List<Mensaje> obtenerMensajesCodigo(String m){
+		List<Mensaje> mensajes = new LinkedList<Mensaje>();
+		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
+		StringTokenizer strTok = new StringTokenizer(m, " ");
+		while(strTok.hasMoreTokens()){
+			mensajes.add( aMensaje.recuperarMensaje(
+							Integer.valueOf((String)strTok.nextElement())));
+		}
+		return mensajes;
+	}
+	
 }
