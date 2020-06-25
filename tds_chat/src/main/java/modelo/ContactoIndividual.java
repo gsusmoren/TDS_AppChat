@@ -1,24 +1,24 @@
 package modelo;
 
 public class ContactoIndividual extends Contacto {
-	private int movil; 
+	private String movil; 
 	private Usuario u; //usuario asociado al movil
 	
-	public ContactoIndividual(String nombre,int movil) {
+	public ContactoIndividual(String nombre,String movil) {
 		super(nombre);
 		this.movil=movil;
 		
 	}
 	
-	public ContactoIndividual(String nombre, int movil, Usuario u){
+	public ContactoIndividual(String nombre, String movil, Usuario u){
 		this(nombre, movil);
 		this.u = u;
 	}
 	
-	public int getMovil() {
+	public String getMovil() {
 		return movil;
 	}
-	public void setMovil(int movil) {
+	public void setMovil(String movil) {
 		this.movil = movil;
 	}
 	
