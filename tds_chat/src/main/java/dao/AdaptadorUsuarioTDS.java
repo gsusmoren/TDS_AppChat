@@ -1,9 +1,11 @@
 package dao;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -146,7 +148,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		Entidad eUsuario;
 		
 		String nombre;
-		String fechaNacimiento;
+		Date fechaNacimiento = null;
 		String movil;
 		String nick;
 		String password;
@@ -161,7 +163,12 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		eUsuario = servPersistencia.recuperarEntidad(codigo);
 
 		nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombre");
-		fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaNacimiento");
+		try {
+		fechaNacimiento =  new SimpleDateFormat("yyyy-mm-dd").parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaNacimiento"));
+		}catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
 		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");
 		nick = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nick");
 		password = servPersistencia.recuperarPropiedadEntidad(eUsuario, "password");
@@ -170,7 +177,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		email = servPersistencia.recuperarPropiedadEntidad(eUsuario, "email");
 		premium = servPersistencia.recuperarPropiedadEntidad(eUsuario, "premium");
 		
-		Usuario u = new Usuario(nombre,LocalDate.parse(fechaNacimiento), movil, email, password, nick, imagen, saludo);
+		
+		Usuario u = new Usuario(nombre,fechaNacimiento, movil, email, password, nick, imagen, saludo);
 		u.setId(codigo);
 		
 		if(premium.equals("true")) {

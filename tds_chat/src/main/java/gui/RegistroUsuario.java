@@ -12,18 +12,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import controlador.ControladorAppChat;
+import modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class RegistroUsuario extends JPanel {
@@ -40,9 +47,6 @@ public class RegistroUsuario extends JPanel {
 	private JPasswordField txtClave2;
 	private JTextField txtEmail;
 
-	/*
-	 * El REgistroUsuario no debería conocer el frame en el que va a ser puesto no??
-	 */
 	public RegistroUsuario(JFrame frame) {
 		ventana = frame;
 		ventana.setResizable(false);
@@ -197,7 +201,54 @@ public class RegistroUsuario extends JPanel {
 
 		datos.add(btnRegistrar, BorderLayout.SOUTH);
 		datos.add(btnCancelar, BorderLayout.SOUTH);
-		
+
+		btnRegistrar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				int ok = check();
+				if (ok > 0) {
+					if (ok == 1) {
+						JOptionPane.showMessageDialog(ventana, "Campos incompletos o erroneos", "Registro",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					if (ok == 2) {
+						JOptionPane.showMessageDialog(ventana, "Las contraseñas no coinciden", "Registro",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					if (ok == 3) {
+
+						JOptionPane.showMessageDialog(ventana, "El usuario introducido ya existe", "Registro",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} else {
+					// registrar
+					String nombre = txtNombre.getText().trim();
+					String movil = txtMovil.getText().trim();
+					String email = txtEmail.getText().trim();
+					Date fecha = txtFecha.getDate();
+					String nick = txtUsuario.getText().trim();
+					String pass = new String(txtClave.getPassword());
+
+					boolean isReg = ControladorAppChat.getUnicaInstancia().registrarUsuario(nombre, fecha, movil, email,
+							pass, nick, "pics/icon_profile.png", "Hey there!");
+
+					if (isReg) {
+						JOptionPane.showMessageDialog(ventana, "Se registró correctamente", "Registro",
+								JOptionPane.INFORMATION_MESSAGE);
+						ventana.setContentPane(jpanelAnterior);
+						ventana.revalidate();
+					}else {
+						JOptionPane.showMessageDialog(ventana, 
+								  "No se ha podido llevar a cabo el registro.",
+								  "Registro", 
+								  JOptionPane.ERROR_MESSAGE);
+					}
+
+				}
+
+			}
+		});
+
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.setContentPane(jpanelAnterior);
@@ -206,13 +257,38 @@ public class RegistroUsuario extends JPanel {
 				ventana.getContentPane().repaint();
 			}
 		});
-		
-		
+
 		ventana.setContentPane(this);
 		this.revalidate();
 		this.repaint();
 		ventana.setVisible(true);
-		
+
+	}
+
+	// Método que comprueba que los campos son correctos
+	// Devuelve un código de error o 0 si está correcto
+	private int check() {
+
+		String nombre = txtNombre.getText().trim();
+		String movil = txtMovil.getText().trim();
+		String email = txtEmail.getText().trim();
+		Date fecha = txtFecha.getDate();
+		String nick = txtUsuario.getText().trim();
+		String pass = new String(txtClave.getPassword());
+		String pass2 = new String(txtClave2.getPassword());
+		// Campos no vacíos y la fecha no futura
+		if (nombre.isEmpty() || movil.isEmpty() || email.isEmpty() || fecha == null || nick.isEmpty()
+				|| fecha.after(new Date()) || pass.isEmpty() || pass2.isEmpty())
+			return 1;
+
+
+		if (!pass.equals(pass2))
+			return 2;
+
+		if (!ControladorAppChat.getUnicaInstancia().isUsuarioUnico(movil, nombre))
+			return 3;
+
+		return 0;
 	}
 
 }

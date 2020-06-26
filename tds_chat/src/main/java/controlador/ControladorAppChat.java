@@ -1,6 +1,7 @@
 package controlador;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import dao.DAOException;
 import dao.FactoriaDAO;
@@ -34,7 +35,7 @@ public class ControladorAppChat {
 	}
 
 	// Método para registrar a un usuario en la aplicación
-	public boolean registrarUsuario(String nombre, LocalDate fechaNacimiento, String movil, String email,
+	public boolean registrarUsuario(String nombre, Date fechaNacimiento, String movil, String email,
 			String contrasena, String nick, String imagen, String saludo) {
 		// Comprobar usuarios unicos
 		if (!isUsuarioUnico(movil, nick)) {

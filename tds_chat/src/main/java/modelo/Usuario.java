@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import javax.swing.ImageIcon;
 public class Usuario {
 	private int id;
 	private String nombre;
-	private LocalDate fechaNacimiento;
+	private Date fechaNacimiento;
 	private String movil;
 	private String nick;
 	private String contrasena;
@@ -22,7 +23,7 @@ public class Usuario {
 
 	// Constructor de Usuario
 
-	public Usuario(String nombre, LocalDate fechaNacimiento, String movil, String email, String contrasena, String nick,
+	public Usuario(String nombre, Date fechaNacimiento, String movil, String email, String contrasena, String nick,
 			String imagen,String saludo) {
 		this.id = 0;
 		this.nombre = nombre;
@@ -50,7 +51,7 @@ public class Usuario {
 		return nombre;
 	}
 
-	public LocalDate getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -89,7 +90,7 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
