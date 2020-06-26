@@ -61,7 +61,7 @@ public class ControladorAppChat {
 
 		return usuarioActual;
 	}
-
+	
 	//Método para logear a un usaurio.....Posibilidad de login con movil
 	public boolean loginUsuario(String login, String passwd) {
 		Usuario usuario = catalogoUsuarios.getUsuario(login);

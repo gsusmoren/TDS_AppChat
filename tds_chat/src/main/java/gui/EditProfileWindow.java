@@ -26,16 +26,19 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import controlador.ControladorAppChat;
+import modelo.Usuario;
+
 
 @SuppressWarnings("serial")
-public class EditProfileWindow extends JDialog {
+public class EditProfileWindow extends JFrame {
 
-	private ImageIcon imagenPerfil;
+	private String imagenPerfil;
 	private String saludo;
 	private JButton editSaludo;
 
-	public EditProfileWindow(JFrame frame, ImageIcon img, String sal) {
-		super(frame, true);
+	public EditProfileWindow(JFrame frame) {
+		//super(frame, true);
 		setBounds(Constantes.mainWindow_x * 2, Constantes.mainWindow_y, Constantes.mainWx_size / 3,
 				Constantes.mainWy_size / 2 + 60);
 		setResizable(false);
@@ -43,15 +46,17 @@ public class EditProfileWindow extends JDialog {
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		getContentPane().setBackground(Color.CYAN);
+		
+		final Usuario uA = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+		this.imagenPerfil = uA.getImagen();
+		this.saludo = uA.getSaludo();
 
-		this.imagenPerfil = img;
-		this.saludo = sal;
+		ImageIcon icon = new ImageIcon(imagenPerfil);
+		Image im=icon.getImage();
+		Image scaled = im.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(scaled);
 
-		Image im = imagenPerfil.getImage();
-		Image scaled = im.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
-		imagenPerfil = new ImageIcon(scaled);
-
-		final JLabel imagenPLabel = new JLabel(imagenPerfil);
+		final JLabel imagenPLabel = new JLabel(icon);
 		final JLabel saludoLabel = new JLabel(saludo);
 		imagenPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		saludoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -66,11 +71,11 @@ public class EditProfileWindow extends JDialog {
 		editSaludo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		editSaludo.setBorder(Constantes.borderB);
 		editSaludo.setBackground(Color.white);
-		final JDialog auxJD = this;
+		//final JDialog auxJD = this;
 		editSaludo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				final JDialog diagIn = new JDialog(auxJD, true);
+				final JDialog diagIn = new JDialog(); //(auxJD, true)
 				diagIn.setBounds(Constantes.mainWindow_x * 2 + 40, Constantes.mainWindow_y * 3, 300, 50);
 				final JTextField textS = new JTextField(saludo);
 				diagIn.getContentPane().add(textS);
@@ -82,9 +87,11 @@ public class EditProfileWindow extends JDialog {
 
 							saludo = textS.getText();
 							saludoLabel.setText(saludo);
+							Usuario uA = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+							uA.setSaludo(saludo);
 							diagIn.dispose();
-							auxJD.revalidate();
-							auxJD.repaint();
+							revalidate();
+							repaint();
 
 							return false;
 						}
@@ -108,7 +115,7 @@ public class EditProfileWindow extends JDialog {
 		
 				fileC.addChoosableFileFilter(new FileNameExtensionFilter("Image Files",ImageIO.getReaderFileSuffixes()));
 				fileC.setAcceptAllFileFilterUsed(false);
-				int returnVal = fileC.showOpenDialog(auxJD);
+				int returnVal = fileC.showOpenDialog(imagenPLabel);
 				
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					String pathString =fileC.getCurrentDirectory().toString()+"/";
@@ -118,14 +125,17 @@ public class EditProfileWindow extends JDialog {
 				
 					ImageIcon nImageIcon = new ImageIcon(pathString);
 					
+					Usuario actual = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+					
 					Image im = nImageIcon.getImage();
 					Image scaled = im.getScaledInstance(220, 220, java.awt.Image.SCALE_SMOOTH);
 					nImageIcon = new ImageIcon(scaled);
-					imagenPerfil = nImageIcon;
+					imagenPerfil = pathString;
 					imagenPLabel.setIcon(nImageIcon);
-					
-					auxJD.revalidate();
-					auxJD.repaint();
+					actual.setImagen(pathString);
+
+					revalidate();
+					repaint();
 			
 				}
 			

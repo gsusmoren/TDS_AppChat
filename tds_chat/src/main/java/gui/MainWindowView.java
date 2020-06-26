@@ -19,12 +19,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
+
+import controlador.ControladorAppChat;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
@@ -70,7 +75,7 @@ public class MainWindowView extends JFrame {
 
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
-		JLabel userLb = new JLabel(icUser);
+		final JLabel userLb = new JLabel(icUser);
 
 		JLabel opLb = new JLabel(icOpt);
 		userLb.setMaximumSize(new Dimension(60, 60));
@@ -87,7 +92,22 @@ public class MainWindowView extends JFrame {
 
 			public void mouseClicked(MouseEvent e) {
 				// pasar saludo del usuario
-				EditProfileWindow eProf = new EditProfileWindow(copiaFrame, icUser, "¡Hola klk!");
+				EditProfileWindow eProf = new EditProfileWindow(copiaFrame);
+				
+				eProf.addWindowListener(new WindowAdapter(){
+					@Override
+					public void windowClosing(WindowEvent e){
+						ImageIcon i = new ImageIcon(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getImagen());
+						Image im = i.getImage();
+						Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
+						i = new ImageIcon(scaled);
+						userLb.setIcon(i);
+						
+						topLpanel.revalidate();
+						topLpanel.repaint();
+						MainWindowView.this.validate();
+					}
+				});
 
 			}
 		});

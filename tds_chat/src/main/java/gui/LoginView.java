@@ -147,10 +147,7 @@ public class LoginView {
 				}else {
 					//credenciales malas
 					JOptionPane.showMessageDialog(loginfrm, "Nombre o Contraseña erroneos","Error Login",JOptionPane.ERROR_MESSAGE);
-				}
-				
-
-			
+				}		
 
 			}
 		});
