@@ -2,23 +2,16 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,7 +23,6 @@ import javax.swing.border.LineBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controlador.ControladorAppChat;
-import modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class RegistroUsuario extends JPanel {
@@ -237,11 +229,9 @@ public class RegistroUsuario extends JPanel {
 								JOptionPane.INFORMATION_MESSAGE);
 						ventana.setContentPane(jpanelAnterior);
 						ventana.revalidate();
-					}else {
-						JOptionPane.showMessageDialog(ventana, 
-								  "No se ha podido llevar a cabo el registro.",
-								  "Registro", 
-								  JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(ventana, "No se ha podido llevar a cabo el registro.", "Registro",
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 				}
@@ -280,7 +270,6 @@ public class RegistroUsuario extends JPanel {
 		if (nombre.isEmpty() || movil.isEmpty() || email.isEmpty() || fecha == null || nick.isEmpty()
 				|| fecha.after(new Date()) || pass.isEmpty() || pass2.isEmpty())
 			return 1;
-
 
 		if (!pass.equals(pass2))
 			return 2;

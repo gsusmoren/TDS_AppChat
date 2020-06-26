@@ -1,11 +1,11 @@
 package modelo;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+
 
 public class Usuario {
 	private int id;
