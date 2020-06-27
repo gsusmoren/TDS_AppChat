@@ -68,6 +68,14 @@ public class CatalogoUsuarios {
 		usuarios.remove(u.getNick());
 	}
 	
+	
+	//Actualiza el usuario en el catalogo
+	public void actualizarUsuario(Usuario u) {
+		removeUsuario(u);
+		addUsuario(u);
+		
+	}
+	
 	//Recupera todos los Usuarios para trabajar con ellos en memoria
 	private void cargarCatalogo() throws DAOException{
 		List<Usuario> usuariosDB = adaptUS.recuperarTodosUsuarios();

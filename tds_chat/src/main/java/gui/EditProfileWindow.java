@@ -92,6 +92,8 @@ public class EditProfileWindow extends JFrame {
 							diagIn.dispose();
 							revalidate();
 							repaint();
+							ControladorAppChat.getUnicaInstancia().actualizarUsuario(uA);
+
 
 							return false;
 						}
@@ -133,6 +135,9 @@ public class EditProfileWindow extends JFrame {
 					imagenPerfil = pathString;
 					imagenPLabel.setIcon(nImageIcon);
 					actual.setImagen(pathString);
+					
+					ControladorAppChat.getUnicaInstancia().actualizarUsuario(actual);
+					
 
 					revalidate();
 					repaint();

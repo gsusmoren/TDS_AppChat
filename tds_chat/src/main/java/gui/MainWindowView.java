@@ -50,7 +50,6 @@ public class MainWindowView extends JFrame {
 		rPanel.setBackground(Color.gray);
 		
 		
-		/** Comenzando de 0 **/
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
 		// y los chats debajo
 		final JPanel lPanel = new JPanel();
@@ -71,8 +70,13 @@ public class MainWindowView extends JFrame {
 		topLpanel.setBackground(Color.gray);
 
 		// iconos superiores
-		final ImageIcon icUser = new ImageIcon("pics/icon_profile.png");
-
+		//Reescalamos la imagen
+		ImageIcon icUseraux = new ImageIcon(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getImagen());
+		Image im = icUseraux.getImage();
+		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
+		icUseraux = new ImageIcon(scaled);
+		final ImageIcon icUser = icUseraux;
+		
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
 		final JLabel userLb = new JLabel(icUser);
@@ -102,10 +106,10 @@ public class MainWindowView extends JFrame {
 						Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 						i = new ImageIcon(scaled);
 						userLb.setIcon(i);
-						
 						topLpanel.revalidate();
 						topLpanel.repaint();
 						MainWindowView.this.validate();
+						
 					}
 				});
 

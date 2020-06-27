@@ -74,6 +74,13 @@ public class ControladorAppChat {
 		return false;		
 	}
 	
+	//Método para actualizar un usuario pues se han cambiado sus atributos
+	public void actualizarUsuario(Usuario u) {
+		this.adapU.modificarUsuario(u);
+		catalogoUsuarios.actualizarUsuario(u);
+	
+	}
+	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {
