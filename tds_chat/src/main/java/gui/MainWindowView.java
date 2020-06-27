@@ -89,6 +89,7 @@ public class MainWindowView extends JFrame {
 		topLpanel.add(userLb);
 		topLpanel.add(Box.createRigidArea(new Dimension(170, 60)));
 
+		
 		topLpanel.add(opLb);
 		lPanel.add(topLpanel);
 		final JFrame copiaFrame = this;
@@ -317,6 +318,62 @@ public class MainWindowView extends JFrame {
 			}
 		});
 
+		//Botón para crear un nuevo Contacto
+		mCrearContacto.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				final JDialog ventReg = new JDialog(copiaFrame, "Registrar contacto", true);
+				ventReg.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 150);
+				
+				JPanel panelV = new JPanel();
+				
+				JButton aceptar = new JButton("Aceptar");
+				JButton cancelar = new JButton("Cancelar");
+				JLabel enunciado = new JLabel("Introduce su nombre y número de telefono");
+				panelV.add(enunciado,BorderLayout.NORTH);
+				
+				
+				JTextField nombreCont = new JTextField(15);
+				JTextField numero = new JTextField(15);
+				
+				JPanel panelCent = new JPanel();
+				panelCent.setLayout(new BoxLayout(panelCent, BoxLayout.Y_AXIS));
+				JPanel centralNom = new JPanel();
+				JPanel centralNum = new JPanel();
+				panelCent.add(centralNom);
+				panelCent.add(centralNum);
+				
+							
+				panelV.add(panelCent,BorderLayout.CENTER);
+				centralNom.add(new JLabel("Nombre :"));
+				centralNom.add(nombreCont,BorderLayout.CENTER);
+				centralNum.add(new JLabel("Número :"));
+				centralNum.add(numero,BorderLayout.CENTER);
+
+				panelV.add(aceptar,BorderLayout.SOUTH);
+				panelV.add(cancelar,BorderLayout.SOUTH);
+				
+			
+				
+				
+				
+				
+				cancelar.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+						ventReg.dispose();
+
+					}
+				});
+				
+				
+				ventReg.setUndecorated(true);
+				ventReg.add(panelV);
+				ventReg.setVisible(true);
+				
+				
+			}
+		});
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

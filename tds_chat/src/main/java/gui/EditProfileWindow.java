@@ -38,7 +38,7 @@ public class EditProfileWindow extends JFrame {
 	private JButton editSaludo;
 
 	public EditProfileWindow(JFrame frame) {
-		//super(frame, true);
+	
 		setBounds(Constantes.mainWindow_x * 2, Constantes.mainWindow_y, Constantes.mainWx_size / 3,
 				Constantes.mainWy_size / 2 + 60);
 		setResizable(false);
@@ -53,7 +53,7 @@ public class EditProfileWindow extends JFrame {
 
 		ImageIcon icon = new ImageIcon(imagenPerfil);
 		Image im=icon.getImage();
-		Image scaled = im.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		Image scaled = im.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(scaled);
 
 		final JLabel imagenPLabel = new JLabel(icon);
@@ -75,7 +75,7 @@ public class EditProfileWindow extends JFrame {
 		editSaludo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				final JDialog diagIn = new JDialog(); //(auxJD, true)
+				final JDialog diagIn = new JDialog(); 
 				diagIn.setBounds(Constantes.mainWindow_x * 2 + 40, Constantes.mainWindow_y * 3, 300, 50);
 				final JTextField textS = new JTextField(saludo);
 				diagIn.getContentPane().add(textS);
