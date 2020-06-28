@@ -118,9 +118,13 @@ public class Usuario {
 	}
 
 	// Metodos Adicionales
-	public boolean addContacto(Contacto c) {
+	public boolean addContacto(Contacto cont) {
 		// comprobar si ya existe0
-		return this.contactos.add(c);
+		if(!contactos.contains(cont)){
+			this.contactos.add(cont);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean removeContacto(Contacto c) {

@@ -60,7 +60,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			if (c instanceof ContactoIndividual) {
 				ContactoIndividual ci = (ContactoIndividual) c;
 				adaptCI.registrarContactoIndividual(ci);
-			} else if (c instanceof Grupo) {
+			} else {
 				Grupo gp = (Grupo) c;
 				adapGP.registrarGrupo(gp);
 			}
@@ -168,7 +168,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		}catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");
 		nick = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nick");
 		password = servPersistencia.recuperarPropiedadEntidad(eUsuario, "password");
@@ -264,10 +264,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	
 	//Obtener Grupo desde Codigos
 	private List<Contacto> obtenerContactoIndDesdeCodigos(String cts){
-		List<Contacto> conts = new LinkedList<Contacto>()	;
+		List<Contacto> conts = new LinkedList<Contacto>();
 		
-		if (cts == null || cts.equals(""))
-			return conts;
+		if (cts == null || cts.equals("")) return conts;
 		
 		StringTokenizer strTok = new StringTokenizer(cts," ");
 		AdaptadorGrupoTDS adapCI = AdaptadorGrupoTDS.getUnicaInstancia();

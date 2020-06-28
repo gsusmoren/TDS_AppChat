@@ -105,6 +105,7 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		Entidad eGrupo = servPersistencia.recuperarEntidad(id);
 		
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, "nombre");
+		String adm = servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin");
 		
 		Grupo grupo = new Grupo(nombre);
 		
@@ -114,13 +115,15 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		
 		List<Mensaje> mensajes = obtenerMensajesCodigo(
 				servPersistencia.recuperarPropiedadEntidad(eGrupo, "mensajes"));
+
 		grupo.setListaMensajes(mensajes);
 		
 		AdaptadorUsuarioTDS aUsuario = AdaptadorUsuarioTDS.getUnicaInstancia();
-		int codU = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin"));
-		Usuario admin = aUsuario.recuperarUsuario(codU);
-		grupo.setAdmin(admin);
-		
+
+		if(adm!=null){
+			Usuario admin = aUsuario.recuperarUsuario(Integer.parseInt(adm));
+			grupo.setAdmin(admin);
+		}
 		List<ContactoIndividual> contactos = obtenerContactosCodigo(
 				servPersistencia.recuperarPropiedadEntidad(eGrupo, "contactos"));
 		grupo.setContactos(contactos);
@@ -145,7 +148,7 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		for(Mensaje m : listaMensajes){
 			mensajes += m.getId() + " ";
 		}
-		return mensajes.substring(0, mensajes.length()-1);
+		return mensajes.trim();
 	}
 	
 	private String obtenerIdContactos(List<ContactoIndividual> contactos) {
@@ -153,23 +156,26 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		for(ContactoIndividual c : contactos){
 			cont += c.getId() + " ";
 		}
-		return cont.substring(0, cont.length()-1);
+		return cont.trim();
 	}
 	
 	private List<Mensaje> obtenerMensajesCodigo(String m){
 		List<Mensaje> mensajes = new LinkedList<Mensaje>();
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
+		if(m==null || m.equals("")) return mensajes;
 		StringTokenizer strTok = new StringTokenizer(m, " ");
 		while(strTok.hasMoreTokens()){
 			mensajes.add( aMensaje.recuperarMensaje(
 							Integer.valueOf((String)strTok.nextElement())));
 		}
+		
 		return mensajes;
 	}
 	
 	private List<ContactoIndividual> obtenerContactosCodigo(String c) {
 		List<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
 		AdaptadorContactoIndividualTDS aContacto = AdaptadorContactoIndividualTDS.getUnicaInstancia();
+		if(c==null || c.equals("")) return contactos;
 		StringTokenizer strTok = new StringTokenizer(c, " ");
 		while(strTok.hasMoreTokens()){
 			contactos.add(aContacto.recuperarContactoIndividual(

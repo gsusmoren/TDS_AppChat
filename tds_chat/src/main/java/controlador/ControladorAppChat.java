@@ -1,6 +1,7 @@
 package controlador;
 
 import java.util.Date;
+import java.util.List;
 
 import dao.DAOException;
 import dao.FactoriaDAO;
@@ -9,12 +10,13 @@ import dao.IAdaptadorGrupoDAO;
 import dao.IAdaptadorMensajeDAO;
 import dao.IAdaptadorUsuarioDAO;
 import modelo.CatalogoUsuarios;
+import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Usuario;
 
 public class ControladorAppChat {
 
-	private static ControladorAppChat unicaInstancia;
+	private static ControladorAppChat unicaInstancia = null;
 
 	private IAdaptadorUsuarioDAO adapU;
 	private IAdaptadorContactoInidivualDAO adapCI;
@@ -50,12 +52,12 @@ public class ControladorAppChat {
 	}
 
 	public boolean isUsuarioUnico(String movil, String nick) {
-		if ((catalogoUsuarios.getUsuario(movil) == null) && (catalogoUsuarios.getUsuario(nick) == null)) {
+		if ((catalogoUsuarios.getUsuarioMovil(movil) == null) && (catalogoUsuarios.getUsuarioNick(nick) == null)) {
 			return true;
 		}
 		return false;
-
 	}
+	
 
 	public Usuario getUsuarioActual() {
 
@@ -64,7 +66,7 @@ public class ControladorAppChat {
 
 	// Método para logear a un usaurio.....Posibilidad de login con movil
 	public boolean loginUsuario(String login, String passwd) {
-		Usuario usuario = catalogoUsuarios.getUsuario(login);
+		Usuario usuario = catalogoUsuarios.getUsuarioNick(login);
 
 		if (usuario != null && usuario.getContrasena().equals(passwd)) {
 			// Establecemos el usuario principal actual al hacer login
@@ -82,22 +84,25 @@ public class ControladorAppChat {
 	}
 
 	// Registramos un nuevo Contacto Individual y actualizamos el usuario actual.
-	public boolean addContactoIndividual(String nombre, int numero) {
+	public boolean addContactoIndividual(String nombre, String numero) {
 		/*
 		 * quién crea el contacto individual, el usuario o el controlador. Un contacto
 		 * está asociado a otro usuario. Si lo crea el usuario debería d conocer los
 		 * demás usuarios, eso está mal.
 		 */
-		Usuario ciUser = catalogoUsuarios.getUsuario(numero);
-		ContactoIndividual ci = new ContactoIndividual(nombre, String.valueOf(numero), ciUser);
-		boolean isReg = usuarioActual.addContacto(ci);
-		if (isReg) {
-			adapCI.registrarContactoIndividual(ci);
-			adapU.modificarUsuario(usuarioActual);
-			System.out.println(ci.getNombre() + " usuario agregado ");
-			return true;
-		} else
-			return false;
+		
+		Usuario ciUser = catalogoUsuarios.getUsuarioMovil(numero);
+		if(ciUser!=null){
+			ContactoIndividual ci = new ContactoIndividual(nombre, numero, ciUser);
+			boolean isReg = usuarioActual.addContacto(ci);
+			if (isReg) {
+				adapCI.registrarContactoIndividual(ci);				
+				catalogoUsuarios.actualizarUsuario(usuarioActual);
+				adapU.modificarUsuario(usuarioActual);
+				return true;
+			}
+		}
+		return false;
 
 	}
 

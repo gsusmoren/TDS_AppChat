@@ -26,15 +26,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.*;
 
 import controlador.ControladorAppChat;
+import modelo.Contacto;
+import modelo.ContactoIndividual;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
 	private JPanel contentPane = new JPanel();
+	
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
@@ -164,12 +168,12 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
-				lista.addElement("Pepe");
-				lista.addElement("Jose");
-				lista.addElement("Amigo");
-				lista.addElement("Pepe");
-				lista.addElement("Contacto 1");
-
+				List<Contacto> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactos();
+				for(Contacto c : cont){
+					if(c instanceof ContactoIndividual){
+						lista.addElement(c.getNombre());
+					}
+				}
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
 				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -361,15 +365,8 @@ public class MainWindowView extends JFrame {
 					//TODO usuario no repetido y que exista
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
-						
-						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, Integer.valueOf(num));
+						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
 						ventReg.dispose();
-						
-					
-						
-						
-						
-						
 					}
 				});
 				
@@ -558,6 +555,7 @@ public class MainWindowView extends JFrame {
 		});
 
 	}
+	
 
 	public void mostrarVentana1() {
 		this.setVisible(true);

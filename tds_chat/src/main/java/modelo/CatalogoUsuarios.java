@@ -46,17 +46,21 @@ public class CatalogoUsuarios {
 	}
 	
 	//Usuario por movil
-	public Usuario getUsuario(int movil) {
+	public Usuario getUsuarioMovil(String movil) {
 		for(Usuario u : usuarios.values()) {
-			if(u.getMovil().equals(String.valueOf(movil)))
+			if(u.getMovil().equals(movil))
 				return u;
 		}
 		return null;
 	}
 	
 	//Usuario por nick
-	public Usuario getUsuario(String nick) {
-		return usuarios.get(nick);
+	public Usuario getUsuarioNick(String nick) {
+		for(Usuario u : usuarios.values()) {
+			if(u.getNick().equals(nick))
+				return u;
+		}
+		return null;
 	}
 	
 	//Añadir Usuario al Catalogo
