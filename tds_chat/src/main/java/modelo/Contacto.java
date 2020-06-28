@@ -10,7 +10,6 @@ public abstract class Contacto {
 
 	public Contacto(String nombre) {
 		this.nombre = nombre;
-		this.codigo = 0;
 		this.listaMensajes = new LinkedList<Mensaje>();
 	}
 

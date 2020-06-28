@@ -116,15 +116,26 @@ public class Usuario {
 	public void setSaludo(String str) {
 		this.saludo = str;
 	}
+	
+	public void addContacto(Contacto c){
+		contactos.add(c);
+	}
+	
+	public List<ContactoIndividual> getContactosIndividuales(){
+		List<ContactoIndividual> l = new LinkedList<ContactoIndividual>();
+		for(Contacto c : contactos){
+			if(c instanceof ContactoIndividual) 
+				l.add((ContactoIndividual)c);
+		}
+		return l;
+	}
 
 	// Metodos Adicionales
-	public boolean addContacto(Contacto cont) {
-		// comprobar si ya existe0
-		if(!contactos.contains(cont)){
-			this.contactos.add(cont);
-			return true;
-		}
-		return false;
+	public ContactoIndividual addContactoI(String nombre, String movil, Usuario u) {
+		// comprobar si ya existe
+		ContactoIndividual c = new ContactoIndividual(nombre, movil, u);
+		this.contactos.add(c);
+		return c;
 	}
 
 	public boolean removeContacto(Contacto c) {

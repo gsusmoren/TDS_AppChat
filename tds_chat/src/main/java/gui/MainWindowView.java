@@ -1,17 +1,3 @@
-/*TODO
- * 
- * Hay que "resizear" loz iconos, pues son pngs editados a 50px
- * Guardar variables necesarias como atributos
- * Darle acción a estos
- * Colores y Fuentes
- * Enter para enviar
- * Preguntar al profesor los iconos
- * 
- * Arreglar barra superior hacer que aparezca cuando se habre un chat 
- * 
- * 
- */
-
 package gui;
 
 import java.awt.BorderLayout;
@@ -168,12 +154,9 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
-				List<Contacto> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactos();
-				for(Contacto c : cont){
-					System.out.println(c.getClass());
-					if(c instanceof ContactoIndividual){
+				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
+				for(ContactoIndividual c : cont){
 						lista.addElement(c.getNombre());
-					}
 				}
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
@@ -367,8 +350,6 @@ public class MainWindowView extends JFrame {
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
 						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
-						
-						
 						ventReg.dispose();
 					}
 				});
@@ -569,11 +550,18 @@ public class MainWindowView extends JFrame {
 
 	}
 	
+	
 
 	public void mostrarVentana1() {
 		this.setVisible(true);
 
 	}
 
-
+//BORRAR MAIN
+	/*
+	public static void main(String[] args) {
+		MainWindowView mWv1 = new MainWindowView();
+		mWv1.mostrarVentana1();
+	}
+	*/
 }

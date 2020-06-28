@@ -55,7 +55,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		// REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS
 		AdaptadorContactoIndividualTDS adaptCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
 		AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
-		
 		// Devolver contactos viendo el tipo
 		for (Contacto c : u.getContactos()) {
 			if (c instanceof ContactoIndividual) {
@@ -83,7 +82,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				new Propiedad("premium", String.valueOf(u.isPremium())),
 				new Propiedad("contactos", getCodigosContactoInd(u.getContactos())),
 				new Propiedad("grupos", getCodigosGrupos(u.getContactos()))
-				
 				)));
 		
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
@@ -95,7 +93,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	//  BORRAR USUARIO
 	//==================
 	public void borrarUsuario(Usuario u) {
-
 		Entidad eUsuario = servPersistencia.recuperarEntidad(u.getId());
 
 		servPersistencia.borrarEntidad(eUsuario);
