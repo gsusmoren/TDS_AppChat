@@ -170,6 +170,7 @@ public class MainWindowView extends JFrame {
 				DefaultListModel<String> lista = new DefaultListModel<String>();
 				List<Contacto> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactos();
 				for(Contacto c : cont){
+					System.out.println(c.getClass());
 					if(c instanceof ContactoIndividual){
 						lista.addElement(c.getNombre());
 					}
@@ -366,6 +367,8 @@ public class MainWindowView extends JFrame {
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
 						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
+						
+						
 						ventReg.dispose();
 					}
 				});
@@ -553,6 +556,16 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
+		
+		mExit.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LoginView lv = new LoginView();
+				lv.mostrarVentana();
+				
+			}
+		});
 
 	}
 	
@@ -562,11 +575,5 @@ public class MainWindowView extends JFrame {
 
 	}
 
-//BORRAR MAIN
-	/*
-	public static void main(String[] args) {
-		MainWindowView mWv1 = new MainWindowView();
-		mWv1.mostrarVentana1();
-	}
-	*/
+
 }

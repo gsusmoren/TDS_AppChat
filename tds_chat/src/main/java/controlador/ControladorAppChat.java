@@ -82,6 +82,10 @@ public class ControladorAppChat {
 		catalogoUsuarios.actualizarUsuario(u);
 
 	}
+	
+	public void  actualizarCI(ContactoIndividual ci) {
+		adapCI.modificarContactoIndividual(ci);
+	}
 
 	// Registramos un nuevo Contacto Individual y actualizamos el usuario actual.
 	public boolean addContactoIndividual(String nombre, String numero) {
@@ -96,9 +100,12 @@ public class ControladorAppChat {
 			ContactoIndividual ci = new ContactoIndividual(nombre, numero, ciUser);
 			boolean isReg = usuarioActual.addContacto(ci);
 			if (isReg) {
-				adapCI.registrarContactoIndividual(ci);				
+				
+				adapCI.registrarContactoIndividual(ci);
+				
 				catalogoUsuarios.actualizarUsuario(usuarioActual);
 				adapU.modificarUsuario(usuarioActual);
+				
 				return true;
 			}
 		}

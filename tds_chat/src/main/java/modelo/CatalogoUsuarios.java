@@ -80,6 +80,8 @@ public class CatalogoUsuarios {
 		
 	}
 	
+	
+	
 	//Recupera todos los Usuarios para trabajar con ellos en memoria
 	private void cargarCatalogo() throws DAOException{
 		List<Usuario> usuariosDB = adaptUS.recuperarTodosUsuarios();

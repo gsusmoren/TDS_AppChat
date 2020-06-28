@@ -55,6 +55,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		// REGISTRAR PRIMERO LOS ATRIBUTOS QUE SON OBJETOS
 		AdaptadorContactoIndividualTDS adaptCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
 		AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
+		
 		// Devolver contactos viendo el tipo
 		for (Contacto c : u.getContactos()) {
 			if (c instanceof ContactoIndividual) {
@@ -79,7 +80,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				new Propiedad("imagen", u.getImagen()),
 				new Propiedad("saludo",u.getSaludo()),
 				//premium como string
-				new Propiedad("premium", String.valueOf(u.isPremium()))
+				new Propiedad("premium", String.valueOf(u.isPremium())),
+				new Propiedad("contactos", getCodigosContactoInd(u.getContactos())),
+				new Propiedad("grupos", getCodigosGrupos(u.getContactos()))
 				
 				)));
 		
@@ -269,10 +272,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		if (cts == null || cts.equals("")) return conts;
 		
 		StringTokenizer strTok = new StringTokenizer(cts," ");
-		AdaptadorGrupoTDS adapCI = AdaptadorGrupoTDS.getUnicaInstancia();
+		AdaptadorContactoIndividualTDS adapCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
 		
 		while(strTok.hasMoreTokens())
-			conts.add(adapCI.recuperarGrupo(Integer.valueOf((String) strTok.nextElement())));
+			conts.add(adapCI.recuperarContactoIndividual(Integer.valueOf((String) strTok.nextElement())));
 		return conts;
 	}
 	
