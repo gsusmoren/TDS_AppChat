@@ -82,7 +82,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "movil");
 		servPersistencia.anadirPropiedadEntidad(eCIndividual, "movil", c.getMovil());
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "usuario");
-		servPersistencia.anadirPropiedadEntidad(eCIndividual, "usuario", String.valueOf(c.getUsuario()));
+		servPersistencia.anadirPropiedadEntidad(eCIndividual, "usuario", String.valueOf(c.getUsuario().getId()));
 		servPersistencia.eliminarPropiedadEntidad(eCIndividual, "listaMensajes");
 		servPersistencia.anadirPropiedadEntidad(eCIndividual, "listaMensajes", obtenerIdListaMensajes(c.getListaMensajes()));
 	}

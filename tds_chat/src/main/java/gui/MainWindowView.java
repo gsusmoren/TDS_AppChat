@@ -168,11 +168,9 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
-				List<Contacto> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactos();
-				for(Contacto c : cont){
-					if(c instanceof ContactoIndividual){
+				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
+				for(ContactoIndividual c : cont){
 						lista.addElement(c.getNombre());
-					}
 				}
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
