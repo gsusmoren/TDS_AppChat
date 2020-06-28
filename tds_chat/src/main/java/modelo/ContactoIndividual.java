@@ -2,7 +2,7 @@ package modelo;
 
 public class ContactoIndividual extends Contacto {
 	private String movil; 
-	private Usuario u; //usuario asociado al movil
+	private Usuario u; //usuario real asociado al movil
 	
 	public ContactoIndividual(String nombre,String movil) {
 		super(nombre);
@@ -30,6 +30,6 @@ public class ContactoIndividual extends Contacto {
 	public void setUsuario(Usuario u){
 		this.u = u;
 	}
-
+	
 	
 }

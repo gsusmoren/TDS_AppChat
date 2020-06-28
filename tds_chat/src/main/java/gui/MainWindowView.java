@@ -333,8 +333,8 @@ public class MainWindowView extends JFrame {
 				panelV.add(enunciado,BorderLayout.NORTH);
 				
 				
-				JTextField nombreCont = new JTextField(15);
-				JTextField numero = new JTextField(15);
+				final JTextField nombreCont = new JTextField(15);
+				final JTextField numero = new JTextField(15);
 				
 				JPanel panelCent = new JPanel();
 				panelCent.setLayout(new BoxLayout(panelCent, BoxLayout.Y_AXIS));
@@ -355,7 +355,23 @@ public class MainWindowView extends JFrame {
 				
 			
 				
-				
+				aceptar.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+					//TODO usuario no repetido y que exista
+						String nombre = nombreCont.getText().trim();
+						String num = numero.getText().trim();
+						
+						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, Integer.valueOf(num));
+						ventReg.dispose();
+						
+					
+						
+						
+						
+						
+					}
+				});
 				
 				
 				cancelar.addActionListener(new ActionListener() {

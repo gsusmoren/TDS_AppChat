@@ -1,6 +1,5 @@
 package controlador;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import dao.DAOException;
@@ -10,6 +9,7 @@ import dao.IAdaptadorGrupoDAO;
 import dao.IAdaptadorMensajeDAO;
 import dao.IAdaptadorUsuarioDAO;
 import modelo.CatalogoUsuarios;
+import modelo.ContactoIndividual;
 import modelo.Usuario;
 
 public class ControladorAppChat {
@@ -35,8 +35,8 @@ public class ControladorAppChat {
 	}
 
 	// Método para registrar a un usuario en la aplicación
-	public boolean registrarUsuario(String nombre, Date fechaNacimiento, String movil, String email,
-			String contrasena, String nick, String imagen, String saludo) {
+	public boolean registrarUsuario(String nombre, Date fechaNacimiento, String movil, String email, String contrasena,
+			String nick, String imagen, String saludo) {
 		// Comprobar usuarios unicos
 		if (!isUsuarioUnico(movil, nick)) {
 			return false;
@@ -61,26 +61,46 @@ public class ControladorAppChat {
 
 		return usuarioActual;
 	}
-	
-	//Método para logear a un usaurio.....Posibilidad de login con movil
+
+	// Método para logear a un usaurio.....Posibilidad de login con movil
 	public boolean loginUsuario(String login, String passwd) {
 		Usuario usuario = catalogoUsuarios.getUsuario(login);
-		
-		if( usuario != null && usuario.getContrasena().equals(passwd)) {
-			//Establecemos el usuario principal actual al hacer login
+
+		if (usuario != null && usuario.getContrasena().equals(passwd)) {
+			// Establecemos el usuario principal actual al hacer login
 			this.usuarioActual = usuario;
 			return true;
 		}
-		return false;		
+		return false;
 	}
-	
-	//Método para actualizar un usuario pues se han cambiado sus atributos
+
+	// Método para actualizar un usuario pues se han cambiado sus atributos
 	public void actualizarUsuario(Usuario u) {
 		this.adapU.modificarUsuario(u);
 		catalogoUsuarios.actualizarUsuario(u);
-	
+
 	}
-	
+
+	// Registramos un nuevo Contacto Individual y actualizamos el usuario actual.
+	public boolean addContactoIndividual(String nombre, int numero) {
+		/*
+		 * quién crea el contacto individual, el usuario o el controlador. Un contacto
+		 * está asociado a otro usuario. Si lo crea el usuario debería d conocer los
+		 * demás usuarios, eso está mal.
+		 */
+		Usuario ciUser = catalogoUsuarios.getUsuario(numero);
+		ContactoIndividual ci = new ContactoIndividual(nombre, String.valueOf(numero), ciUser);
+		boolean isReg = usuarioActual.addContacto(ci);
+		if (isReg) {
+			adapCI.registrarContactoIndividual(ci);
+			adapU.modificarUsuario(usuarioActual);
+			System.out.println(ci.getNombre() + " usuario agregado ");
+			return true;
+		} else
+			return false;
+
+	}
+
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {

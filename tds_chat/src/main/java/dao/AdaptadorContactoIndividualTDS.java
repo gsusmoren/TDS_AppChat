@@ -125,7 +125,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 		for(Mensaje m : listaMensajes){
 			mensajes += m.getId() + " ";
 		}
-		return mensajes.substring(0, mensajes.length()-1);
+		return mensajes.trim();
 	}
 	
 	private List<Mensaje> obtenerMensajesCodigo(String m){
