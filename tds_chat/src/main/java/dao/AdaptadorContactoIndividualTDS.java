@@ -131,6 +131,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 	private List<Mensaje> obtenerMensajesCodigo(String m){
 		List<Mensaje> mensajes = new LinkedList<Mensaje>();
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
+		if(m==null) return mensajes;
 		StringTokenizer strTok = new StringTokenizer(m, " ");
 		while(strTok.hasMoreTokens()){
 			mensajes.add( aMensaje.recuperarMensaje(
