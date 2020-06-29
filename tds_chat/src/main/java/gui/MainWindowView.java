@@ -19,6 +19,7 @@ import javax.swing.*;
 import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Grupo;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
@@ -154,9 +155,11 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
+				
 				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
 				for(ContactoIndividual c : cont){
-						
+					System.out.println(c.getClass());
+						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
 						lista.addElement(c.getNombre());
 				}
 				final JList<String> l = new JList<String>(lista);
@@ -178,8 +181,9 @@ public class MainWindowView extends JFrame {
 
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
-							OpenedChat o1 = new OpenedChat(icUser, (String) l.getSelectedValue(), "", rPanel);
-
+							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
+							OpenedChat o1 = new OpenedChat(cont, rPanel);
+							
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -289,7 +293,8 @@ public class MainWindowView extends JFrame {
 				bAc.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e) {
-						OpenedChat chatnew=new OpenedChat(icUser, nombre.getText(), "", rPanel);
+						//TODO Adaptar openedChat a grupos
+						OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"), rPanel);
 						botLPanel.add(chatnew);
 						botLPanel.revalidate();
 						botLPanel.repaint();

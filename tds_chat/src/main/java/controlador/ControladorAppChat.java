@@ -105,6 +105,16 @@ public class ControladorAppChat {
 		return false;
 
 	}
+	//Método que devuelve el contacto dado el nick
+	public ContactoIndividual getContactoIndividual(String nick) {
+		
+		ContactoIndividual ci = usuarioActual.getContactoIndividual(nick);
+		if(ci != null) {
+			return ci;
+		}else {
+			return null;
+		}
+	}
 
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;

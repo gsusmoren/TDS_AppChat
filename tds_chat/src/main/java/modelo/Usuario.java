@@ -139,6 +139,15 @@ public class Usuario {
 		this.contactos.add(c);
 		return c;
 	}
+	public ContactoIndividual getContactoIndividual(String nombre) {
+		//TODO Pasar a Stream
+		for(ContactoIndividual c : getContactosIndividuales()) {
+			if(c.getNombre().equals(nombre)) {
+				return c;
+			}
+		}
+		return null;
+	}
 
 	public boolean removeContacto(Contacto c) {
 		// comprobar que ya existe

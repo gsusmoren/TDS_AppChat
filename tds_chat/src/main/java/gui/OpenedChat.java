@@ -24,6 +24,9 @@ import javax.swing.JPanel;
 
 import javax.swing.border.LineBorder;
 
+import modelo.Contacto;
+import modelo.ContactoIndividual;
+
 @SuppressWarnings("serial")
 public class OpenedChat extends JPanel {
 
@@ -33,12 +36,22 @@ public class OpenedChat extends JPanel {
 	private LocalDate lstDate;
 	private String ultMsg;
 	private boolean abierto;
+	private Contacto contacto;
 
-
-	public OpenedChat(ImageIcon ic, String nm,String ult ,final JPanel derPanel) {
-		icono = ic;
-		name = nm;
-		ultMsg = ult;
+	public OpenedChat(Contacto c ,final JPanel derPanel) {
+		
+		if(c instanceof ContactoIndividual) {
+			ContactoIndividual ci = (ContactoIndividual) c;
+			
+			icono = new ImageIcon(ci.getUsuario().getImagen());
+		}else {
+			icono = new ImageIcon("pics/equipo.png");
+		}
+		
+		if(c!=null)
+		name = c.getNombre();
+		//TODO getUltimoMensaje
+		ultMsg = " ";
 		abierto = false;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
@@ -130,10 +143,12 @@ public class OpenedChat extends JPanel {
 	}
 
 	public LocalDate getLstDate() {
+		//TODO fecha del ultiomo mensaje
 		return lstDate;
 	}
 
 	public void setLstDate(LocalDate lstDate) {
+		//TODO fecha ultimo msg
 		this.lstDate = lstDate;
 	}
 
