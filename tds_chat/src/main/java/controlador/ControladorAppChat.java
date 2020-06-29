@@ -12,6 +12,7 @@ import dao.IAdaptadorUsuarioDAO;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Grupo;
 import modelo.Usuario;
 
 public class ControladorAppChat {
@@ -115,7 +116,29 @@ public class ControladorAppChat {
 			return null;
 		}
 	}
-
+	//Método para eliminar contacto individual
+	
+	public boolean eliminarContactoIndividual(ContactoIndividual ci) {
+		adapCI.borrarContactoIdividual(ci);
+		usuarioActual.removeContacto(ci);
+		adapU.modificarUsuario(usuarioActual);
+		return true;
+	}
+	
+	//TODO Método para crear un nuevo grupo.
+	public boolean crearGrupo(String nombre,List<ContactoIndividual> ctcs) {
+		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
+		adapGP.registrarGrupo(grupo);
+		grupo.setAdmin(usuarioActual);
+		adapU.modificarUsuario(usuarioActual);
+		return true;
+		
+	}
+	
+	
+	
+	
+	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {

@@ -139,8 +139,20 @@ public class Usuario {
 		this.contactos.add(c);
 		return c;
 	}
+	
+	public Grupo crearGrupo(String nombre, List<ContactoIndividual> contactos) {
+		Grupo g = new Grupo(nombre);
+		for(ContactoIndividual ci : contactos) {
+			g.addContacto(ci);
+		}
+		return g;
+	}
+	
+	
+	
+	
 	public ContactoIndividual getContactoIndividual(String nombre) {
-		//TODO Pasar a Stream
+		//TODO Stream
 		for(ContactoIndividual c : getContactosIndividuales()) {
 			if(c.getNombre().equals(nombre)) {
 				return c;

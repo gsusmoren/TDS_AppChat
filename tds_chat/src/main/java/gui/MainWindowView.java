@@ -211,13 +211,25 @@ public class MainWindowView extends JFrame {
 		mNuevoGrupo.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				final JDialog grupo = new JDialog();
-				grupo.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y,500, 500);
+				final JDialog grupoD = new JDialog();	
+				grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y,500, 500);
 				final DefaultListModel<String> l1=new DefaultListModel<String>();
+				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
+				for(ContactoIndividual c : cont){
+				
+						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
+						l1.addElement(c.getNombre());
+				}
+				
+				/*
 				l1.addElement("Pepe");
 				l1.addElement("Juan");
 				l1.addElement("Carlos");
 				l1.addElement("Zerpas");
+				*/
+				
+				
+				
 				
 				final JList l=new JList(l1);
 				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -225,7 +237,7 @@ public class MainWindowView extends JFrame {
 				l.setMaximumSize(new Dimension(130, 480));
 				l.setPreferredSize(new Dimension(130, 480));
 				l.setBorder(BorderFactory.createTitledBorder("Contactos"));
-				grupo.getContentPane().add(l,BorderLayout.WEST);
+				grupoD.getContentPane().add(l,BorderLayout.WEST);
 				final DefaultListModel<String> l2=new DefaultListModel<String>();
 				final JList ll=new JList(l2);
 				ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -233,7 +245,7 @@ public class MainWindowView extends JFrame {
 				ll.setMaximumSize(new Dimension(130, 480));
 				ll.setPreferredSize(new Dimension(130, 480));
 				ll.setBorder(BorderFactory.createTitledBorder("Contactos añadidos"));
-				grupo.getContentPane().add(ll,BorderLayout.EAST);
+				grupoD.getContentPane().add(ll,BorderLayout.EAST);
 				
 				JPanel p1=new JPanel();
 				p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
@@ -257,7 +269,7 @@ public class MainWindowView extends JFrame {
 				p1.add(Box.createRigidArea(new Dimension(50, 150)));
 				p1.add(añadir);
 				p1.add(quitar);
-				grupo.getContentPane().add(p1,BorderLayout.CENTER);
+				grupoD.getContentPane().add(p1,BorderLayout.CENTER);
 				
 				JButton bAc=new JButton("Aceptar");
 				JButton bCanc=new JButton("Cancelar");
@@ -265,8 +277,8 @@ public class MainWindowView extends JFrame {
 				bot.setLayout(new FlowLayout());
 				bot.add(bAc);
 				bot.add(bCanc);
-				grupo.add(bot,BorderLayout.SOUTH);
-				grupo.setVisible(true);
+				grupoD.add(bot,BorderLayout.SOUTH);
+				grupoD.setVisible(true);
 				
 				añadir.addActionListener(new ActionListener() {
 					
@@ -295,17 +307,19 @@ public class MainWindowView extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						//TODO Adaptar openedChat a grupos
 						OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"), rPanel);
+						//TODO hacer lista con los contactos seleccionados arriba y usar getContacto(mote)
+						boolean isReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre, ctcs)
 						botLPanel.add(chatnew);
 						botLPanel.revalidate();
 						botLPanel.repaint();
-						grupo.dispose();
+						grupoD.dispose();
 					}
 				});
 				
 				bCanc.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e) {
-						grupo.dispose();
+						grupoD.dispose();
 						
 					}
 				});
