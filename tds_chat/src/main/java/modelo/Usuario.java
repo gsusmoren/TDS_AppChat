@@ -133,7 +133,9 @@ public class Usuario {
 	// Metodos Adicionales
 	public ContactoIndividual addContactoI(String nombre, String movil, Usuario u) {
 		// comprobar si ya existe
+		
 		ContactoIndividual c = new ContactoIndividual(nombre, movil, u);
+		if(this.getContactos().contains(c)) return null;
 		this.contactos.add(c);
 		return c;
 	}

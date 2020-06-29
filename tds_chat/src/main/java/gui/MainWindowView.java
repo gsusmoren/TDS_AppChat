@@ -156,6 +156,7 @@ public class MainWindowView extends JFrame {
 				DefaultListModel<String> lista = new DefaultListModel<String>();
 				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
 				for(ContactoIndividual c : cont){
+						
 						lista.addElement(c.getNombre());
 				}
 				final JList<String> l = new JList<String>(lista);
@@ -313,7 +314,7 @@ public class MainWindowView extends JFrame {
 				final JDialog ventReg = new JDialog(copiaFrame, "Registrar contacto", true);
 				ventReg.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 150);
 				
-				JPanel panelV = new JPanel();
+				final JPanel panelV = new JPanel();
 				
 				JButton aceptar = new JButton("Aceptar");
 				JButton cancelar = new JButton("Cancelar");
@@ -349,8 +350,15 @@ public class MainWindowView extends JFrame {
 					//TODO usuario no repetido y que exista
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
-						ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
-						ventReg.dispose();
+						boolean isReg = ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
+						if(isReg) {
+							JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente","Contacto Añadido",JOptionPane.INFORMATION_MESSAGE);
+							ventReg.dispose();
+						}else {
+							JOptionPane.showMessageDialog(panelV, "Contacto erroneo o repetido","Contacto No Añadido",JOptionPane.ERROR_MESSAGE);
+
+						}
+						
 					}
 				});
 				

@@ -95,6 +95,7 @@ public class ControladorAppChat {
 		if(ciUser!=null){
 			ContactoIndividual cc = usuarioActual.addContactoI(nombre, numero, ciUser);
 			//boolean isReg = usuarioActual.addContacto(ci);
+			if(cc ==null) return false;
 			adapCI.registrarContactoIndividual(cc);				
 			adapU.modificarUsuario(usuarioActual);
 			catalogoUsuarios.actualizarUsuario(usuarioActual);
