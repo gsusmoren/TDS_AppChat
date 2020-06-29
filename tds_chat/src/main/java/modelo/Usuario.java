@@ -1,11 +1,8 @@
 package modelo;
 
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-
 
 public class Usuario {
 	private int id;
@@ -18,13 +15,13 @@ public class Usuario {
 	private String email;
 	private String saludo;
 	private boolean premium;
-	private Descuento descuento; //Propiedad calculada
+	private Descuento descuento; // Propiedad calculada
 	private List<Contacto> contactos;
 
 	// Constructor de Usuario
 
 	public Usuario(String nombre, Date fechaNacimiento, String movil, String email, String contrasena, String nick,
-			String imagen,String saludo) {
+			String imagen, String saludo) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
@@ -32,7 +29,7 @@ public class Usuario {
 		this.email = email;
 		this.contrasena = contrasena;
 		this.nick = nick;
-		this.imagen = imagen; //Cambiada a String con la locali
+		this.imagen = imagen; // Cambiada a String con la locali
 		this.saludo = saludo;
 		this.contactos = new LinkedList<Contacto>();
 		this.premium = false;
@@ -70,10 +67,12 @@ public class Usuario {
 	public String getImagen() {
 		return imagen;
 	}
+
 	public String getSaludo() {
 		return saludo;
 	}
-	public List<Contacto> getContactos(){
+
+	public List<Contacto> getContactos() {
 		return new LinkedList<Contacto>(contactos);
 	}
 
@@ -113,19 +112,29 @@ public class Usuario {
 	public void setPremium(boolean premium) {
 		this.premium = premium;
 	}
+
 	public void setSaludo(String str) {
 		this.saludo = str;
 	}
-	
-	public void addContacto(Contacto c){
+
+	public void addContacto(Contacto c) {
 		contactos.add(c);
 	}
-	
-	public List<ContactoIndividual> getContactosIndividuales(){
+
+	public List<Grupo> getGrupos() {
+		List<Grupo> gl = new LinkedList<Grupo>();
+		for (Contacto c : contactos) {
+			if (c instanceof Grupo)
+				gl.add((Grupo) c);
+		}
+		return gl;
+	}
+
+	public List<ContactoIndividual> getContactosIndividuales() {
 		List<ContactoIndividual> l = new LinkedList<ContactoIndividual>();
-		for(Contacto c : contactos){
-			if(c instanceof ContactoIndividual) 
-				l.add((ContactoIndividual)c);
+		for (Contacto c : contactos) {
+			if (c instanceof ContactoIndividual)
+				l.add((ContactoIndividual) c);
 		}
 		return l;
 	}
@@ -133,30 +142,38 @@ public class Usuario {
 	// Metodos Adicionales
 	public ContactoIndividual addContactoI(String nombre, String movil, Usuario u) {
 		// comprobar si ya existe
-		
+
 		ContactoIndividual c = new ContactoIndividual(nombre, movil, u);
-		if(this.getContactos().contains(c)) return null;
+		if (this.getContactos().contains(c))
+			return null;
 		this.contactos.add(c);
 		return c;
 	}
-	
+
 	public Grupo crearGrupo(String nombre, List<ContactoIndividual> contactos) {
 		Grupo g = new Grupo(nombre);
-		for(ContactoIndividual ci : contactos) {
+		for (ContactoIndividual ci : contactos) {
 			g.addContacto(ci);
 		}
 		return g;
 	}
-	
-	
-	
-	
+
 	public ContactoIndividual getContactoIndividual(String nombre) {
-		//TODO Stream
-		for(ContactoIndividual c : getContactosIndividuales()) {
-			if(c.getNombre().equals(nombre)) {
+		// TODO Stream
+		for (ContactoIndividual c : getContactosIndividuales()) {
+			if (c.getNombre().equals(nombre)) {
 				return c;
 			}
+		}
+		return null;
+	}
+
+	public Grupo getGrupo(String nombre) {
+		for(Grupo g : getGrupos()) {
+			if(g.getNombre().equals(nombre)) {
+				return g;
+			}
+			
 		}
 		return null;
 	}

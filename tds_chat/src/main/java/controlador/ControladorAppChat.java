@@ -58,7 +58,6 @@ public class ControladorAppChat {
 		}
 		return false;
 	}
-	
 
 	public Usuario getUsuarioActual() {
 
@@ -91,54 +90,64 @@ public class ControladorAppChat {
 		 * está asociado a otro usuario. Si lo crea el usuario debería d conocer los
 		 * demás usuarios, eso está mal.
 		 */
-		
+
 		Usuario ciUser = catalogoUsuarios.getUsuarioMovil(numero);
-		if(ciUser!=null){
+		if (ciUser != null) {
 			ContactoIndividual cc = usuarioActual.addContactoI(nombre, numero, ciUser);
-			//boolean isReg = usuarioActual.addContacto(ci);
-			if(cc ==null) return false;
-			adapCI.registrarContactoIndividual(cc);				
+			// boolean isReg = usuarioActual.addContacto(ci);
+			if (cc == null)
+				return false;
+			adapCI.registrarContactoIndividual(cc);
 			adapU.modificarUsuario(usuarioActual);
 			catalogoUsuarios.actualizarUsuario(usuarioActual);
 			return true;
-			
+
 		}
 		return false;
 
 	}
-	//Método que devuelve el contacto dado el nick
+
+	// Método que devuelve el contacto dado el nick
 	public ContactoIndividual getContactoIndividual(String nick) {
-		
+
 		ContactoIndividual ci = usuarioActual.getContactoIndividual(nick);
-		if(ci != null) {
+		if (ci != null) {
 			return ci;
-		}else {
+		} else {
 			return null;
 		}
 	}
-	//Método para eliminar contacto individual
-	
+	// Método para eliminar contacto individual
+
 	public boolean eliminarContactoIndividual(ContactoIndividual ci) {
 		adapCI.borrarContactoIdividual(ci);
 		usuarioActual.removeContacto(ci);
 		adapU.modificarUsuario(usuarioActual);
 		return true;
 	}
-	
-	//TODO Método para crear un nuevo grupo.
-	public boolean crearGrupo(String nombre,List<ContactoIndividual> ctcs) {
+
+	// TODO Método para crear un nuevo grupo.
+	public boolean crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
 		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
 		adapGP.registrarGrupo(grupo);
 		grupo.setAdmin(usuarioActual);
 		adapU.modificarUsuario(usuarioActual);
 		return true;
-		
+
 	}
-	
-	
-	
-	
-	
+
+	// GetGRupo nick
+	public Grupo getGrupo(String nombre) {
+
+		Grupo g = usuarioActual.getGrupo(nombre);
+		if (g != null) {
+			return g;
+		} else {
+			return null;
+		}
+
+	}
+
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {

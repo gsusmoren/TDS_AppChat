@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
@@ -221,14 +222,7 @@ public class MainWindowView extends JFrame {
 						l1.addElement(c.getNombre());
 				}
 				
-				/*
-				l1.addElement("Pepe");
-				l1.addElement("Juan");
-				l1.addElement("Carlos");
-				l1.addElement("Zerpas");
-				*/
-				
-				
+			
 				
 				
 				final JList l=new JList(l1);
@@ -238,6 +232,7 @@ public class MainWindowView extends JFrame {
 				l.setPreferredSize(new Dimension(130, 480));
 				l.setBorder(BorderFactory.createTitledBorder("Contactos"));
 				grupoD.getContentPane().add(l,BorderLayout.WEST);
+				
 				final DefaultListModel<String> l2=new DefaultListModel<String>();
 				final JList ll=new JList(l2);
 				ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -306,9 +301,22 @@ public class MainWindowView extends JFrame {
 					
 					public void actionPerformed(ActionEvent e) {
 						//TODO Adaptar openedChat a grupos
-						OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"), rPanel);
+						
 						//TODO hacer lista con los contactos seleccionados arriba y usar getContacto(mote)
-						boolean isReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre, ctcs)
+						
+						LinkedList<ContactoIndividual> contacs = new LinkedList<ContactoIndividual>();
+						for(int i = 0; i< l2.getSize();i++) {
+							System.out.println(l2.get(i));
+							contacs.add(ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i)));
+							
+						}
+						
+						boolean isReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
+						if(isReg) {
+							//TODO seguir por aquí, tengo sueño 
+							ControladorAppChat.getUnicaInstancia().getGrupo(nombre.getText());
+						}
+						OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"), rPanel);
 						botLPanel.add(chatnew);
 						botLPanel.revalidate();
 						botLPanel.repaint();
