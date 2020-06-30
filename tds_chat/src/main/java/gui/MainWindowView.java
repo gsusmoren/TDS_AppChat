@@ -131,7 +131,7 @@ public class MainWindowView extends JFrame {
 		JMenuItem mCrearContacto = new JMenuItem("Agregar Contacto");
 		JMenuItem mPremium = new JMenuItem("Hazte Premium");
 		JMenuItem mModGrupo = new JMenuItem("Modificar Grupo");
-		JMenuItem mContactos = new JMenuItem("Mostrar Contactos");
+		JMenuItem mContactos = new JMenuItem("Exportar Contactos PDF");
 		JMenuItem mEstadisticas = new JMenuItem("Mostrar Estadísticas");
 		JMenuItem mExit = new JMenuItem("Cerrar Sesion");
 

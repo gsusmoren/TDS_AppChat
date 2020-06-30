@@ -190,7 +190,7 @@ public class ControladorAppChat {
 		return msj;
 	}
 	
-	// GetGRupo nick
+	// GetGRupo nick (NO VA?)
 	
 	public Grupo getGrupo(String nombre) {
 		Grupo g = usuarioActual.getGrupo(nombre);
