@@ -21,7 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -99,8 +101,48 @@ public class SelectedChat extends JPanel {
 		puntos.setAlignmentX(RIGHT_ALIGNMENT);
 		topPanel.add(puntos);
 
-
+		
 		add(topPanel, BorderLayout.NORTH);
+		//Menú para borra mensajes o al Contacto.
+		JPopupMenu menuDots = new JPopupMenu();
+		JMenuItem borrarMsgs = new JMenuItem("Vaciar Conversación");
+		JMenuItem elimCtcto = new JMenuItem("Eliminar Contacto");
+		menuDots.add(borrarMsgs);
+		menuDots.add(elimCtcto);
+		
+		puntos.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					menuDots.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
+		//Ventana para filtrar Mesajes
+		lupaLb.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				JDialog vBuscar = new JDialog();
+				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 500, 500);
+				//TODO Usar diferentes opciones de Filtrado para cada tipo de Contacto
+				//GRUPOS : NOMBRE CTCTO, TEXTO , RANGO FECHA (OPCIONALES)
+				//CI : TEXTO Y RANGO FECHA
+				
+				//FILTROS lista con nombres si es contacto, dos Data choosers, Jtext para el contenido
+				//Boton de buscar que accione el método
+				//JScrollPane para mostrar los mensajes.
+				
+				
+				
+				
+				
+				
+				
+				vBuscar.setVisible(true);
+				
+				
+			}
+		});
+		
+		
 		// barra inferior
 		botPanel = new JPanel();
 		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.X_AXIS));
