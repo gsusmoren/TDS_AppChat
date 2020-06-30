@@ -1,7 +1,21 @@
 package controlador;
 
+import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import dao.AdaptadorContactoIndividualTDS;
 import dao.DAOException;
@@ -11,7 +25,6 @@ import dao.IAdaptadorGrupoDAO;
 import dao.IAdaptadorMensajeDAO;
 import dao.IAdaptadorUsuarioDAO;
 import modelo.CatalogoUsuarios;
-import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
@@ -87,7 +100,7 @@ public class ControladorAppChat {
 
 	// Registramos un nuevo Contacto Individual y actualizamos el usuario actual.
 	public boolean addContactoIndividual(String nombre, String numero) {
-	
+
 		Usuario ciUser = catalogoUsuarios.getUsuarioMovil(numero);
 		if (ciUser != null) {
 			ContactoIndividual cc = usuarioActual.addContactoI(nombre, numero, ciUser);
@@ -114,7 +127,7 @@ public class ControladorAppChat {
 			return null;
 		}
 	}
-	
+
 	// Método para eliminar contacto individual
 
 	public boolean eliminarContactoIndividual(ContactoIndividual ci) {
@@ -124,17 +137,17 @@ public class ControladorAppChat {
 		return true;
 	}
 
-	//  Método para crear un nuevo grupo.
+	// Método para crear un nuevo grupo.
 	public Grupo crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
 		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
-		
-		if(grupo!=null){
+
+		if (grupo != null) {
 			grupo.setAdmin(usuarioActual);
 			adapGP.registrarGrupo(grupo);
 			adapU.modificarUsuario(usuarioActual);
 			catalogoUsuarios.actualizarUsuario(usuarioActual);
-			
-			for(ContactoIndividual ci : ctcs){
+
+			for (ContactoIndividual ci : ctcs) {
 				Usuario u = ci.getUsuario();
 				u.addContacto(grupo);
 				adapU.modificarUsuario(u);
@@ -145,61 +158,112 @@ public class ControladorAppChat {
 		return null;
 
 	}
-	
-	public Mensaje cMensajeGrupo(String m, int e, Grupo g){
+
+	public Mensaje cMensajeGrupo(String m, int e, Grupo g) {
 		Mensaje msj;
-		if(e==-1) msj = new Mensaje(m);
-		else msj = new Mensaje(e);
+		if (e == -1)
+			msj = new Mensaje(m);
+		else
+			msj = new Mensaje(e);
 		msj.setEmisor(usuarioActual);
 		g.addMensaje(msj);
-		
+
 		adapMS.registrarMensaje(msj);
 		adapGP.modificarGrupo(g);
 		return msj;
 	}
-	
-	public Mensaje cMensajeCI(String m, int e, ContactoIndividual c){
+
+	public Mensaje cMensajeCI(String m, int e, ContactoIndividual c) {
 		Mensaje msj;
-		if(e==-1) msj = new Mensaje(m);
-		else msj = new Mensaje(e);
+		if (e == -1)
+			msj = new Mensaje(m);
+		else
+			msj = new Mensaje(e);
 		msj.setEmisor(usuarioActual);
 		c.addMensaje(msj);
-		
+
 		adapMS.registrarMensaje(msj);
 		adapCI.modificarContactoIndividual(c);
-		
-		//Comprobar si c tiene a usuarioActual como contacto
+
+		// Comprobar si c tiene a usuarioActual como contacto
 		ContactoIndividual c2 = null;
-		Usuario u2=c.getUsuario();
-		if(u2.comprobarContacto(usuarioActual)){
+		Usuario u2 = c.getUsuario();
+		if (u2.comprobarContacto(usuarioActual)) {
 			c2 = u2.getContactoIndividual(usuarioActual);
-		}else{
+		} else {
 			c2 = u2.addContactoI(usuarioActual.getMovil(), usuarioActual.getMovil(), usuarioActual);
 			adapCI.registrarContactoIndividual(c2);
 			adapU.modificarUsuario(u2);
 		}
 		Mensaje msj1;
-		if(e==-1) msj1 = new Mensaje(m);
-		else msj1 = new Mensaje(e);
+		if (e == -1)
+			msj1 = new Mensaje(m);
+		else
+			msj1 = new Mensaje(e);
 		msj1.setEmisor(usuarioActual);
 		c2.addMensaje(msj1);
-		
+
 		adapMS.registrarMensaje(msj1);
 		adapU.modificarUsuario(u2);
-		
+
 		return msj;
 	}
-	
+
 	// GetGRupo nick (NO VA?)
-	
 	public Grupo getGrupo(String nombre) {
 		Grupo g = usuarioActual.getGrupo(nombre);
-		
+
 		if (g != null) {
 			return g;
 		} else {
 			return null;
 		}
+	}
+
+	// Método para exportar un PDF con los contactos del usuario
+	public void exportarContactosPDF() throws FileNotFoundException, DocumentException {
+		Document doc = new Document();
+		PdfWriter.getInstance(doc, new FileOutputStream("Contactos_de_" + usuarioActual.getNick() + ".pdf"));
+
+		doc.open();
+
+		Paragraph parrafo = new Paragraph("CONTACTOS DE " + usuarioActual.getNombre().toUpperCase() + "\n",
+				FontFactory.getFont(FontFactory.COURIER, 36, BaseColor.BLACK));
+		parrafo.setAlignment(Chunk.ALIGN_CENTER);
+		doc.add(parrafo);
+
+		try {
+			Image foto = Image.getInstance(usuarioActual.getImagen());
+			foto.scaleToFit(100, 100);
+			foto.setAlignment(Chunk.ALIGN_MIDDLE);
+			doc.add(foto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		parrafo = new Paragraph("Contactos Individuales\n",FontFactory.getFont(FontFactory.COURIER, 26, BaseColor.BLACK));
+		doc.add(parrafo);
+		for (ContactoIndividual ci : usuarioActual.getContactosIndividuales()) {
+			parrafo = new Paragraph("		[Nick: " + ci.getNombre() + "-  Móvil: " + ci.getMovil() + "]\n");
+			doc.add(parrafo);
+		}
+
+		parrafo = new Paragraph("\nGrupos\n",FontFactory.getFont(FontFactory.COURIER, 26, BaseColor.BLACK));
+		doc.add(parrafo);
+
+		for (Grupo g : usuarioActual.getGrupos()) {
+			parrafo = new Paragraph("\n		[Nombre: " + g.getNombre() + "]\n");
+			doc.add(parrafo);
+			parrafo = new Paragraph("			-Participantes:\n");
+			doc.add(parrafo);
+			for (ContactoIndividual ci : g.getContactos()) {
+				parrafo = new Paragraph("			   (Nick: " + ci.getNombre() + "- Móvil: " + ci.getMovil() + ")\n");
+				doc.add(parrafo);
+				
+			}
+		}
+		doc.close();
+
 	}
 
 	private void inicializarAdaptadores() {

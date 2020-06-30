@@ -12,10 +12,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
+
+import com.itextpdf.text.DocumentException;
 
 import controlador.ControladorAppChat;
 import modelo.Contacto;
@@ -417,6 +420,22 @@ public class MainWindowView extends JFrame {
 				ventReg.add(panelV);
 				ventReg.setVisible(true);
 				
+				
+			}
+		});
+		
+		mContactos.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ControladorAppChat.getUnicaInstancia().exportarContactosPDF();
+				} catch (FileNotFoundException | DocumentException e1) {
+					
+					e1.printStackTrace();
+				}
+				
+				JOptionPane.showMessageDialog(contentPane, "Se ha creado un PDF con la información de sus contactos","Exportación Exitosa",JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 		});
