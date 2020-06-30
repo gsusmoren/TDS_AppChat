@@ -165,8 +165,14 @@ public class SelectedChat extends JPanel {
 
 				JPanel conInfPanel = new JPanel();
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
-				JLabel name = new JLabel("Nombre Contacto");
-				JLabel tel = new JLabel("Telf :           ");
+				JLabel name = new JLabel(c.getNombre());
+				JLabel tel;
+				if(c instanceof ContactoIndividual) {
+					tel = new JLabel("Telf: "+ ((ContactoIndividual) c).getMovil());
+				}else {
+					tel = new JLabel("");
+				}
+			
 				JLabel pic = new JLabel(icUInf);
 				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
 				conInfPanel.add(pic);

@@ -107,7 +107,7 @@ public class OpenedChat extends JPanel {
 						
 					}
 										
-					setBackground(Color.BLACK);
+					//setBackground(Color.pink );
 					derPanel.add(chat);
 					derPanel.validate();
 					derPanel.repaint();
