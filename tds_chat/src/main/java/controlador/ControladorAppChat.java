@@ -87,12 +87,7 @@ public class ControladorAppChat {
 
 	// Registramos un nuevo Contacto Individual y actualizamos el usuario actual.
 	public boolean addContactoIndividual(String nombre, String numero) {
-		/*
-		 * quién crea el contacto individual, el usuario o el controlador. Un contacto
-		 * está asociado a otro usuario. Si lo crea el usuario debería d conocer los
-		 * demás usuarios, eso está mal.
-		 */
-
+	
 		Usuario ciUser = catalogoUsuarios.getUsuarioMovil(numero);
 		if (ciUser != null) {
 			ContactoIndividual cc = usuarioActual.addContactoI(nombre, numero, ciUser);
@@ -129,9 +124,10 @@ public class ControladorAppChat {
 		return true;
 	}
 
-	// TODO Método para crear un nuevo grupo.
-	public boolean crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
+	//  Método para crear un nuevo grupo.
+	public Grupo crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
 		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
+		
 		if(grupo!=null){
 			grupo.setAdmin(usuarioActual);
 			adapGP.registrarGrupo(grupo);
@@ -144,9 +140,9 @@ public class ControladorAppChat {
 				adapU.modificarUsuario(u);
 				catalogoUsuarios.actualizarUsuario(u);
 			}
-			return true;
+			return grupo;
 		}
-		return false;
+		return null;
 
 	}
 	
@@ -195,9 +191,10 @@ public class ControladorAppChat {
 	}
 	
 	// GetGRupo nick
+	
 	public Grupo getGrupo(String nombre) {
-
 		Grupo g = usuarioActual.getGrupo(nombre);
+		
 		if (g != null) {
 			return g;
 		} else {

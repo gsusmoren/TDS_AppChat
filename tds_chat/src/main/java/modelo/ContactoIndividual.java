@@ -18,6 +18,10 @@ public class ContactoIndividual extends Contacto {
 	public String getMovil() {
 		return movil;
 	}
+	
+	public String getImagen() {
+		return u.getImagen();
+	}
 	public void setMovil(String movil) {
 		this.movil = movil;
 	}

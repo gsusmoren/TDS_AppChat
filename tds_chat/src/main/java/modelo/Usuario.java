@@ -200,6 +200,7 @@ public class Usuario {
 
 	public Grupo getGrupo(String nombre) {
 		for(Grupo g : getGrupos()) {
+		
 			if(g.getNombre().equals(nombre)) {
 				return g;
 			}

@@ -69,18 +69,36 @@ public class SelectedChat extends JPanel {
 		topPanel.setBackground(Color.CYAN);
 
 		// get imagen del usuario abierto y su nombre y su info
-		final ImageIcon icUInf = new ImageIcon("pics/inhigo.jpg");
-		contactInfo = new JButton("Iñigo Errejón", icUInf);
+		final ImageIcon icUInf ;
+		if(c instanceof ContactoIndividual) {
+			ContactoIndividual ci = (ContactoIndividual) c;
+			 ImageIcon icUInfCOP = new ImageIcon(ci.getImagen());
+			 icUInf = icUInfCOP;
+		}else {
+			 ImageIcon icUInfCOP = new ImageIcon("pics/equipo.png");
+			 icUInf = icUInfCOP;
+			
+			
+		}
+		
+		contactInfo = new JButton(c.getNombre(), icUInf);
+		contactInfo.setMaximumSize(new Dimension(200, 60));
+		contactInfo.setSize(200, 60);
+		contactInfo.setPreferredSize(new Dimension(200, 60));
 		ImageIcon icSearch = new ImageIcon("pics/magnifying-glass.png");
 		ImageIcon icDots = new ImageIcon("pics/menu.png");
 		JLabel lupaLb = new JLabel(icSearch);
 		JLabel puntos = new JLabel(icDots);
 
 		topPanel.add(Box.createRigidArea(new Dimension(20, 60)));
+		contactInfo.setAlignmentX(LEFT_ALIGNMENT);
 		topPanel.add(contactInfo);
 		topPanel.add(Box.createRigidArea(new Dimension(410, 60)));
+		lupaLb.setAlignmentX(RIGHT_ALIGNMENT);
 		topPanel.add(lupaLb);
+		puntos.setAlignmentX(RIGHT_ALIGNMENT);
 		topPanel.add(puntos);
+
 
 		add(topPanel, BorderLayout.NORTH);
 		// barra inferior

@@ -163,7 +163,7 @@ public class MainWindowView extends JFrame {
 				
 				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
 				for(ContactoIndividual c : cont){
-					System.out.println(c.getClass());
+				
 						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
 						lista.addElement(c.getNombre());
 				}
@@ -313,7 +313,7 @@ public class MainWindowView extends JFrame {
 						LinkedList<ContactoIndividual> contacs = new LinkedList<ContactoIndividual>();
 						ContactoIndividual ci;
 						for(int i = 0; i< l2.getSize();i++) {
-							System.out.println(l2.get(i));
+						
 							ci = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i));
 							if(ci!=null) contacs.add(ci);
 						}
@@ -323,11 +323,12 @@ public class MainWindowView extends JFrame {
 							return;
 						}
 						
-						boolean isReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
-						if(isReg) {
-							//TODO seguir por aquí, tengo sueño 
-							ControladorAppChat.getUnicaInstancia().getGrupo(nombre.getText());
-							OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"),"" ,rPanel);
+						
+						Grupo grupoReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
+						
+						if(grupoReg!=null) {
+								
+							OpenedChat chatnew=new OpenedChat(grupoReg,""  ,rPanel);
 							botLPanel.add(chatnew);
 							botLPanel.revalidate();
 							botLPanel.repaint();

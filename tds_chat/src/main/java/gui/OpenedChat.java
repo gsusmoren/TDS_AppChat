@@ -46,8 +46,9 @@ public class OpenedChat extends JPanel {
 		}else {
 			icono = new ImageIcon("pics/equipo.png");
 		}
-		
+		this.contacto = c;
 		if(c!=null) name = c.getNombre();
+		
 		//TODO getUltimoMensaje
 		ultMsg = ultimo;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -87,7 +88,7 @@ public class OpenedChat extends JPanel {
 		last.setPreferredSize(new Dimension(200, 20));
 		pRightBot.add(last);
 		//El chat desplegado que se abrirá en la derecha
-		chat = new SelectedChat((ContactoIndividual)contacto);
+		chat = new SelectedChat(contacto);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
