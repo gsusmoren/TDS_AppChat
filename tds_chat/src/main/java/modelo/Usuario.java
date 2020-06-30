@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Usuario {
 	private int id;
 	private String nombre;
@@ -117,8 +118,12 @@ public class Usuario {
 		this.saludo = str;
 	}
 
-	public void addContacto(Contacto c) {
-		contactos.add(c);
+	public boolean addContacto(Contacto c) {
+		if(!contactos.contains(c)){
+			contactos.add(c);
+			return true;
+		}
+		return false;
 	}
 
 	public List<Grupo> getGrupos() {
@@ -129,7 +134,17 @@ public class Usuario {
 		}
 		return gl;
 	}
-
+	
+	public boolean comprobarContacto(Usuario u){
+		for(Contacto c : contactos){
+			if(c instanceof ContactoIndividual){
+				if(((ContactoIndividual) c).getUsuario().movil.equals(u.getMovil()))
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	public List<ContactoIndividual> getContactosIndividuales() {
 		List<ContactoIndividual> l = new LinkedList<ContactoIndividual>();
 		for (Contacto c : contactos) {
@@ -151,6 +166,11 @@ public class Usuario {
 	}
 
 	public Grupo crearGrupo(String nombre, List<ContactoIndividual> contactos) {
+		List<Grupo> l = getGrupos();
+		for(Grupo g1 : l){
+			if(g1.getNombre().equals(nombre)) 
+				return null;
+		}
 		Grupo g = new Grupo(nombre);
 		for (ContactoIndividual ci : contactos) {
 			g.addContacto(ci);
@@ -162,6 +182,16 @@ public class Usuario {
 		// TODO Stream
 		for (ContactoIndividual c : getContactosIndividuales()) {
 			if (c.getNombre().equals(nombre)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public ContactoIndividual getContactoIndividual(Usuario u) {
+		// TODO Stream
+		for (ContactoIndividual c : getContactosIndividuales()) {
+			if (c.getUsuario().getMovil().equals(u.getMovil())) {
 				return c;
 			}
 		}

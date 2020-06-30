@@ -245,6 +245,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		return cadena.trim();
 	}
 	
+	
+	
 	//Obtener Grupo desde Codigos
 	private List<Contacto> obtenerGruposDesdeCodigos(String gps){
 		List<Contacto> grupos = new LinkedList<Contacto>()	;
@@ -275,6 +277,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			conts.add(adapCI.recuperarContactoIndividual(Integer.valueOf((String) strTok.nextElement())));
 		return conts;
 	}
+	
+	
 	
 
 }

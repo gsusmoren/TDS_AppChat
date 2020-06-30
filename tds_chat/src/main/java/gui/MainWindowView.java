@@ -21,12 +21,14 @@ import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
+import modelo.Mensaje;
+import modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
 	private JPanel contentPane = new JPanel();
-	
+	final JPanel rPanel;
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
@@ -38,7 +40,7 @@ public class MainWindowView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Panel de la derecha
 		
-		final JPanel rPanel = new JPanel();
+		rPanel = new JPanel();
 		rPanel.setBackground(Color.gray);
 		
 		
@@ -149,6 +151,8 @@ public class MainWindowView extends JFrame {
 				}
 			}
 		});
+		
+		chatsRecientes();
 
 		mNuevoChat.addActionListener(new ActionListener() {
 
@@ -183,8 +187,7 @@ public class MainWindowView extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
 							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
-							OpenedChat o1 = new OpenedChat(cont, rPanel);
-							
+							OpenedChat o1 = new OpenedChat(cont,"", rPanel);
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -217,7 +220,6 @@ public class MainWindowView extends JFrame {
 				final DefaultListModel<String> l1=new DefaultListModel<String>();
 				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
 				for(ContactoIndividual c : cont){
-				
 						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
 						l1.addElement(c.getNombre());
 				}
@@ -303,24 +305,35 @@ public class MainWindowView extends JFrame {
 						//TODO Adaptar openedChat a grupos
 						
 						//TODO hacer lista con los contactos seleccionados arriba y usar getContacto(mote)
+						if(nombre.getText().equals("")){
+							JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo","Error nombre grupo",JOptionPane.ERROR_MESSAGE);
+							return;
+						}
 						
 						LinkedList<ContactoIndividual> contacs = new LinkedList<ContactoIndividual>();
+						ContactoIndividual ci;
 						for(int i = 0; i< l2.getSize();i++) {
 							System.out.println(l2.get(i));
-							contacs.add(ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i)));
-							
+							ci = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i));
+							if(ci!=null) contacs.add(ci);
+						}
+						
+						if(contacs.size()<1){
+							JOptionPane.showMessageDialog(grupoD, "Se debe añadir al menos 1 persona al grupo","Error numero de usuarios",JOptionPane.ERROR_MESSAGE);
+							return;
 						}
 						
 						boolean isReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
 						if(isReg) {
 							//TODO seguir por aquí, tengo sueño 
 							ControladorAppChat.getUnicaInstancia().getGrupo(nombre.getText());
+							OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"),"" ,rPanel);
+							botLPanel.add(chatnew);
+							botLPanel.revalidate();
+							botLPanel.repaint();
+							grupoD.dispose();
 						}
-						OpenedChat chatnew=new OpenedChat(new Grupo("los kakis"), rPanel);
-						botLPanel.add(chatnew);
-						botLPanel.revalidate();
-						botLPanel.repaint();
-						grupoD.dispose();
+						
 					}
 				});
 				
@@ -585,6 +598,30 @@ public class MainWindowView extends JFrame {
 
 	}
 	
+	public void chatsRecientes(){
+		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+		
+		List<Contacto> c = u.getContactos(); 
+		List<OpenedChat> chats = new LinkedList<OpenedChat>();
+		
+		for(int i=0;i<c.size();i++){
+			String mensaje="";
+			List<Mensaje> mnjs = c.get(i).getListaMensajes();
+			
+			if(!mnjs.isEmpty()){
+				Mensaje ult = mnjs.get(mnjs.size()-1);
+				
+				if(ult.getEmoji()==-1){
+					mensaje=ult.getTexto();
+				}else
+					mensaje="Emoji";
+			}
+			OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
+			chats.add(o);
+		}
+		
+		
+	}
 	
 
 	public void mostrarVentana1() {

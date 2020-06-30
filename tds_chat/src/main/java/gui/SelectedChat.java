@@ -12,6 +12,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,6 +26,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import controlador.ControladorAppChat;
+import dao.AdaptadorContactoIndividualTDS;
+import modelo.Contacto;
+import modelo.ContactoIndividual;
+import modelo.Grupo;
+import modelo.Mensaje;
+import modelo.Usuario;
 import tds.BubbleText;
 
 /**
@@ -43,8 +51,9 @@ public class SelectedChat extends JPanel {
 	private JButton emoBt;
 	private JButton sendBt;
 	private JButton contactInfo;
+	private Contacto c;
 
-	public SelectedChat() {
+	public SelectedChat(Contacto contacto) {
 
 		setLayout(new BorderLayout());
 		// setSize(750, 700);
@@ -53,7 +62,7 @@ public class SelectedChat extends JPanel {
 		setMinimumSize(new Dimension(750, 700));
 		setBackground(Color.green);
 		// topPanel
-
+		c=contacto;
 		topPanel = new JPanel();
 		topPanel.setPreferredSize(new Dimension(550, 70));
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
@@ -109,11 +118,22 @@ public class SelectedChat extends JPanel {
 		jsCh.setMaximumSize(new Dimension(600, 545));
 		jsCh.setMinimumSize(new Dimension(600, 545));
 		
-
+		
 		add(jsCh,BorderLayout.CENTER);
 
-	
-
+		/*
+		List<Mensaje> msj = c.getListaMensajes();
+		if(msj!=null){
+			if(c instanceof ContactoIndividual){
+				for(Mensaje m : msj){
+					addMensajeCI(m.getTexto(), m.getEmoji(), m.getEmisor());
+				}
+			}else
+				for(Mensaje m : msj){
+					addMensajeG(m.getTexto(), m.getEmoji(), m.getEmisor());
+				}
+		}
+		*/
 		// Informacion del contacto
 
 		contactInfo.addActionListener(new ActionListener() {
@@ -148,6 +168,7 @@ public class SelectedChat extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
+					//enviarMensaje(msgT.getText());
 					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, "JUANPABLO",
 							BubbleText.SENT);
 					midPanel.add(borboja);
@@ -216,6 +237,53 @@ public class SelectedChat extends JPanel {
 
 		});
 
+	}
+	
+	private void addMensajeCI(String m, int e, Usuario u){
+		Usuario uc = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+		BubbleText b = null;
+		if(u.equals(uc)){
+			if(e==-1){
+				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
+			}else
+				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
+		}else{
+			if(e==-1){
+				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
+			}else
+				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
+		}
+		midPanel.add(b);
+	}
+	
+	private void addMensajeG(String m, int e, Usuario u){
+		Usuario uc = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+		BubbleText b = null;
+		if(u.equals(uc)){
+			if(e==-1){
+				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
+			}else
+				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
+		}else{
+			String nombre;
+			//if(ControladorAppChat.getUnicaInstancia().)
+		
+		}
+		midPanel.add(b);
+	}
+	
+	public void enviarMensaje(String m){
+		if (c instanceof ContactoIndividual)
+			ControladorAppChat.getUnicaInstancia().cMensajeCI(m,-1,(ContactoIndividual)c);
+		else
+			ControladorAppChat.getUnicaInstancia().cMensajeGrupo(m, -1, (Grupo)c);
+	}
+	
+	public void enviarMensaje(int e){
+		if(c instanceof ContactoIndividual)
+			ControladorAppChat.getUnicaInstancia().cMensajeCI("", e, (ContactoIndividual)c);
+		else
+			ControladorAppChat.getUnicaInstancia().cMensajeGrupo("", e, (Grupo)c);
 	}
 
 }

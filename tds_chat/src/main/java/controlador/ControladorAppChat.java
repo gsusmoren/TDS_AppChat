@@ -3,6 +3,7 @@ package controlador;
 import java.util.Date;
 import java.util.List;
 
+import dao.AdaptadorContactoIndividualTDS;
 import dao.DAOException;
 import dao.FactoriaDAO;
 import dao.IAdaptadorContactoInidivualDAO;
@@ -13,6 +14,7 @@ import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
+import modelo.Mensaje;
 import modelo.Usuario;
 
 public class ControladorAppChat {
@@ -117,6 +119,7 @@ public class ControladorAppChat {
 			return null;
 		}
 	}
+	
 	// Método para eliminar contacto individual
 
 	public boolean eliminarContactoIndividual(ContactoIndividual ci) {
@@ -129,13 +132,68 @@ public class ControladorAppChat {
 	// TODO Método para crear un nuevo grupo.
 	public boolean crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
 		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
-		adapGP.registrarGrupo(grupo);
-		grupo.setAdmin(usuarioActual);
-		adapU.modificarUsuario(usuarioActual);
-		return true;
+		if(grupo!=null){
+			grupo.setAdmin(usuarioActual);
+			adapGP.registrarGrupo(grupo);
+			adapU.modificarUsuario(usuarioActual);
+			catalogoUsuarios.actualizarUsuario(usuarioActual);
+			
+			for(ContactoIndividual ci : ctcs){
+				Usuario u = ci.getUsuario();
+				u.addContacto(grupo);
+				adapU.modificarUsuario(u);
+				catalogoUsuarios.actualizarUsuario(u);
+			}
+			return true;
+		}
+		return false;
 
 	}
-
+	
+	public Mensaje cMensajeGrupo(String m, int e, Grupo g){
+		Mensaje msj;
+		if(e==-1) msj = new Mensaje(m);
+		else msj = new Mensaje(e);
+		msj.setEmisor(usuarioActual);
+		g.addMensaje(msj);
+		
+		adapMS.registrarMensaje(msj);
+		adapGP.modificarGrupo(g);
+		return msj;
+	}
+	
+	public Mensaje cMensajeCI(String m, int e, ContactoIndividual c){
+		Mensaje msj;
+		if(e==-1) msj = new Mensaje(m);
+		else msj = new Mensaje(e);
+		msj.setEmisor(usuarioActual);
+		c.addMensaje(msj);
+		
+		adapMS.registrarMensaje(msj);
+		adapCI.modificarContactoIndividual(c);
+		
+		//Comprobar si c tiene a usuarioActual como contacto
+		ContactoIndividual c2 = null;
+		Usuario u2=c.getUsuario();
+		if(u2.comprobarContacto(usuarioActual)){
+			c2 = u2.getContactoIndividual(usuarioActual);
+		}else{
+			c2 = u2.addContactoI(usuarioActual.getMovil(), usuarioActual.getMovil(), usuarioActual);
+			adapCI.registrarContactoIndividual(c2);
+			adapU.modificarUsuario(u2);
+		}
+		Mensaje msj1;
+		if(e==-1) msj1 = new Mensaje(m);
+		else msj1 = new Mensaje(e);
+		msj1.setEmisor(usuarioActual);
+		c2.addMensaje(msj1);
+		
+		adapMS.registrarMensaje(msj1);
+		adapU.modificarUsuario(u2);
+		
+		return msj;
+	}
+	
 	// GetGRupo nick
 	public Grupo getGrupo(String nombre) {
 
@@ -145,7 +203,6 @@ public class ControladorAppChat {
 		} else {
 			return null;
 		}
-
 	}
 
 	private void inicializarAdaptadores() {
