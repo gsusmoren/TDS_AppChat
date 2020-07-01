@@ -109,7 +109,7 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 
 		// OBTENER LOS MENSAJES E INTRODUCIRLOS EN EL CONTACTO INDIVIDUAL
 		List<Mensaje> mens = obtenerMensajesCodigo(
-				servPersistencia.recuperarPropiedadEntidad(eCIndividual, "mensajes"));
+				servPersistencia.recuperarPropiedadEntidad(eCIndividual, "listaMensajes"));
 		contact.setListaMensajes(mens);
 
 		return contact;
@@ -139,7 +139,6 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 			return mensajes;
 
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
-		if(m==null) return mensajes;
 		StringTokenizer strTok = new StringTokenizer(m, " ");
 		while (strTok.hasMoreTokens()) {
 			mensajes.add(aMensaje.recuperarMensaje(Integer.valueOf((String) strTok.nextElement())));

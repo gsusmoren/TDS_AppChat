@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.persistence.internal.sessions.factories.model.platform.NetWeaver_7_1_PlatformConfig;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -25,6 +27,7 @@ import dao.IAdaptadorGrupoDAO;
 import dao.IAdaptadorMensajeDAO;
 import dao.IAdaptadorUsuarioDAO;
 import modelo.CatalogoUsuarios;
+import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
@@ -104,7 +107,6 @@ public class ControladorAppChat {
 		Usuario ciUser = catalogoUsuarios.getUsuarioMovil(numero);
 		if (ciUser != null) {
 			ContactoIndividual cc = usuarioActual.addContactoI(nombre, numero, ciUser);
-			// boolean isReg = usuarioActual.addContacto(ci);
 			if (cc == null)
 				return false;
 			adapCI.registrarContactoIndividual(cc);
@@ -114,7 +116,24 @@ public class ControladorAppChat {
 
 		}
 		return false;
-
+	}
+	
+	public boolean addContactoIndividual(String login, Contacto c){
+		Usuario u = catalogoUsuarios.getUsuarioNick(login);
+		
+		if (u.addContacto(c)){
+			if(c instanceof ContactoIndividual){
+				ContactoIndividual ci = (ContactoIndividual)c;
+				adapCI.registrarContactoIndividual(ci);
+			}else{
+				Grupo g = (Grupo)c;
+				adapGP.registrarGrupo(g);
+		}
+			adapU.modificarUsuario(u);
+			catalogoUsuarios.actualizarUsuario(u);
+			return true;
+		}
+		return false;
 	}
 
 	// Método que devuelve el contacto dado el nick
@@ -159,54 +178,65 @@ public class ControladorAppChat {
 
 	}
 
-	public Mensaje cMensajeGrupo(String m, int e, Grupo g) {
-		Mensaje msj;
-		if (e == -1)
-			msj = new Mensaje(m);
-		else
-			msj = new Mensaje(e);
-		msj.setEmisor(usuarioActual);
-		g.addMensaje(msj);
-
-		adapMS.registrarMensaje(msj);
-		adapGP.modificarGrupo(g);
-		return msj;
+	public void cMensajeEmoji(int e, Contacto c) {
+		Mensaje m = new Mensaje(e);
+		m.setEmisor(usuarioActual);
+		m.setReceptor(c);
+		
+		if(c instanceof ContactoIndividual){
+			Usuario r=((ContactoIndividual) c).getUsuario();
+			
+			ContactoIndividual ci = null;
+			//Comprobamos 
+			if(!r.comprobarContacto(usuarioActual)){
+				ci = new ContactoIndividual(usuarioActual.getMovil(), usuarioActual.getMovil(), usuarioActual);
+				addContactoIndividual(r.getNick(), ci);
+			}else{
+				ci = r.getContactoIndividual(usuarioActual);
+			}
+			
+			c.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapCI.modificarContactoIndividual((ContactoIndividual)c);
+			ci.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapCI.modificarContactoIndividual(ci);
+		}else{
+			Grupo g = (Grupo)c;
+			g.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapGP.modificarGrupo(g);
+		}
 	}
 
-	public Mensaje cMensajeCI(String m, int e, ContactoIndividual c) {
-		Mensaje msj;
-		if (e == -1)
-			msj = new Mensaje(m);
-		else
-			msj = new Mensaje(e);
-		msj.setEmisor(usuarioActual);
-		c.addMensaje(msj);
-
-		adapMS.registrarMensaje(msj);
-		adapCI.modificarContactoIndividual(c);
-
-		// Comprobar si c tiene a usuarioActual como contacto
-		ContactoIndividual c2 = null;
-		Usuario u2 = c.getUsuario();
-		if (u2.comprobarContacto(usuarioActual)) {
-			c2 = u2.getContactoIndividual(usuarioActual);
-		} else {
-			c2 = u2.addContactoI(usuarioActual.getMovil(), usuarioActual.getMovil(), usuarioActual);
-			adapCI.registrarContactoIndividual(c2);
-			adapU.modificarUsuario(u2);
+	public void cMensajeTexto(String t, Contacto c) {
+		Mensaje m = new Mensaje(t);
+		m.setEmisor(usuarioActual);
+		m.setReceptor(c);
+		
+		if(c instanceof ContactoIndividual){
+			Usuario r=((ContactoIndividual) c).getUsuario();
+			
+			ContactoIndividual ci = null;
+			if(!r.comprobarContacto(usuarioActual)){
+				ci = new ContactoIndividual(usuarioActual.getMovil(), usuarioActual.getMovil(), usuarioActual);
+				addContactoIndividual(r.getNick(), ci);
+			}else{
+				ci = r.getContactoIndividual(usuarioActual);
+			}
+			
+			c.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapCI.modificarContactoIndividual((ContactoIndividual)c);
+			ci.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapCI.modificarContactoIndividual(ci);
+		}else{
+			Grupo g = (Grupo)c;
+			g.addMensaje(m);
+			adapMS.registrarMensaje(m);
+			adapGP.modificarGrupo(g);
 		}
-		Mensaje msj1;
-		if (e == -1)
-			msj1 = new Mensaje(m);
-		else
-			msj1 = new Mensaje(e);
-		msj1.setEmisor(usuarioActual);
-		c2.addMensaje(msj1);
-
-		adapMS.registrarMensaje(msj1);
-		adapU.modificarUsuario(u2);
-
-		return msj;
 	}
 
 	// GetGRupo nick (NO VA?)

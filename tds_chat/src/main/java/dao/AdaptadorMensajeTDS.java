@@ -1,6 +1,5 @@
 package dao;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +20,6 @@ import tds.driver.ServicioPersistencia;
 public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 
 	private static ServicioPersistencia servPersistencia;
-	private SimpleDateFormat hourFormat;
 
 	private static AdaptadorMensajeTDS unicaInstancia = null;
 
@@ -34,7 +32,7 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 
 	private AdaptadorMensajeTDS() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
-		hourFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+		//hourFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 	}
 
 	public void registrarMensaje(Mensaje m) {
@@ -63,21 +61,19 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 			adapGP.registrarGrupo(gr);
 
 		}
-		//Guardar el tiepo de contacto?
-		// Registrar Usuario emisor
+		
 		AdaptadorUsuarioTDS adapU = AdaptadorUsuarioTDS.getUnicaInstancia();
 		adapU.registrarUsuario(m.getEmisor());
 
 		eMensaje = new Entidad();
 		eMensaje.setNombre("Mensaje");
 		eMensaje.setPropiedades(
-				new ArrayList<Propiedad>(Arrays.asList(
-						
-				new Propiedad("texto", m.getTexto()),
-				new Propiedad("hora", hourFormat.format(m.getHora())),
-				new Propiedad("emoji", String.valueOf(m.getEmoji())),
-				new Propiedad("emidor",String.valueOf(m.getEmisor().getId())),
-				new Propiedad("receptor",String.valueOf(m.getReceptor().getId())))));
+				new ArrayList<Propiedad>(Arrays.asList(			
+					new Propiedad("texto", m.getTexto()),
+					new Propiedad("hora", m.getHora().toString()),
+					new Propiedad("emoji", String.valueOf(m.getEmoji())),
+					new Propiedad("emisor",String.valueOf(m.getEmisor().getId())),
+					new Propiedad("receptor",String.valueOf(m.getReceptor().getId())))));
 
 		// Registrar Entidad Mensaje
 		eMensaje = servPersistencia.registrarEntidad(eMensaje);
@@ -105,6 +101,9 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 
 	public Mensaje recuperarMensaje(int cod) {
 		
+		if(PoolDAO.getUnicaInstancia().contiene(cod))
+			return (Mensaje) PoolDAO.getUnicaInstancia().getObjeto(cod);
+		
 		Entidad eMensaje;
 		String texto;
 		LocalDateTime hora;
@@ -122,21 +121,24 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 		} else {
 			mensaje = new Mensaje(emoji);
 		}
+		mensaje.setHora(hora);
+		mensaje.setId(cod);
 		//Añadir al Pool para evitar bucles por bidireccionalidad J
 		PoolDAO.getUnicaInstancia().addObjeto(cod, mensaje);
-		
 		//Establecer Emisor y Receptor	J
+		
 		AdaptadorUsuarioTDS adapU = AdaptadorUsuarioTDS.getUnicaInstancia();
-		Usuario u = adapU.recuperarUsuario(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje,"emisor")));
+		String s = servPersistencia.recuperarPropiedadEntidad(eMensaje,"emisor");
+		Usuario u = adapU.recuperarUsuario(Integer.parseInt(s));
 		mensaje.setEmisor(u);
 		
 		int idReceptor = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje,"receptor"));
-		
-		if(servPersistencia.recuperarEntidad(idReceptor).getNombre().equals("Grupo")) {
+
+		if(servPersistencia.recuperarEntidad(idReceptor).getNombre().equals("grupo")) {
 			AdaptadorGrupoTDS adapGP = AdaptadorGrupoTDS.getUnicaInstancia();
 			Grupo gReceptor = adapGP.recuperarGrupo(idReceptor) ;
 			mensaje.setReceptor(gReceptor);
-		}else {
+		}else if(servPersistencia.recuperarEntidad(idReceptor).getNombre().equals("ContactoIndividual")){
 			//Es un Contacto Indidual, no un Grupo
 			AdaptadorContactoIndividualTDS adapCI = AdaptadorContactoIndividualTDS.getUnicaInstancia();
 			ContactoIndividual ci = adapCI.recuperarContactoIndividual(idReceptor);
@@ -146,8 +148,7 @@ public class AdaptadorMensajeTDS implements IAdaptadorMensajeDAO {
 		
 		// hay que poner la hora anterior, no la nueva, que se crea con la creacion de
 		// cualquier mensaje
-		mensaje.setHora(hora);
-		mensaje.setId(cod);
+		//mensaje.setHora(hora);
 		
 		return mensaje;
 
