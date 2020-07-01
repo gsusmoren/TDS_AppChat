@@ -5,14 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,14 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import controlador.ControladorAppChat;
-import dao.AdaptadorContactoIndividualTDS;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
-import modelo.Mensaje;
 import modelo.Usuario;
 import tds.BubbleText;
 
@@ -64,25 +59,24 @@ public class SelectedChat extends JPanel {
 		setMinimumSize(new Dimension(750, 700));
 		setBackground(Color.green);
 		// topPanel
-		c=contacto;
+		c = contacto;
 		topPanel = new JPanel();
 		topPanel.setPreferredSize(new Dimension(550, 70));
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 		topPanel.setBackground(Color.CYAN);
 
 		// get imagen del usuario abierto y su nombre y su info
-		final ImageIcon icUInf ;
-		if(c instanceof ContactoIndividual) {
+		final ImageIcon icUInf;
+		if (c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
-			 ImageIcon icUInfCOP = new ImageIcon(ci.getImagen());
-			 icUInf = icUInfCOP;
-		}else {
-			 ImageIcon icUInfCOP = new ImageIcon("pics/equipo.png");
-			 icUInf = icUInfCOP;
-			
-			
+			ImageIcon icUInfCOP = new ImageIcon(ci.getImagen());
+			icUInf = icUInfCOP;
+		} else {
+			ImageIcon icUInfCOP = new ImageIcon("pics/equipo.png");
+			icUInf = icUInfCOP;
+
 		}
-		
+
 		contactInfo = new JButton(c.getNombre(), icUInf);
 		contactInfo.setMaximumSize(new Dimension(200, 60));
 		contactInfo.setSize(200, 60);
@@ -101,15 +95,14 @@ public class SelectedChat extends JPanel {
 		puntos.setAlignmentX(RIGHT_ALIGNMENT);
 		topPanel.add(puntos);
 
-		
 		add(topPanel, BorderLayout.NORTH);
-		//Menú para borra mensajes o al Contacto.
+		// Menú para borra mensajes o al Contacto.
 		JPopupMenu menuDots = new JPopupMenu();
 		JMenuItem borrarMsgs = new JMenuItem("Vaciar Conversación");
 		JMenuItem elimCtcto = new JMenuItem("Eliminar Contacto");
 		menuDots.add(borrarMsgs);
 		menuDots.add(elimCtcto);
-		
+
 		puntos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
@@ -117,32 +110,21 @@ public class SelectedChat extends JPanel {
 				}
 			}
 		});
-		//Ventana para filtrar Mesajes
+		// Ventana para filtrar Mesajes
 		lupaLb.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				JDialog vBuscar = new JDialog();
-				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 500, 500);
-				//TODO Usar diferentes opciones de Filtrado para cada tipo de Contacto
-				//GRUPOS : NOMBRE CTCTO, TEXTO , RANGO FECHA (OPCIONALES)
-				//CI : TEXTO Y RANGO FECHA
-				
-				//FILTROS lista con nombres si es contacto, dos Data choosers, Jtext para el contenido
-				//Boton de buscar que accione el método
-				//JScrollPane para mostrar los mensajes.
-				
-				
-				
-				
-				
-				
-				
-				vBuscar.setVisible(true);
-				
-				
+
+				JDialog vBuscar;
+				if (c instanceof ContactoIndividual) {
+					vBuscar = new FiltroMensajesCI((ContactoIndividual) c);
+				} else {
+					vBuscar = new FiltroMensajesGP((Grupo) c);
+				}
+				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);
+
 			}
 		});
-		
-		
+
 		// barra inferior
 		botPanel = new JPanel();
 		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.X_AXIS));
@@ -161,39 +143,30 @@ public class SelectedChat extends JPanel {
 		ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
 		sendBt = new JButton(icSend);
 		botPanel.add(sendBt);
-		add(botPanel,BorderLayout.SOUTH);
+		add(botPanel, BorderLayout.SOUTH);
 
 		midPanel = new JPanel();
-		
 
 		midPanel.setBackground(Color.GRAY);
-		//add(midPanel,BorderLayout.CENTER);
+		// add(midPanel,BorderLayout.CENTER);
 
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-		
+
 		final JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsCh.setPreferredSize(new Dimension(600, 545));
 		jsCh.setSize(new Dimension(600, 545));
 		jsCh.setMaximumSize(new Dimension(600, 545));
 		jsCh.setMinimumSize(new Dimension(600, 545));
-		
-		
-		add(jsCh,BorderLayout.CENTER);
+
+		add(jsCh, BorderLayout.CENTER);
 
 		/*
-		List<Mensaje> msj = c.getListaMensajes();
-		if(msj!=null){
-			if(c instanceof ContactoIndividual){
-				for(Mensaje m : msj){
-					addMensajeCI(m.getTexto(), m.getEmoji(), m.getEmisor());
-				}
-			}else
-				for(Mensaje m : msj){
-					addMensajeG(m.getTexto(), m.getEmoji(), m.getEmisor());
-				}
-		}
-		*/
+		 * List<Mensaje> msj = c.getListaMensajes(); if(msj!=null){ if(c instanceof
+		 * ContactoIndividual){ for(Mensaje m : msj){ addMensajeCI(m.getTexto(),
+		 * m.getEmoji(), m.getEmisor()); } }else for(Mensaje m : msj){
+		 * addMensajeG(m.getTexto(), m.getEmoji(), m.getEmisor()); } }
+		 */
 		// Informacion del contacto
 
 		contactInfo.addActionListener(new ActionListener() {
@@ -209,12 +182,12 @@ public class SelectedChat extends JPanel {
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
 				JLabel name = new JLabel(c.getNombre());
 				JLabel tel;
-				if(c instanceof ContactoIndividual) {
-					tel = new JLabel("Telf: "+ ((ContactoIndividual) c).getMovil());
-				}else {
+				if (c instanceof ContactoIndividual) {
+					tel = new JLabel("Telf: " + ((ContactoIndividual) c).getMovil());
+				} else {
 					tel = new JLabel("");
 				}
-			
+
 				JLabel pic = new JLabel(icUInf);
 				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
 				conInfPanel.add(pic);
@@ -234,7 +207,7 @@ public class SelectedChat extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
-					//enviarMensaje(msgT.getText());
+					// enviarMensaje(msgT.getText());
 					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, "JUANPABLO",
 							BubbleText.SENT);
 					midPanel.add(borboja);
@@ -244,8 +217,8 @@ public class SelectedChat extends JPanel {
 				msgT.setText("");
 				msgT.grabFocus();
 
-			validate();
-			repaint();
+				validate();
+				repaint();
 			}
 		});
 
@@ -304,52 +277,52 @@ public class SelectedChat extends JPanel {
 		});
 
 	}
-	
-	private void addMensajeCI(String m, int e, Usuario u){
+
+	private void addMensajeCI(String m, int e, Usuario u) {
 		Usuario uc = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		BubbleText b = null;
-		if(u.equals(uc)){
-			if(e==-1){
+		if (u.equals(uc)) {
+			if (e == -1) {
 				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
-			}else
+			} else
 				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
-		}else{
-			if(e==-1){
+		} else {
+			if (e == -1) {
 				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
-			}else
+			} else
 				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
 		}
 		midPanel.add(b);
 	}
-	
-	private void addMensajeG(String m, int e, Usuario u){
+
+	private void addMensajeG(String m, int e, Usuario u) {
 		Usuario uc = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		BubbleText b = null;
-		if(u.equals(uc)){
-			if(e==-1){
+		if (u.equals(uc)) {
+			if (e == -1) {
 				b = new BubbleText(midPanel, m, Color.CYAN, "", BubbleText.SENT, 15);
-			}else
+			} else
 				b = new BubbleText(midPanel, e, Color.CYAN, "", BubbleText.RECEIVED, 15);
-		}else{
+		} else {
 			String nombre;
-			//if(ControladorAppChat.getUnicaInstancia().)
-		
+			// if(ControladorAppChat.getUnicaInstancia().)
+
 		}
 		midPanel.add(b);
 	}
-	
-	public void enviarMensaje(String m){
+
+	public void enviarMensaje(String m) {
 		if (c instanceof ContactoIndividual)
-			ControladorAppChat.getUnicaInstancia().cMensajeCI(m,-1,(ContactoIndividual)c);
+			ControladorAppChat.getUnicaInstancia().cMensajeCI(m, -1, (ContactoIndividual) c);
 		else
-			ControladorAppChat.getUnicaInstancia().cMensajeGrupo(m, -1, (Grupo)c);
+			ControladorAppChat.getUnicaInstancia().cMensajeGrupo(m, -1, (Grupo) c);
 	}
-	
-	public void enviarMensaje(int e){
-		if(c instanceof ContactoIndividual)
-			ControladorAppChat.getUnicaInstancia().cMensajeCI("", e, (ContactoIndividual)c);
+
+	public void enviarMensaje(int e) {
+		if (c instanceof ContactoIndividual)
+			ControladorAppChat.getUnicaInstancia().cMensajeCI("", e, (ContactoIndividual) c);
 		else
-			ControladorAppChat.getUnicaInstancia().cMensajeGrupo("", e, (Grupo)c);
+			ControladorAppChat.getUnicaInstancia().cMensajeGrupo("", e, (Grupo) c);
 	}
 
 }
