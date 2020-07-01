@@ -26,12 +26,14 @@ import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
 import modelo.Usuario;
+import tds.BubbleText;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
 	private JPanel contentPane = new JPanel();
 	final JPanel rPanel;
+	final JPanel botLPanel;
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
@@ -115,7 +117,7 @@ public class MainWindowView extends JFrame {
 		});
 
 		// Panel inferior izquierdo (para openedchats)
-		final JPanel botLPanel = new JPanel();
+		botLPanel = new JPanel();
 		botLPanel.setLayout(new BoxLayout(botLPanel, BoxLayout.Y_AXIS));
 		botLPanel.setSize(new Dimension(300, 700));
 		botLPanel.setMinimumSize(new Dimension(300, 700));
@@ -621,13 +623,13 @@ public class MainWindowView extends JFrame {
 	public void chatsRecientes(){
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		
-		List<Contacto> c = u.getContactos(); 
+		List<Contacto> c = u.getContactos();
 		List<OpenedChat> chats = new LinkedList<OpenedChat>();
 		
 		for(int i=0;i<c.size();i++){
 			String mensaje="";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-			
+			System.out.println("mensajes ABIERTOS: " + mnjs.size() + "\n");
 			if(!mnjs.isEmpty()){
 				Mensaje ult = mnjs.get(mnjs.size()-1);
 				
@@ -635,13 +637,18 @@ public class MainWindowView extends JFrame {
 					mensaje=ult.getTexto();
 				}else
 					mensaje="Emoji";
+				
+				OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
+				chats.add(o);
 			}
-			OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
-			chats.add(o);
+		}
+		for(OpenedChat o : chats){
+			botLPanel.add(o);
+			List<Mensaje> mensajes = o.getContacto().getListaMensajes();
 		}
 		
-		
 	}
+	
 	
 
 	public void mostrarVentana1() {

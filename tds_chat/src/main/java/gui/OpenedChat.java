@@ -15,6 +15,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,6 +27,8 @@ import javax.swing.border.LineBorder;
 
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Mensaje;
+import modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class OpenedChat extends JPanel {
@@ -92,7 +95,7 @@ public class OpenedChat extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 1) {
+				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
 					//Queremos eliminar lo que hay en ese panel con anterioridad
 					//quizá lo tenga que hacer la clase que lo crea
 					if(derPanel.getComponentCount() == 1) {
@@ -101,16 +104,18 @@ public class OpenedChat extends JPanel {
 					for(Component c : listaComp) {
 						if(c instanceof SelectedChat) {
 							derPanel.remove(c);
-						}
+						}	
+					}
+					
 						
 					}
-						
-					}
-										
-					//setBackground(Color.pink );
+					
 					derPanel.add(chat);
+					chat.mostrarBubbleText();
 					derPanel.validate();
 					derPanel.repaint();
+					//setBackground(Color.pink );
+					
 					
 				}
 				
@@ -120,9 +125,11 @@ public class OpenedChat extends JPanel {
 	
 
 		// this.add(Box.createRigidArea(new Dimension(60, 20)));
-
+		
 		setBackground(Color.red);
 	}
+	
+	
 
 	public ImageIcon getIcono() {
 		return icono;
@@ -149,6 +156,19 @@ public class OpenedChat extends JPanel {
 		//TODO fecha ultimo msg
 		this.lstDate = lstDate;
 	}
+	
+
+	public Contacto getContacto() {
+		return contacto;
+	}
+
+
+
+	public void setContacto(Contacto contacto) {
+		this.contacto = contacto;
+	}
+
+
 
 	public String getUltMsg() {
 		return ultMsg;

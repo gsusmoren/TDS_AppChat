@@ -66,7 +66,7 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		eGrupo.setPropiedades(
 				new ArrayList<Propiedad>(Arrays.asList(
 						new Propiedad("nombre", grupo.getNombre()),
-						new Propiedad("mensajes", obtenerIdListaMensajes(grupo.getListaMensajes())),
+						new Propiedad("listaMensajes", obtenerIdListaMensajes(grupo.getListaMensajes())),
 						new Propiedad("admin", String.valueOf(grupo.getAdmin().getId())),
 						new Propiedad("contactos", obtenerIdContactos(grupo.getContactos())))));
 		eGrupo = servPersistencia.registrarEntidad(eGrupo);
@@ -89,8 +89,8 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "nombre");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "nombre", grupo.getNombre());
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, "mensajes");
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "mensajes", obtenerIdListaMensajes(grupo.getListaMensajes()));
+		servPersistencia.eliminarPropiedadEntidad(eGrupo, "listaMensajes");
+		servPersistencia.anadirPropiedadEntidad(eGrupo, "listaMensajes", obtenerIdListaMensajes(grupo.getListaMensajes()));
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "admin");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", String.valueOf(grupo.getAdmin().getId()));
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "contactos");
@@ -114,7 +114,7 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 		grupo.setId(id);
 		
 		List<Mensaje> mensajes = obtenerMensajesCodigo(
-				servPersistencia.recuperarPropiedadEntidad(eGrupo, "mensajes"));
+				servPersistencia.recuperarPropiedadEntidad(eGrupo, "listaMensajes"));
 
 		grupo.setListaMensajes(mensajes);
 		

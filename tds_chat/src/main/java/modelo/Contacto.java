@@ -30,7 +30,6 @@ public abstract class Contacto {
 	
 	public boolean addMensaje(Mensaje m) {
 		this.listaMensajes.add(m);
-		m.setReceptor(this);
 		return true;
 	}
 	public boolean removeMensaje(Mensaje m) {

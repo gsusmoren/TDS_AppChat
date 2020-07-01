@@ -23,7 +23,6 @@ public class Usuario {
 
 	public Usuario(String nombre, Date fechaNacimiento, String movil, String email, String contrasena, String nick,
 			String imagen, String saludo) {
-		this.id = 0;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.movil = movil;
