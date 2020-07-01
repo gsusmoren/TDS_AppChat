@@ -37,7 +37,6 @@ public class FiltroMensajesCI extends JDialog{
 		JButton buscarBt = new JButton("Buscar");
 		
 		
-		
 		JPanel panel = new JPanel();
 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
