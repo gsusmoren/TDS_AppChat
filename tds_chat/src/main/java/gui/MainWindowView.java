@@ -73,7 +73,6 @@ public class MainWindowView extends JFrame {
 		topLpanel.setLayout(new BoxLayout(topLpanel, BoxLayout.X_AXIS));
 		topLpanel.setPreferredSize(new Dimension(300, 70));
 		topLpanel.setMinimumSize(new Dimension(300, 70));
-		topLpanel.setPreferredSize(new Dimension(300, 70));
 		topLpanel.setBackground(Color.gray);
 
 		// iconos superiores
@@ -114,11 +113,12 @@ public class MainWindowView extends JFrame {
 						Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 						i = new ImageIcon(scaled);
 						userLb.setIcon(i);
-						
+						/*
 						topLpanel.revalidate();
 						topLpanel.repaint();
 						
 						MainWindowView.this.validate();
+						*/
 						
 					}
 				});
