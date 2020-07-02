@@ -152,7 +152,6 @@ public class SelectedChat extends JPanel {
 				}
 				ControladorAppChat.getUnicaInstancia().eliminarMensajes(c);
 				
-				
 				midPanel.removeAll();
 				panel.actualizarOpenedChat();
 				midPanel.validate();
