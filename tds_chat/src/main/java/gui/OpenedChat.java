@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 
 import javax.swing.border.LineBorder;
 
-import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Mensaje;

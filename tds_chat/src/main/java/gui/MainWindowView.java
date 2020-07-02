@@ -50,6 +50,8 @@ public class MainWindowView extends JFrame {
 		
 		rPanel = new JPanel();
 		rPanel.setBackground(Color.gray);
+		rPanel.setMinimumSize(new Dimension(700,Constantes.mainWy_size));
+		rPanel.setMaximumSize(new Dimension(700,Constantes.mainWy_size));
 		
 		
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
@@ -60,13 +62,16 @@ public class MainWindowView extends JFrame {
 		lPanel.setMinimumSize(new Dimension(300, Constantes.mainWy_size));
 		lPanel.setMaximumSize(new Dimension(300, Constantes.mainWy_size));
 		lPanel.setLayout(new BoxLayout(lPanel, BoxLayout.Y_AXIS));
+		//rPanel.setBackground(Color.black);
 		contentPane.add(lPanel);
 		contentPane.add(rPanel);
+
+	
 
 		// Barra superior del lado izquierdo
 		final JPanel topLpanel = new JPanel();
 		topLpanel.setLayout(new BoxLayout(topLpanel, BoxLayout.X_AXIS));
-		topLpanel.setSize(300, 70);
+		topLpanel.setPreferredSize(new Dimension(300, 70));
 		topLpanel.setMinimumSize(new Dimension(300, 70));
 		topLpanel.setPreferredSize(new Dimension(300, 70));
 		topLpanel.setBackground(Color.gray);
@@ -109,8 +114,10 @@ public class MainWindowView extends JFrame {
 						Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 						i = new ImageIcon(scaled);
 						userLb.setIcon(i);
+						
 						topLpanel.revalidate();
 						topLpanel.repaint();
+						
 						MainWindowView.this.validate();
 						
 					}
@@ -122,7 +129,7 @@ public class MainWindowView extends JFrame {
 		// Panel inferior izquierdo (para openedchats)
 		botLPanel = new JPanel();
 		botLPanel.setLayout(new BoxLayout(botLPanel, BoxLayout.Y_AXIS));
-		botLPanel.setSize(new Dimension(300, 700));
+		botLPanel.setPreferredSize(new Dimension(300, 700));
 		botLPanel.setMinimumSize(new Dimension(300, 700));
 		botLPanel.setMaximumSize(new Dimension(300, 700));
 		botLPanel.setBackground(Color.pink);

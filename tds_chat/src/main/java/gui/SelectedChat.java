@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.text.GapContent;
 
 import controlador.ControladorAppChat;
 import modelo.Contacto;
@@ -52,14 +54,19 @@ public class SelectedChat extends JPanel {
 	private JButton contactInfo;
 	private Contacto c;
 
-	public SelectedChat(Contacto contacto) {
+	public SelectedChat(Contacto contacto) {										
 
 		setLayout(new BorderLayout());
 		// setSize(750, 700);
-
-		setMaximumSize(new Dimension(750, 750));
-		setMinimumSize(new Dimension(750, 700));
+		/*
+		setPreferredSize(new Dimension(690, 680));
+		setMaximumSize(new Dimension(690, 700));
+		setMinimumSize(new Dimension(690, 700));
+		*/
+		
 		setBackground(Color.green);
+		setMinimumSize(new Dimension(700,Constantes.mainWy_size));
+		setMaximumSize(new Dimension(700,Constantes.mainWy_size));
 		// topPanel
 		c=contacto;
 		topPanel = new JPanel();
@@ -292,6 +299,7 @@ public class SelectedChat extends JPanel {
 			}
 
 		});
+	
 
 	}
 	
