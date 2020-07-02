@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -26,10 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import controlador.ControladorAppChat;
-import dao.AdaptadorContactoIndividualTDS;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
@@ -320,6 +317,7 @@ public class SelectedChat extends JPanel {
 				midPanel.add(b);
 			}
 		}
+		
 		
 	}
 	/*

@@ -620,6 +620,7 @@ public class MainWindowView extends JFrame {
 
 	}
 	
+	//Actualiza la vista para ver las conversaciones abiertas anteriorees
 	public void chatsRecientes(){
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		
@@ -629,7 +630,7 @@ public class MainWindowView extends JFrame {
 		for(int i=0;i<c.size();i++){
 			String mensaje="";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-			System.out.println("mensajes ABIERTOS: " + mnjs.size() + "\n");
+			//System.out.println("mensajes ABIERTOS: " + mnjs.size() + "\n");
 			if(!mnjs.isEmpty()){
 				Mensaje ult = mnjs.get(mnjs.size()-1);
 				
@@ -639,6 +640,7 @@ public class MainWindowView extends JFrame {
 					mensaje="Emoji";
 				
 				OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
+				rPanel.repaint();
 				chats.add(o);
 			}
 		}

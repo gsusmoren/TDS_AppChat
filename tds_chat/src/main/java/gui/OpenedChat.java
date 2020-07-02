@@ -96,6 +96,7 @@ public class OpenedChat extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
+					
 					//Queremos eliminar lo que hay en ese panel con anterioridad
 					//quizá lo tenga que hacer la clase que lo crea
 					if(derPanel.getComponentCount() == 1) {
@@ -111,10 +112,10 @@ public class OpenedChat extends JPanel {
 					}
 					
 					derPanel.add(chat);
-					chat.mostrarBubbleText();
+					chat.mostrarBubbleText();			
 					derPanel.validate();
 					derPanel.repaint();
-					//setBackground(Color.pink );
+			
 					
 					
 				}
