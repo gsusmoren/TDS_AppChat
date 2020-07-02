@@ -116,7 +116,6 @@ public class MainWindowView extends JFrame {
 						/*
 						topLpanel.revalidate();
 						topLpanel.repaint();
-						
 						MainWindowView.this.validate();
 						*/
 						
