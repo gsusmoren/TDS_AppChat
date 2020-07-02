@@ -15,16 +15,19 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import javax.swing.border.LineBorder;
 
+import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Mensaje;
@@ -40,8 +43,7 @@ public class OpenedChat extends JPanel {
 	private String ultMsg;
 	private Contacto contacto;
 
-	public OpenedChat(Contacto c , String ultimo, final JPanel derPanel) {
-		
+	public OpenedChat(Contacto c ,String s, final JPanel derPanel) {
 		if(c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
 			
@@ -53,7 +55,7 @@ public class OpenedChat extends JPanel {
 		if(c!=null) name = c.getNombre();
 		
 		//TODO getUltimoMensaje
-		ultMsg = ultimo;
+		ultMsg = s;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
 		this.setSize(300, 60);
@@ -98,7 +100,7 @@ public class OpenedChat extends JPanel {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
 					//Queremos eliminar lo que hay en ese panel con anterioridad
 					//quizá lo tenga que hacer la clase que lo crea
-					if(derPanel.getComponentCount() == 1) {
+					if(derPanel.getComponentCount() <= 1) {
 					Component[] listaComp = derPanel.getComponents();
 					
 					for(Component c : listaComp) {
@@ -111,7 +113,6 @@ public class OpenedChat extends JPanel {
 					}
 					
 					derPanel.add(chat);
-					chat.mostrarBubbleText();
 					derPanel.validate();
 					derPanel.repaint();
 					//setBackground(Color.pink );
@@ -119,6 +120,8 @@ public class OpenedChat extends JPanel {
 					
 				}
 				
+				chat.mostrarBubbleText();
+				actualizarOpenedChat();
 			}
 		});
 
@@ -127,6 +130,24 @@ public class OpenedChat extends JPanel {
 		// this.add(Box.createRigidArea(new Dimension(60, 20)));
 		
 		setBackground(Color.red);
+	}
+	
+	
+	public void actualizarOpenedChat(){
+		List<Mensaje> mensajes = contacto.getListaMensajes();
+		for(int i=0;i<mensajes.size();i++){
+			String m="";
+			if(!mensajes.isEmpty()){
+				Mensaje ult = mensajes.get(mensajes.size()-1);
+				
+				if(ult.getEmoji()==-1){
+					m=ult.getTexto();
+				}else
+					m="Emoji";
+				
+				this.setUltMsg(m);
+			}
+		}
 	}
 	
 	

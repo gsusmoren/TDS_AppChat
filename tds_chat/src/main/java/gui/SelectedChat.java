@@ -234,7 +234,7 @@ public class SelectedChat extends JPanel {
 				}
 				msgT.setText("");
 				msgT.grabFocus();
-
+				
 			validate();
 			repaint();
 			}
@@ -266,9 +266,11 @@ public class SelectedChat extends JPanel {
 
 						public void mouseClicked(MouseEvent e) {
 							// Introducir Nombre del Usuario que los envía
-							BubbleText emoSent = new BubbleText(midPanel, i2, Color.CYAN, "JUANPABLO", BubbleText.SENT,
-									15);
-							midPanel.add(emoSent);
+							Usuario actual = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+							ControladorAppChat.getUnicaInstancia().cMensajeEmoji(i2, c);
+							BubbleText borboja = new BubbleText(midPanel, i2, Color.cyan, actual.getNombre(),BubbleText.SENT, 15);
+							midPanel.add(borboja);
+							
 							midPanel.validate();
 							midPanel.repaint();
 							emos.dispose();
@@ -297,6 +299,8 @@ public class SelectedChat extends JPanel {
 	}
 	
 	public void mostrarBubbleText(){
+		
+		midPanel.removeAll();
 		
 		List<Mensaje> mensajes = c.getListaMensajes();
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
