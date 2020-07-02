@@ -125,8 +125,7 @@ public class SelectedChat extends JPanel {
 				boolean idDelt = ControladorAppChat.getUnicaInstancia().eliminarContacto(c);
 				if(idDelt) {
 					JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto correctamente","Contacto Eliminado",JOptionPane.INFORMATION_MESSAGE);	
-					remove(panel);
-					getParent().repaint();
+				
 				}else {
 					JOptionPane.showMessageDialog(null, "No se ha podido borrar el contacto ","Error Contacto Eliminado",JOptionPane.ERROR_MESSAGE);
 				}
@@ -139,7 +138,23 @@ public class SelectedChat extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(c instanceof Grupo) {
+					Usuario us = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+					Grupo gp = (Grupo) c;
+					if(!gp.getAdmin().equals(us)) {
+						JOptionPane.showMessageDialog(null, "Debe ser Admin. para borrar los mensajes grupales","Error Borrado Mensajes",JOptionPane.ERROR_MESSAGE);
+						
+					}
+					
+				}
+				ControladorAppChat.getUnicaInstancia().eliminarMensajes(c);
 				
+				
+				midPanel.removeAll();
+				panel.actualizarOpenedChat();
+				midPanel.validate();
+				midPanel.repaint();
+				JOptionPane.showMessageDialog(null, "Mensajes eliminados con éxito","Borrado de Mensajes",JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 		});

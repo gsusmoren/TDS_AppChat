@@ -149,6 +149,11 @@ public class OpenedChat extends JPanel {
 				last.setText(ultMsg);
 				this.revalidate();
 				this.repaint();
+			}else {
+				this.setUltMsg("");
+				last.setText(ultMsg);
+				this.revalidate();
+				this.repaint();
 			}
 		}
 	}

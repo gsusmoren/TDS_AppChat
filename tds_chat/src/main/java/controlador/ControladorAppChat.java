@@ -317,6 +317,17 @@ public class ControladorAppChat {
 		
 	}
 	
+	//Método para eliminar los mensajes con un Contacto
+	public void eliminarMensajes(Contacto c) {
+		c.borrarMensajes();
+		if(c instanceof ContactoIndividual) {
+			adapCI.modificarContactoIndividual((ContactoIndividual) c);
+			
+		}else {
+			adapGP.modificarGrupo((Grupo) c);
+		}
+	}
+	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {

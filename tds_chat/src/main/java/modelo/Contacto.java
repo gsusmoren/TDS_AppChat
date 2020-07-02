@@ -44,6 +44,10 @@ public abstract class Contacto {
 		this.codigo = id;
 	}
 
+	public void borrarMensajes() {
+		listaMensajes = new LinkedList<Mensaje>();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
