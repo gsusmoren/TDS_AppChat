@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -53,7 +52,6 @@ public class MainWindowView extends JFrame {
 		rPanel.setMinimumSize(new Dimension(700,Constantes.mainWy_size));
 		rPanel.setMaximumSize(new Dimension(700,Constantes.mainWy_size));
 		
-		
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
 		// y los chats debajo
 		final JPanel lPanel = new JPanel();
@@ -62,16 +60,13 @@ public class MainWindowView extends JFrame {
 		lPanel.setMinimumSize(new Dimension(300, Constantes.mainWy_size));
 		lPanel.setMaximumSize(new Dimension(300, Constantes.mainWy_size));
 		lPanel.setLayout(new BoxLayout(lPanel, BoxLayout.Y_AXIS));
-		//rPanel.setBackground(Color.black);
 		contentPane.add(lPanel);
 		contentPane.add(rPanel);
-
-	
 
 		// Barra superior del lado izquierdo
 		final JPanel topLpanel = new JPanel();
 		topLpanel.setLayout(new BoxLayout(topLpanel, BoxLayout.X_AXIS));
-		topLpanel.setPreferredSize(new Dimension(300, 70));
+		topLpanel.setSize(300, 70);
 		topLpanel.setMinimumSize(new Dimension(300, 70));
 		topLpanel.setPreferredSize(new Dimension(300, 70));
 		topLpanel.setBackground(Color.gray);
@@ -115,10 +110,6 @@ public class MainWindowView extends JFrame {
 						i = new ImageIcon(scaled);
 						userLb.setIcon(i);
 						
-						topLpanel.revalidate();
-						topLpanel.repaint();
-						
-						MainWindowView.this.validate();
 						
 					}
 				});
@@ -129,7 +120,7 @@ public class MainWindowView extends JFrame {
 		// Panel inferior izquierdo (para openedchats)
 		botLPanel = new JPanel();
 		botLPanel.setLayout(new BoxLayout(botLPanel, BoxLayout.Y_AXIS));
-		botLPanel.setPreferredSize(new Dimension(300, 700));
+		botLPanel.setSize(new Dimension(300, 700));
 		botLPanel.setMinimumSize(new Dimension(300, 700));
 		botLPanel.setMaximumSize(new Dimension(300, 700));
 		botLPanel.setBackground(Color.pink);
@@ -168,7 +159,6 @@ public class MainWindowView extends JFrame {
 		});
 		
 		chatsRecientes();
-
 		mNuevoChat.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -211,7 +201,6 @@ public class MainWindowView extends JFrame {
 
 					}
 				});
-				
 				
 
 				bCancelar.addActionListener(new ActionListener() {
@@ -627,10 +616,9 @@ public class MainWindowView extends JFrame {
 				
 			}
 		});
-		
+
 	}
 	
-	//Actualiza la vista para ver las conversaciones abiertas anteriorees
 	public void chatsRecientes(){
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		
@@ -640,7 +628,6 @@ public class MainWindowView extends JFrame {
 		for(int i=0;i<c.size();i++){
 			String mensaje="";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-
 			if(!mnjs.isEmpty()){
 				Mensaje ult = mnjs.get(mnjs.size()-1);
 				
@@ -650,7 +637,6 @@ public class MainWindowView extends JFrame {
 					mensaje="Emoji";
 				
 				OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
-				rPanel.repaint();
 				chats.add(o);
 			}
 		}

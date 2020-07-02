@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 
 import javax.swing.border.LineBorder;
 
+import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Mensaje;
@@ -41,7 +42,10 @@ public class OpenedChat extends JPanel {
 	private LocalDate lstDate;
 	private String ultMsg;
 	private Contacto contacto;
-
+	JLabel nameL;
+	JLabel dateL;
+	JLabel last;
+	
 	public OpenedChat(Contacto c ,String s, final JPanel derPanel) {
 		if(c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
@@ -61,7 +65,6 @@ public class OpenedChat extends JPanel {
 		this.setMaximumSize(new Dimension(300, 60));
 		this.setMinimumSize(new Dimension(300, 60));
 		
-		//Resize imagenes e iconos
 		Image im = icono.getImage();
 		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 		icono = new ImageIcon(scaled);
@@ -80,9 +83,9 @@ public class OpenedChat extends JPanel {
 		JPanel pRightBot = new JPanel();
 		pRight.add(pRightBot);
 
-		JLabel nameL = new JLabel(name);
-		JLabel dateL = new JLabel(LocalDate.now().toString());
-		JLabel last = new JLabel(ultMsg);
+		nameL = new JLabel(name);
+		dateL = new JLabel(LocalDate.now().toString());
+		last = new JLabel(ultMsg);
 		nameL.setMaximumSize(new Dimension(80, 20));
 
 		pRightTop.add(nameL);
@@ -92,12 +95,11 @@ public class OpenedChat extends JPanel {
 		last.setPreferredSize(new Dimension(200, 20));
 		pRightBot.add(last);
 		//El chat desplegado que se abrirá en la derecha
-		chat = new SelectedChat(contacto);
+		chat = new SelectedChat(contacto, this);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
-					
 					//Queremos eliminar lo que hay en ese panel con anterioridad
 					//quizá lo tenga que hacer la clase que lo crea
 					if(derPanel.getComponentCount() <= 1) {
@@ -113,16 +115,15 @@ public class OpenedChat extends JPanel {
 					}
 					
 					derPanel.add(chat);
-
 					derPanel.validate();
 					derPanel.repaint();
-			
-					
-					
+					//setBackground(Color.pink );	
 				}
 				
 				chat.mostrarBubbleText();
-				actualizarOpenedChat();
+				//actualizarOpenedChat();
+				revalidate();
+				repaint();
 			}
 		});
 
@@ -147,6 +148,9 @@ public class OpenedChat extends JPanel {
 					m="Emoji";
 				
 				this.setUltMsg(m);
+				last.setText(ultMsg);
+				this.revalidate();
+				this.repaint();
 			}
 		}
 	}
