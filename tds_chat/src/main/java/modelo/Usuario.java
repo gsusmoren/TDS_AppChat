@@ -134,6 +134,8 @@ public class Usuario {
 		return gl;
 	}
 	
+
+	
 	public boolean comprobarContacto(Usuario u){
 		for(Contacto c : contactos){
 			if(c instanceof ContactoIndividual){
@@ -208,8 +210,7 @@ public class Usuario {
 		return null;
 	}
 
-	public boolean removeContacto(Contacto c) {
-		// comprobar que ya existe
+	public boolean borrarContacto(Contacto c) {
 		return this.contactos.remove(c);
 
 	}

@@ -22,10 +22,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import controlador.ControladorAppChat;
@@ -114,21 +116,61 @@ public class SelectedChat extends JPanel {
 				}
 			}
 		});
-		//Ventana para filtrar Mesajes
-		lupaLb.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				JDialog vBuscar = new JDialog();
-				if (c instanceof ContactoIndividual) {
-					vBuscar = new FiltroMensajesCI((ContactoIndividual) c);
-				} else {
-					vBuscar = new FiltroMensajesGP((Grupo) c);
+		//Opción para el borrado de un contacto
+		elimCtcto.addActionListener(new ActionListener() {
+			
+			@Override
+			//TODO Hay que buscar una manera de actualizar los paneles principales desde aquí.
+			public void actionPerformed(ActionEvent e) {
+				boolean idDelt = ControladorAppChat.getUnicaInstancia().eliminarContacto(c);
+				if(idDelt) {
+					JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto correctamente","Contacto Eliminado",JOptionPane.INFORMATION_MESSAGE);	
+					remove(panel);
+					getParent().repaint();
+				}else {
+					JOptionPane.showMessageDialog(null, "No se ha podido borrar el contacto ","Error Contacto Eliminado",JOptionPane.ERROR_MESSAGE);
 				}
-				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);
 				
-				vBuscar.setVisible(true);
+			}
+		});
+		//Opción para borrar todos los mensajes con el contacto
+		//Si es un grupo, el ususario debe ser admin
+		borrarMsgs.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
 				
 			}
+		});
+		
+		
+		
+		//Ventana para filtrar Mesajes
+		
+		lupaLb.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+				 final JDialog vBuscar; 
+	
+				
+				if (c instanceof ContactoIndividual) {
+					vBuscar = new FiltroMensajesCI((ContactoIndividual) c);
+			
+				} else {
+					vBuscar = new FiltroMensajesGP((Grupo) c);
+				
+				}
+				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);			
+			
+				vBuscar.setVisible(true);
+				
+			
+				
+				
+				
+			}
+			
 		});
 		
 		

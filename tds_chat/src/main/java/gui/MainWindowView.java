@@ -395,7 +395,7 @@ public class MainWindowView extends JFrame {
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
 						boolean isReg = ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
-						if(isReg) {
+						if(isReg && !num.equals(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getMovil())) {
 							JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente","Contacto Añadido",JOptionPane.INFORMATION_MESSAGE);
 							ventReg.dispose();
 						}else {
@@ -618,7 +618,7 @@ public class MainWindowView extends JFrame {
 
 	}
 	
-	public void chatsRecientes(){
+	 public void chatsRecientes(){
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 		
 		List<Contacto> c = u.getContactos();
@@ -651,11 +651,5 @@ public class MainWindowView extends JFrame {
 
 	}
 
-//BORRAR MAIN
-	/*
-	public static void main(String[] args) {
-		MainWindowView mWv1 = new MainWindowView();
-		mWv1.mostrarVentana1();
-	}
-	*/
+
 }

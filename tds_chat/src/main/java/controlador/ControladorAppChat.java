@@ -151,7 +151,7 @@ public class ControladorAppChat {
 
 	public boolean eliminarContactoIndividual(ContactoIndividual ci) {
 		adapCI.borrarContactoIdividual(ci);
-		usuarioActual.removeContacto(ci);
+		usuarioActual.borrarContacto(ci);
 		adapU.modificarUsuario(usuarioActual);
 		return true;
 	}
@@ -296,6 +296,27 @@ public class ControladorAppChat {
 
 	}
 
+	
+	//Método para eliminar a un Contacto
+	public boolean eliminarContacto(Contacto c) {
+		//TODO Comprobar usuario como admin
+		if(usuarioActual.getContactos().contains(c)) {
+			if(c instanceof Grupo) {
+				Grupo gp = (Grupo) c;
+				((Grupo) c).setAdmin(null);
+				adapGP.modificarGrupo(gp);
+			}
+			usuarioActual.borrarContacto(c);
+			adapU.modificarUsuario(usuarioActual);
+			catalogoUsuarios.actualizarUsuario(usuarioActual);
+			return true;
+			
+			
+		}
+		return false;
+		
+	}
+	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {

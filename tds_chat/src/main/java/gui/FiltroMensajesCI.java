@@ -4,7 +4,9 @@ package gui;
 
 
 import java.awt.Dimension;
-
+import java.awt.Window;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -63,6 +65,7 @@ public class FiltroMensajesCI extends JDialog{
 		JScrollPane jsMsg = new  JScrollPane(mensajesEncontrados,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(jsMsg);
 		
+	
 		
 	
 		
@@ -70,6 +73,7 @@ public class FiltroMensajesCI extends JDialog{
 		
 		add(panel);
 		setVisible(true);
+		
 
 		
 	}
