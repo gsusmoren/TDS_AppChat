@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,8 +35,10 @@ public class MainWindowView extends JFrame {
 	private JPanel contentPane = new JPanel();
 	final JPanel rPanel;
 	final JPanel botLPanel;
+	final JFrame f;
 
 	public MainWindowView() {
+		this.f = this;
 		this.setTitle("ChatApp");
 		this.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 				Constantes.mainWy_size);
@@ -333,7 +336,7 @@ public class MainWindowView extends JFrame {
 						
 						if(grupoReg!=null) {
 								
-							OpenedChat chatnew=new OpenedChat(grupoReg,""  ,rPanel);
+							OpenedChat chatnew=new OpenedChat(grupoReg,"" ,rPanel);
 							botLPanel.add(chatnew);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -617,7 +620,7 @@ public class MainWindowView extends JFrame {
 				
 			}
 		});
-
+		
 	}
 	
 	//Actualiza la vista para ver las conversaciones abiertas anteriorees
@@ -630,7 +633,7 @@ public class MainWindowView extends JFrame {
 		for(int i=0;i<c.size();i++){
 			String mensaje="";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-			//System.out.println("mensajes ABIERTOS: " + mnjs.size() + "\n");
+
 			if(!mnjs.isEmpty()){
 				Mensaje ult = mnjs.get(mnjs.size()-1);
 				
@@ -650,8 +653,6 @@ public class MainWindowView extends JFrame {
 		}
 		
 	}
-	
-	
 
 	public void mostrarVentana1() {
 		this.setVisible(true);
