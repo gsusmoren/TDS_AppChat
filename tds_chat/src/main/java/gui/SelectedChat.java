@@ -56,6 +56,7 @@ public class SelectedChat extends JPanel {
 	private JButton sendBt;
 	private JButton contactInfo;
 	private Contacto c;
+	private OpenedChat o;
 
 	public SelectedChat(Contacto contacto, OpenedChat panel) {
 
@@ -68,6 +69,7 @@ public class SelectedChat extends JPanel {
 		// topPanel
 		c=contacto;
 		topPanel = new JPanel();
+		o = panel;
 		topPanel.setPreferredSize(new Dimension(550, 70));
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 		topPanel.setBackground(Color.CYAN);
@@ -122,6 +124,7 @@ public class SelectedChat extends JPanel {
 			@Override
 			//TODO Hay que buscar una manera de actualizar los paneles principales desde aquí.
 			public void actionPerformed(ActionEvent e) {
+				o.eliminarChat();
 				boolean idDelt = ControladorAppChat.getUnicaInstancia().eliminarContacto(c);
 				if(idDelt) {
 					JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto correctamente","Contacto Eliminado",JOptionPane.INFORMATION_MESSAGE);	
@@ -164,9 +167,6 @@ public class SelectedChat extends JPanel {
 				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);			
 			
 				vBuscar.setVisible(true);
-				
-			
-				
 				
 				
 			}

@@ -40,11 +40,13 @@ public class OpenedChat extends JPanel {
 	private LocalDate lstDate;
 	private String ultMsg;
 	private Contacto contacto;
+	private JPanel lPanel;
+	private JPanel rPanel;
 	JLabel nameL;
 	JLabel dateL;
 	JLabel last;
 	
-	public OpenedChat(Contacto c ,String s, final JPanel derPanel) {
+	public OpenedChat(Contacto c ,String s, JPanel lPanel,final JPanel derPanel) {
 		if(c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
 			
@@ -53,6 +55,8 @@ public class OpenedChat extends JPanel {
 			icono = new ImageIcon("pics/equipo.png");
 		}
 		this.contacto = c;
+		this.lPanel = lPanel;
+		this.rPanel = derPanel;
 		if(c!=null) name = c.getNombre();
 		
 		//TODO getUltimoMensaje
@@ -100,21 +104,21 @@ public class OpenedChat extends JPanel {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
 					//Queremos eliminar lo que hay en ese panel con anterioridad
 					//quizá lo tenga que hacer la clase que lo crea
-					if(derPanel.getComponentCount() <= 1) {
-					Component[] listaComp = derPanel.getComponents();
+					if(rPanel.getComponentCount() <= 1) {
+					Component[] listaComp = rPanel.getComponents();
 					
 					for(Component c : listaComp) {
 						if(c instanceof SelectedChat) {
-							derPanel.remove(c);
+							rPanel.remove(c);
 						}	
 					}
 					
 						
 					}
 					
-					derPanel.add(chat);
-					derPanel.validate();
-					derPanel.repaint();
+					rPanel.add(chat);
+					rPanel.validate();
+					rPanel.repaint();
 					//setBackground(Color.pink );	
 				}
 				
@@ -153,7 +157,14 @@ public class OpenedChat extends JPanel {
 		}
 	}
 
-	
+	public void eliminarChat(){
+		lPanel.remove(this);
+		rPanel.remove(chat);
+		lPanel.revalidate();
+		lPanel.repaint();
+		rPanel.revalidate();
+		rPanel.repaint();
+	}
 	
 
 	public ImageIcon getIcono() {

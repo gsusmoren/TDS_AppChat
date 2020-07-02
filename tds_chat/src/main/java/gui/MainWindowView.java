@@ -34,10 +34,8 @@ public class MainWindowView extends JFrame {
 	private JPanel contentPane = new JPanel();
 	final JPanel rPanel;
 	final JPanel botLPanel;
-	final JFrame f;
 
 	public MainWindowView() {
-		this.f = this;
 		this.setTitle("ChatApp");
 		this.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 				Constantes.mainWy_size);
@@ -191,7 +189,7 @@ public class MainWindowView extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
 							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
-							OpenedChat o1 = new OpenedChat(cont,"", rPanel);
+							OpenedChat o1 = new OpenedChat(cont,"", botLPanel,rPanel);
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -331,7 +329,7 @@ public class MainWindowView extends JFrame {
 						
 						if(grupoReg!=null) {
 								
-							OpenedChat chatnew=new OpenedChat(grupoReg,"" ,rPanel);
+							OpenedChat chatnew=new OpenedChat(grupoReg,"",botLPanel ,rPanel);
 							botLPanel.add(chatnew);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -635,7 +633,7 @@ public class MainWindowView extends JFrame {
 				}else
 					mensaje="Emoji";
 				
-				OpenedChat o=new OpenedChat(c.get(i), mensaje, rPanel);
+				OpenedChat o=new OpenedChat(c.get(i), mensaje, botLPanel,rPanel);
 				chats.add(o);
 			}
 		}
