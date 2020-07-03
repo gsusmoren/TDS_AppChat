@@ -108,7 +108,10 @@ public abstract class Contacto {
 		
 	
 			listaTexto = filtrarMensajePorTexto(texto);
-			listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+			if(f1!=null && f2!=null )
+				listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+			else
+				listaFechas = new LinkedList<Mensaje>();
 			listaUsuario = filtrarMensajesPorUsuario(nombre);
 			
 			if(listaTexto.isEmpty() && listaFechas.isEmpty()) {

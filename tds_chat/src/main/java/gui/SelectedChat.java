@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -14,15 +15,19 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,6 +35,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -115,7 +121,7 @@ public class SelectedChat extends JPanel {
 		JMenuItem elimCtcto = new JMenuItem("Eliminar Contacto");
 		menuDots.add(borrarMsgs);
 		menuDots.add(elimCtcto);
-		
+
 		puntos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
@@ -167,6 +173,9 @@ public class SelectedChat extends JPanel {
 			}
 		});
 		
+		
+				
+				
 		
 		
 		//Ventana para filtrar Mesajes
@@ -252,8 +261,9 @@ public class SelectedChat extends JPanel {
 					tel = new JTextArea("Telf: "+ ((ContactoIndividual) c).getMovil());
 				}else {
 					String s = "Miembros del Grupo:\n ";
-					for(ContactoIndividual c : ((Grupo)c).getContactos())
-						s+= c.getNombre() + "\n ";
+					if(!((Grupo)c).getAdmin().equals(null)) s+= ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "\n ";
+					for(ContactoIndividual ci : ((Grupo)c).getContactos())
+						s+= ci.getNombre() + "\n ";
 					tel = new JTextArea(s);
 					tel.setLineWrap(true);
 					tel.setEditable(false);
@@ -288,6 +298,7 @@ public class SelectedChat extends JPanel {
 					midPanel.add(borboja);
 					// cambiar Last
 					o.actualizarOpenedChat();
+					
 					
 				}
 				msgT.setText("");
@@ -381,6 +392,7 @@ public class SelectedChat extends JPanel {
 				midPanel.add(b);
 			}
 		}
+		
 		
 	}
 	
