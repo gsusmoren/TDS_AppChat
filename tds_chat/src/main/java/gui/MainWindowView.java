@@ -190,7 +190,7 @@ public class MainWindowView extends JFrame {
 						if (l.getSelectedIndex() != -1) {
 							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
 							OpenedChat o1 = new OpenedChat(cont,"", botLPanel,rPanel);
-							//botLPanel.add(o1);
+							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
 							j.dispose();

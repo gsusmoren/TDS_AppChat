@@ -45,7 +45,8 @@ public abstract class Contacto {
 	}
 
 	public void borrarMensajes() {
-		listaMensajes = new LinkedList<Mensaje>();
+		listaMensajes.clear();
+		
 	}
 	
 	@Override

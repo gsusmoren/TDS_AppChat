@@ -2,8 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import controlador.ControladorAppChat;
 import dao.AdaptadorContactoIndividualTDS;
@@ -248,12 +251,14 @@ public class SelectedChat extends JPanel {
 				if(c instanceof ContactoIndividual) {
 					tel = new JTextArea("Telf: "+ ((ContactoIndividual) c).getMovil());
 				}else {
-					String s = "Miembros del grupo: ";
+					String s = "Miembros del Grupo:\n ";
 					for(ContactoIndividual c : ((Grupo)c).getContactos())
-						s+= c.getNombre() + ", ";
+						s+= c.getNombre() + "\n ";
 					tel = new JTextArea(s);
 					tel.setLineWrap(true);
 					tel.setEditable(false);
+					tel.setFont(new Font("Monospaced", Font.PLAIN, 14));
+					tel.setMaximumSize(new Dimension(160,200));
 				}
 				tel.setOpaque(false);
 				JLabel pic = new JLabel(icUInf);
@@ -261,6 +266,7 @@ public class SelectedChat extends JPanel {
 				conInfPanel.add(pic);
 				conInfPanel.add(name);
 				conInfPanel.add(tel);
+				
 				contactInfo.add(conInfPanel);
 				pic.setAlignmentX(CENTER_ALIGNMENT);
 				name.setAlignmentX(CENTER_ALIGNMENT);
