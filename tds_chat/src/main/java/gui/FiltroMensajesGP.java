@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import controlador.ControladorAppChat;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
@@ -39,6 +40,8 @@ public class FiltroMensajesGP extends JDialog {
 		JComboBox<String> cntactos = new JComboBox<String>();
 		JButton buscarBt = new JButton("Buscar");
 		cntactos.addItem("");
+		if(gp.getAdmin()!=null)
+		cntactos.addItem(gp.getAdmin().getNombre());
 		for (ContactoIndividual ci : gp.getContactos()) {
 			cntactos.addItem(ci.getNombre());
 		}

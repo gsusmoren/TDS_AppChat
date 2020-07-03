@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 public abstract class Contacto {
 	private int codigo;
@@ -112,7 +111,10 @@ public abstract class Contacto {
 		
 	
 			listaTexto = filtrarMensajePorTexto(texto);
-			listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+			if(f1!=null && f2!=null )
+				listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+			else
+				listaFechas = new LinkedList<Mensaje>();
 			listaUsuario = filtrarMensajesPorUsuario(nombre);
 			
 			if(listaTexto.isEmpty() && listaFechas.isEmpty()) {

@@ -62,7 +62,6 @@ public class AdaptadorContactoIndividualTDS implements IAdaptadorContactoInidivu
 
 		eCIndividual = servPersistencia.registrarEntidad(eCIndividual);
 		c.setId(eCIndividual.getId());
-		
 	}
 
 	public void borrarContactoIdividual(ContactoIndividual c) {

@@ -115,17 +115,17 @@ public class OpenedChat extends JPanel {
 							rPanel.remove(c);
 						}	
 					}
-					
 						
 					}
-					
+					List<Mensaje> m = contacto.getListaMensajes();
+					if(!m.isEmpty()) System.out.println("último mensaje: " + m.get(m.size()-1).getTexto());
 					rPanel.add(chat);
 					rPanel.validate();
 					rPanel.repaint();
 					//setBackground(Color.pink );	
 				}
 				chat.mostrarBubbleText();
-				//actualizarOpenedChat();
+				actualizarOpenedChat();
 				revalidate();
 				repaint();
 			}

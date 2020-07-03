@@ -121,7 +121,7 @@ public class MainWindowView extends JFrame {
 		botLPanel.setMinimumSize(new Dimension(300, 700));
 		botLPanel.setMaximumSize(new Dimension(300, 700));
 		botLPanel.setBackground(Color.pink);
-
+		
 		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lPanel.add(js);
@@ -603,6 +603,8 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
+		
+		
 		
 		mExit.addActionListener(new ActionListener() {
 			
