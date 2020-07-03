@@ -15,6 +15,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -28,6 +29,7 @@ import javax.swing.border.LineBorder;
 import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Grupo;
 import modelo.Mensaje;
 import modelo.Usuario;
 
@@ -52,6 +54,7 @@ public class OpenedChat extends JPanel {
 			
 			icono = new ImageIcon(ci.getUsuario().getImagen());
 		}else {
+			Grupo g = (Grupo)c;
 			icono = new ImageIcon("pics/equipo.png");
 		}
 		this.contacto = c;
@@ -121,7 +124,6 @@ public class OpenedChat extends JPanel {
 					rPanel.repaint();
 					//setBackground(Color.pink );	
 				}
-				
 				chat.mostrarBubbleText();
 				//actualizarOpenedChat();
 				revalidate();
@@ -137,11 +139,13 @@ public class OpenedChat extends JPanel {
 	}
 	
 	
+	
+	
 	public void actualizarOpenedChat(){
 		List<Mensaje> mensajes = contacto.getListaMensajes();
-		for(int i=0;i<mensajes.size();i++){
-			String m="";
-			if(!mensajes.isEmpty()){
+		if(!mensajes.isEmpty() || contacto.getClass().equals(Grupo.class))
+			for(int i=0;i<mensajes.size();i++){
+				String m="";
 				Mensaje ult = mensajes.get(mensajes.size()-1);
 				
 				if(ult.getEmoji()==-1){
@@ -153,12 +157,16 @@ public class OpenedChat extends JPanel {
 				last.setText(ultMsg);
 				this.revalidate();
 				this.repaint();
-			}else {
-				this.setUltMsg("");
-				last.setText(ultMsg);
-				this.revalidate();
-				this.repaint();
+				lPanel.revalidate();
+				lPanel.repaint();	
 			}
+		else{
+			this.setUltMsg("");
+			last.setText(ultMsg);
+			this.revalidate();
+			this.repaint();
+			lPanel.revalidate();
+			lPanel.repaint();
 		}
 	}
 

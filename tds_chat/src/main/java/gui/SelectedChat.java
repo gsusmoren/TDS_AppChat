@@ -26,7 +26,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -146,14 +148,15 @@ public class SelectedChat extends JPanel {
 					Grupo gp = (Grupo) c;
 					if(!gp.getAdmin().equals(us)) {
 						JOptionPane.showMessageDialog(null, "Debe ser Admin. para borrar los mensajes grupales","Error Borrado Mensajes",JOptionPane.ERROR_MESSAGE);
-						
+						return;
 					}
 					
 				}
 				ControladorAppChat.getUnicaInstancia().eliminarMensajes(c);
 				
 				midPanel.removeAll();
-				panel.actualizarOpenedChat();
+				o.actualizarOpenedChat();
+				
 				midPanel.validate();
 				midPanel.repaint();
 				JOptionPane.showMessageDialog(null, "Mensajes eliminados con éxito","Borrado de Mensajes",JOptionPane.INFORMATION_MESSAGE);
@@ -226,22 +229,9 @@ public class SelectedChat extends JPanel {
 		
 		add(jsCh,BorderLayout.CENTER);
 
-		/*
-		List<Mensaje> msj = c.getListaMensajes();
-		if(msj!=null){
-			if(c instanceof ContactoIndividual){
-				for(Mensaje m : msj){
-					addMensajeCI(m.getTexto(), m.getEmoji(), m.getEmisor());
-				}
-			}else
-				for(Mensaje m : msj){
-					addMensajeG(m.getTexto(), m.getEmoji(), m.getEmisor());
-				}
-		}
-		*/
 		
 		// Informacion del contacto
-
+		
 		contactInfo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -254,13 +244,18 @@ public class SelectedChat extends JPanel {
 				JPanel conInfPanel = new JPanel();
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
 				JLabel name = new JLabel(c.getNombre());
-				JLabel tel;
+				JTextArea tel;
 				if(c instanceof ContactoIndividual) {
-					tel = new JLabel("Telf: "+ ((ContactoIndividual) c).getMovil());
+					tel = new JTextArea("Telf: "+ ((ContactoIndividual) c).getMovil());
 				}else {
-					tel = new JLabel("");
+					String s = "Miembros del grupo: ";
+					for(ContactoIndividual c : ((Grupo)c).getContactos())
+						s+= c.getNombre() + ", ";
+					tel = new JTextArea(s);
+					tel.setLineWrap(true);
+					tel.setEditable(false);
 				}
-			
+				tel.setOpaque(false);
 				JLabel pic = new JLabel(icUInf);
 				conInfPanel.add(Box.createRigidArea(new Dimension(100, 50)));
 				conInfPanel.add(pic);
@@ -286,7 +281,7 @@ public class SelectedChat extends JPanel {
 					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, actual.getNombre(),BubbleText.SENT);
 					midPanel.add(borboja);
 					// cambiar Last
-					panel.actualizarOpenedChat();
+					o.actualizarOpenedChat();
 					
 				}
 				msgT.setText("");
@@ -327,7 +322,7 @@ public class SelectedChat extends JPanel {
 							ControladorAppChat.getUnicaInstancia().cMensajeEmoji(i2, c);
 							BubbleText borboja = new BubbleText(midPanel, i2, Color.cyan, actual.getNombre(),BubbleText.SENT, 15);
 							midPanel.add(borboja);
-							
+							o.actualizarOpenedChat();
 							midPanel.validate();
 							midPanel.repaint();
 							emos.dispose();

@@ -190,7 +190,7 @@ public class MainWindowView extends JFrame {
 						if (l.getSelectedIndex() != -1) {
 							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
 							OpenedChat o1 = new OpenedChat(cont,"", botLPanel,rPanel);
-							botLPanel.add(o1);
+							//botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
 							j.dispose();
@@ -328,7 +328,7 @@ public class MainWindowView extends JFrame {
 						Grupo grupoReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
 						
 						if(grupoReg!=null) {
-								
+							
 							OpenedChat chatnew=new OpenedChat(grupoReg,"",botLPanel ,rPanel);
 							botLPanel.add(chatnew);
 							botLPanel.revalidate();
@@ -625,21 +625,21 @@ public class MainWindowView extends JFrame {
 		for(int i=0;i<c.size();i++){
 			String mensaje="";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-			if(!mnjs.isEmpty()){
-				Mensaje ult = mnjs.get(mnjs.size()-1);
+			if(!mnjs.isEmpty() || c.get(i) instanceof Grupo){
+				if(!mnjs.isEmpty()){
+					Mensaje ult = mnjs.get(mnjs.size()-1);
 				
-				if(ult.getEmoji()==-1){
-					mensaje=ult.getTexto();
-				}else
-					mensaje="Emoji";
-				
+					if(ult.getEmoji()==-1){
+						mensaje=ult.getTexto();
+					}else
+						mensaje="Emoji";
+				}
 				OpenedChat o=new OpenedChat(c.get(i), mensaje, botLPanel,rPanel);
 				chats.add(o);
 			}
 		}
 		for(OpenedChat o : chats){
 			botLPanel.add(o);
-			List<Mensaje> mensajes = o.getContacto().getListaMensajes();
 		}
 		
 	}

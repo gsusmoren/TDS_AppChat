@@ -178,6 +178,7 @@ public class Usuario {
 		for (ContactoIndividual ci : contactos) {
 			g.addContacto(ci);
 		}
+		this.contactos.add(g);
 		return g;
 	}
 
