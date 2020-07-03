@@ -5,23 +5,30 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.omg.CORBA.REBIND;
 
 import com.toedter.calendar.JDateChooser;
 
 import modelo.ContactoIndividual;
+import modelo.Mensaje;
 
 @SuppressWarnings("serial")
 public class FiltroMensajesCI extends JDialog{
@@ -66,6 +73,30 @@ public class FiltroMensajesCI extends JDialog{
 		panel.add(jsMsg);
 		
 	
+		buscarBt.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (texto.getText().isEmpty() || (fechaInicio.getDate() == null || fechaFinal.getDate() == null)
+						) {
+					JOptionPane.showMessageDialog(panel, "No pueden estar los campos vacíos", "Error",
+							JOptionPane.ERROR_MESSAGE);
+
+				}else {
+					
+					List<Mensaje> resultado =  ci.filtradorGeneralMensajes(texto.getText(), "", fechaInicio.getDate(), fechaFinal.getDate());
+					mensajesEncontrados.setText(resultado.toString());
+					System.out.println(resultado.toString());
+					revalidate();
+					repaint();
+				}
+
+			}
+		});
+		
+		
+		
 		
 	
 		

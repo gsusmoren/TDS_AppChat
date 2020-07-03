@@ -113,4 +113,10 @@ public class Mensaje {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "\nMensaje [Texto=" + texto + ", Dia=" + hora + ", Emisor=" + emisor.getNombre() + "]";
+	}
+	
+
 }
