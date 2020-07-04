@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.rmi.server.ExportException;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -448,6 +449,7 @@ public class MainWindowView extends JFrame {
 				cncDialog.setTitle("Sus Contactos");
 				Usuario act = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 				List<ContactoIndividual> contactos = act.getContactosIndividuales();
+				contactos.sort(Comparator.comparing(ContactoIndividual::getNombre));	
 				
 				for(ContactoIndividual ci : contactos) {
 					ImageIcon icCnt = new ImageIcon(ci.getImagen());
