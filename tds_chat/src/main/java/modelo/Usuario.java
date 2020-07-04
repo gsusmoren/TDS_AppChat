@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -217,6 +218,30 @@ public class Usuario {
 		return this.contactos.remove(c);
 
 	}
+	
+	//Método para obtener los mensajes del ultimo mes
+	public int getNMensajesUltimoMes() {
+		
+		int  mesActual = LocalDateTime.now().getMonthValue();
+		long nMensajes = contactos.stream().flatMap(cont -> cont.getListaMensajes().stream()).filter(m -> m.getHora().getMonthValue() == (mesActual)).count();
+		return (int) nMensajes;
+	}
+	
+	//Método para calcular los descuento de los que dispone el usuario
+	public double getDescuento() {
+		DescuentoEstudiante dis1 = new DescuentoEstudiante();
+		DescuentoFijo dis2 = new DescuentoFijo();
+			
+		if(dis1.calcDescuento(this) < dis2.calcDescuento(this)) {
+			return dis1.calcDescuento(this);
+		}else {
+			return dis2.calcDescuento(this);
+		}
+		
+		
+		
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

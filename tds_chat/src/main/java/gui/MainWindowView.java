@@ -508,6 +508,13 @@ public class MainWindowView extends JFrame {
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
+				if(ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
+					JOptionPane.showMessageDialog(copiaFrame, "Usted ya es un Usaurio Premium :)","Premium Activado",JOptionPane.INFORMATION_MESSAGE);
+					return;
+
+				}
+				
 				final JDialog prmDialog = new JDialog(copiaFrame, true);
 				prmDialog.setResizable(false);
 				prmDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500, 500);
@@ -524,7 +531,7 @@ public class MainWindowView extends JFrame {
 				titulo.setAlignmentX(CENTER_ALIGNMENT);
 
 				JTextArea desc = new JTextArea(
-						"Con ChatApp Premium podrás \nobtener tus estadísticas y \nuna imagen con todos tus \nContactos registrados desde\n9'99$/año* ");
+						"Con ChatApp Premium podrás \nobtener tus estadísticas y \nuna imagen con todos tus \nContactos registrados desde\n6'00€/año* ");
 
 				desc.setOpaque(false);
 				desc.setEditable(false);
@@ -587,11 +594,12 @@ public class MainWindowView extends JFrame {
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
 						// TODO
-						// If tiene descuento -> mostrarlo
+						
 						// mostrar precio final.
-
+						double precioFinal = ControladorAppChat.getUnicaInstancia().getUsuarioActual().getDescuento();
+						
 						JTextArea desc2 = new JTextArea(
-								"Su precio final es de 19'99$/año.\nIntroduzca su cuenta de PayPal®\npara finalizar la transacción.");
+								"Su precio final es de "+precioFinal+"€/año.\nIntroduzca su cuenta de PayPal®\npara finalizar la transacción.");
 
 						prmPanel2.add(desc2);
 
@@ -659,7 +667,26 @@ public class MainWindowView extends JFrame {
 								prmDialog2.dispose();
 							}
 						});
+						
+						accPP.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								System.out.println(ppLogin.getText()+ "  "+ new String(ppCont.getPassword()));
+								if(ControladorAppChat.getUnicaInstancia().loginPayPal(ppLogin.getText(), new String(ppCont.getPassword()))) {
+									//Hacer premium al usuario y mensaje ok
+									ControladorAppChat.getUnicaInstancia().setPremium();
+									JOptionPane.showMessageDialog(prmDialog2, "Ya es usted Premium","Exito Premium",JOptionPane.INFORMATION_MESSAGE);
+									prmDialog2.dispose();
+									
+									
+									
+								}else {
+									JOptionPane.showMessageDialog(prmDialog2, "Credenciales erroneas, revise los datos introducidos","Error Premium",JOptionPane.ERROR_MESSAGE);
 
+								}
+							}
+						});
 						prmDialog2.setUndecorated(true);
 						prmDialog2.setVisible(true);
 

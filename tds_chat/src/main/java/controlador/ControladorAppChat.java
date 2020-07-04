@@ -95,6 +95,15 @@ public class ControladorAppChat {
 		}
 		return false;
 	}
+	//Método para comprobar credecnciales al usar paypal
+	public boolean loginPayPal(String correo, String passwd) {
+		System.out.println(usuarioActual.getEmail());
+		if(usuarioActual.getEmail().equals(correo) && usuarioActual.getContrasena().equals(passwd)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 	// Método para actualizar un usuario pues se han cambiado sus atributos
 	public void actualizarUsuario(Usuario u) {
@@ -119,6 +128,13 @@ public class ControladorAppChat {
 		}
 		return false;
 	}
+	
+	//Método para haceer premium a un usaurio
+	public void setPremium() {
+		usuarioActual.setPremium(true);
+		actualizarUsuario(usuarioActual);
+	}
+	
 	
 	public boolean comprobarContacto(String nombre, String numero, ContactoIndividual c){
 		List<ContactoIndividual> contactos=usuarioActual.getContactosIndividuales();
