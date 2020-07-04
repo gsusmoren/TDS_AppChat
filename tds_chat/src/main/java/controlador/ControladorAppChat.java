@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.eclipse.persistence.internal.sessions.factories.model.platform.NetWeaver_7_1_PlatformConfig;
 
@@ -122,6 +124,7 @@ public class ControladorAppChat {
 		List<ContactoIndividual> contactos=usuarioActual.getContactosIndividuales();
 		for(ContactoIndividual cont : contactos){
 			if((cont.getNombre().equals(nombre) && !cont.equals(c))
+					//ese equals está mal 
 					|| (cont.getMovil().equals(numero) && !cont.equals(numero)))
 				return false;
 		}
@@ -145,7 +148,17 @@ public class ControladorAppChat {
 		}
 		return false;
 	}
-
+	//Metodo para obtener los grupos comunes ambos
+	public String getGruposComunes(ContactoIndividual ci){
+		List<Grupo> userG = usuarioActual.getGrupos();
+		List<Grupo> ciG = ci.getUsuario().getGrupos();
+		
+		List<Grupo> comunes = userG.stream().filter(ciG::contains).collect(Collectors.toList());
+		
+		String gps = comunes.stream().map(c -> c.getNombre()).collect(Collectors.joining(","));
+		return new String("["+gps+"]");
+	}
+	
 	// Método que devuelve el contacto dado el nick
 	public ContactoIndividual getContactoIndividual(String nick) {
 

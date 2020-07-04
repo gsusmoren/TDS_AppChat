@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
+import java.rmi.server.ExportException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -134,7 +135,7 @@ public class MainWindowView extends JFrame {
 		JMenuItem mCrearContacto = new JMenuItem("Agregar Contacto");
 		JMenuItem mPremium = new JMenuItem("Hazte Premium");
 		JMenuItem mModGrupo = new JMenuItem("Modificar Grupo");
-		JMenuItem mContactos = new JMenuItem("Exportar Contactos PDF");
+		JMenuItem mContactos = new JMenuItem("Mostrar Contactos");
 		JMenuItem mEstadisticas = new JMenuItem("Mostrar Estadísticas");
 		JMenuItem mExit = new JMenuItem("Cerrar Sesion");
 
@@ -423,18 +424,85 @@ public class MainWindowView extends JFrame {
 		});
 		
 		mContactos.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					ControladorAppChat.getUnicaInstancia().exportarContactosPDF();
-				} catch (FileNotFoundException | DocumentException e1) {
+				final JDialog cncDialog = new JDialog(copiaFrame, true);
+				cncDialog.setResizable(false);
+				cncDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 800, 600);
+				cncDialog.setMinimumSize(new Dimension(700,500));
+			
+				
+				JPanel numerosP = new JPanel();
+				numerosP.setLayout(new BoxLayout(numerosP, BoxLayout.Y_AXIS));
+				JPanel nombresP = new JPanel();
+				nombresP.setLayout(new BoxLayout(nombresP, BoxLayout.Y_AXIS));
+				JPanel fotosP = new JPanel();
+				fotosP.setLayout(new BoxLayout(fotosP, BoxLayout.Y_AXIS));
+				JPanel gruposP = new JPanel();
+				gruposP.setLayout(new BoxLayout(gruposP, BoxLayout.Y_AXIS));
+				
+				cncDialog.getContentPane().setLayout( new BoxLayout(cncDialog.getContentPane(), BoxLayout.X_AXIS));
+				
+			
+				cncDialog.setTitle("Sus Contactos");
+				Usuario act = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+				List<ContactoIndividual> contactos = act.getContactosIndividuales();
+				
+				for(ContactoIndividual ci : contactos) {
+					ImageIcon icCnt = new ImageIcon(ci.getImagen());
+					Image im = icCnt.getImage();
+					Image scaled = im.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+					icCnt = new ImageIcon(scaled);
+					JLabel fotico = new JLabel(icCnt);
+					fotosP.add(fotico);
+					fotosP.add(Box.createRigidArea(new Dimension(60,30)));
 					
-					e1.printStackTrace();
+					nombresP.add(new JLabel("Nom: "+ci.getNombre() ));
+					nombresP.add(Box.createRigidArea(new Dimension(60,60)));
+					
+					numerosP.add(new JLabel("Telf: "+ci.getMovil() ));
+					numerosP.add(Box.createRigidArea(new Dimension(60,60)));
+					
+					gruposP.add(new JLabel( "Grupos Comunes: " +ControladorAppChat.getUnicaInstancia().getGruposComunes(ci) ));
+					gruposP.add(Box.createRigidArea(new Dimension(60,60)));
+					
 				}
+				JButton exportar = new JButton("Exportar PDF");
 				
-				JOptionPane.showMessageDialog(contentPane, "Se ha creado un PDF con la información de sus contactos","Exportación Exitosa",JOptionPane.INFORMATION_MESSAGE);
+				cncDialog.getContentPane().add(fotosP);
+				cncDialog.getContentPane().add(nombresP);
+				cncDialog.getContentPane().add(numerosP);
+				cncDialog.getContentPane().add(gruposP);
+		
+		
 				
+				cncDialog.add(exportar);
+				
+				exportar.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						if(ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
+
+							try {
+								ControladorAppChat.getUnicaInstancia().exportarContactosPDF();
+							} catch (FileNotFoundException | DocumentException e1) {
+								
+								e1.printStackTrace();
+							}
+							
+							JOptionPane.showMessageDialog(cncDialog, "Se ha creado un PDF con la información de sus contactos","Exportación Exitosa",JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(cncDialog, "Necesitas ser un Usuario Premium para exportar tus contactos","Hazte Premium",JOptionPane.INFORMATION_MESSAGE);
+
+						}
+					}
+				});
+				
+				cncDialog.setVisible(true);
+		
 			}
 		});
 		mPremium.addActionListener(new ActionListener() {
