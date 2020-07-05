@@ -150,9 +150,13 @@ public abstract class Contacto {
 	// Método para conocer el porcentaje de mensajes enviados por un usaurio en el
 	// grupo
 	public double getPorcentajeUsuario(Usuario u) {
-		int nUsuario = (int) listaMensajes.stream().filter(m -> m.getEmisor().equals(u)).count();
-
-		return nUsuario / getListaMensajes().size();
+		
+		List<Mensaje> mensU = filtrarMensajesPorUsuario(u.getNombre());
+		
+		System.out.println(mensU.size() / getListaMensajes().size());
+		
+		double res = (double) mensU.size() / (double) getListaMensajes().size();
+		return res;
 	}
 
 	@Override

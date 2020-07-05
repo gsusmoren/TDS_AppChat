@@ -62,7 +62,8 @@ public class Graficas {
 		
 		HashMap<Grupo,Double> gps = ControladorAppChat.getUnicaInstancia().getGruposMasActivos();
 		
-		for( Grupo g: gps.keySet()) {
+		for( Grupo g : gps.keySet()) {
+			
 			double percentMsg = gps.get(g) * 100;
 			pie.addSeries(g.getNombre()+" "+String.valueOf(percentMsg)+"%", percentMsg);
 		}

@@ -259,18 +259,26 @@ public class Usuario {
 
 	// Método para encontar los grupos en los que el usuario es más activo
 	public HashMap<Grupo, Double> getGruposMasActivos() {
+		
 		HashMap<Grupo, Double> msgRate = new HashMap<Grupo, Double>();
-		List<Grupo> gruposOrd = getGrupos().stream().sorted((g1, g2) -> {
+		
+		List<Grupo> gruposOrd = getGrupos().stream()
+		.sorted((g1, g2) -> {
 			return (g1.getListaMensajes().size() - g2.getListaMensajes().size());
 		}).collect(Collectors.toList());
 
 		int maxGrupos = 6;
-		if (gruposOrd.size() < 6)
+		if (gruposOrd.size() < maxGrupos)
 			maxGrupos = gruposOrd.size();
 
 		for (int i = 0; i < maxGrupos; i++) {
+			
 			double percent = gruposOrd.get(i).getPorcentajeUsuario(this);
+			
 			msgRate.put(gruposOrd.get(i), percent);
+			
+			
+			System.out.println("K:"+ gruposOrd.get(i)+" V:"+ percent);
 		}
 		return msgRate;
 
@@ -281,8 +289,9 @@ public class Usuario {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((contrasena == null) ? 0 : contrasena.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((imagen == null) ? 0 : imagen.hashCode());
 		result = prime * result + ((movil == null) ? 0 : movil.hashCode());
 		result = prime * result + ((nick == null) ? 0 : nick.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
@@ -304,12 +313,17 @@ public class Usuario {
 				return false;
 		} else if (!contrasena.equals(other.contrasena))
 			return false;
-		if (id != other.id)
-			return false;
-		if (imagen == null) {
-			if (other.imagen != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!imagen.equals(other.imagen))
+		} else if (!email.equals(other.email))
+			return false;
+		if (fechaNacimiento == null) {
+			if (other.fechaNacimiento != null)
+				return false;
+		} else if (!fechaNacimiento.equals(other.fechaNacimiento))
+			return false;
+		if (id != other.id)
 			return false;
 		if (movil == null) {
 			if (other.movil != null)
@@ -330,5 +344,7 @@ public class Usuario {
 			return false;
 		return true;
 	}
+
+
 
 }
