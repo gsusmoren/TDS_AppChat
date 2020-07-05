@@ -3,6 +3,7 @@ package controlador;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collector;
@@ -21,6 +22,11 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import componente.cargador.CargadorMensajes;
+import componente.cargador.MensajesEvent;
+import componente.cargador.MensajesListener;
+import componente.cargador.modelo.MensajeWhatsApp;
+import componente.cargador.modelo.Plataforma;
 import dao.AdaptadorContactoIndividualTDS;
 import dao.DAOException;
 import dao.FactoriaDAO;
@@ -35,7 +41,7 @@ import modelo.Grupo;
 import modelo.Mensaje;
 import modelo.Usuario;
 
-public class ControladorAppChat {
+public class ControladorAppChat implements MensajesListener{
 
 	private static ControladorAppChat unicaInstancia = null;
 
@@ -363,6 +369,70 @@ public class ControladorAppChat {
 		}else {
 			adapGP.modificarGrupo((Grupo) c);
 		}
+	}
+	
+	public void ficheroImportado(String rutaFichero, String formato, Plataforma p){
+		CargadorMensajes cargadorm = new CargadorMensajes();
+		cargadorm.addMensajeListener(ControladorAppChat.getUnicaInstancia());
+		cargadorm.setFichero(rutaFichero,formato,p);
+	}
+	
+	@Override
+	public void nuevosMensajes(MensajesEvent e) {
+		System.out.println("ENTRAAAAAAAAAA");
+		List<MensajeWhatsApp> listaMensajes= e.obtenerLista();
+		String contacto="";
+		for(MensajeWhatsApp m : listaMensajes){
+			if(!m.getAutor().equals(usuarioActual.getNombre())){
+				contacto = m.getAutor();
+				break;
+			}
+		}
+		Contacto cont = null;
+		for(Contacto c : usuarioActual.getContactos()){
+			if(c.getNombre().equals(contacto)){
+				cont=c;
+				break;
+			}
+		}
+		
+		if(cont!=null){
+			for(MensajeWhatsApp m : listaMensajes){
+				String autor=m.getAutor();
+				if(autor.equals(usuarioActual.getNombre())){
+					Mensaje m1 = new Mensaje(m.getTexto());
+					m1.setEmisor(usuarioActual);
+					m1.setReceptor(cont);
+					LocalDateTime f = m.getFecha();
+					m1.setHora(f);
+					
+					if(cont instanceof ContactoIndividual){
+						cont.addMensaje(m1);
+						adapMS.registrarMensaje(m1);
+						adapCI.modificarContactoIndividual((ContactoIndividual)cont);
+					}else{
+						cont.addMensaje(m1);
+						adapMS.registrarMensaje(m1);
+						adapGP.modificarGrupo((Grupo)cont);
+					}
+					
+				}else{
+					Usuario u=((ContactoIndividual)cont).getUsuario();
+					ContactoIndividual c_actual = new ContactoIndividual(usuarioActual.getNombre(), usuarioActual.getMovil());
+					c_actual.setUsuario(usuarioActual);
+					Mensaje m1 = new Mensaje(m.getTexto());
+					m1.setEmisor(u);
+					m1.setReceptor(c_actual);
+					LocalDateTime f = m.getFecha();
+					m1.setHora(f);
+					
+					cont.addMensaje(m1);
+					adapMS.registrarMensaje(m1);
+					adapCI.modificarContactoIndividual((ContactoIndividual)cont);
+				}
+			}
+		}
+		
 	}
 	
 	private void inicializarAdaptadores() {
