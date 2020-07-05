@@ -34,6 +34,11 @@
     	<artifactId>itextpdf</artifactId>
     	<version>5.5.13.1</version>
 	</dependency>
+	<dependency>
+  	  <groupId>org.knowm.xchart</groupId>
+  	  <artifactId>xchart</artifactId>
+  	  <version>3.6.2</version>
+	</dependency>	
     
   </dependencies>
 </project>

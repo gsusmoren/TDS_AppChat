@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public abstract class Contacto {
 	private int codigo;
 	private String nombre;
@@ -91,13 +90,13 @@ public abstract class Contacto {
 		List<Mensaje> listaUsuario = new LinkedList<Mensaje>();
 		List<Mensaje> listaTexto = new LinkedList<Mensaje>();
 		List<Mensaje> listaFechas = new LinkedList<Mensaje>();
-		
-		
+
 		if (this instanceof ContactoIndividual) {
 			// No opcional
 			listaTexto = filtrarMensajePorTexto(texto);
-			
-			listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+
+			listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()),
+					LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
 
 			List<Mensaje> comunes = listaTexto.stream().filter(listaFechas::contains).collect(Collectors.toList());
 
@@ -105,35 +104,33 @@ public abstract class Contacto {
 
 		} else {
 
-		
-	
 			listaTexto = filtrarMensajePorTexto(texto);
-			if(f1!=null && f2!=null )
-				listaFechas = filtrarMensajesEntreFechas(LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()), LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
+			if (f1 != null && f2 != null)
+				listaFechas = filtrarMensajesEntreFechas(
+						LocalDateTime.ofInstant(f1.toInstant(), ZoneId.systemDefault()),
+						LocalDateTime.ofInstant(f2.toInstant(), ZoneId.systemDefault()));
 			else
 				listaFechas = new LinkedList<Mensaje>();
 			listaUsuario = filtrarMensajesPorUsuario(nombre);
-			
-			if(listaTexto.isEmpty() && listaFechas.isEmpty()) {
+
+			if (listaTexto.isEmpty() && listaFechas.isEmpty()) {
 				return listaUsuario;
-				
+
 			}
-			if(listaTexto.isEmpty() && listaUsuario.isEmpty()) {
+			if (listaTexto.isEmpty() && listaUsuario.isEmpty()) {
 				return listaFechas;
-				
+
 			}
-			if(listaUsuario.isEmpty() && listaFechas.isEmpty()) {
+			if (listaUsuario.isEmpty() && listaFechas.isEmpty()) {
 				return listaUsuario;
-			}									
-			
-			if(listaUsuario.isEmpty()) {
-				List<Mensaje> comunes = listaFechas.stream().filter(listaFechas::contains)
-						.collect(Collectors.toList());
+			}
+
+			if (listaUsuario.isEmpty()) {
+				List<Mensaje> comunes = listaFechas.stream().filter(listaFechas::contains).collect(Collectors.toList());
 				return comunes;
 			}
-			if(listaFechas.isEmpty()) {
-				List<Mensaje> comunes = listaUsuario.stream().filter(listaTexto::contains)
-						.collect(Collectors.toList());
+			if (listaFechas.isEmpty()) {
+				List<Mensaje> comunes = listaUsuario.stream().filter(listaTexto::contains).collect(Collectors.toList());
 				return comunes;
 			}
 			if (listaTexto.isEmpty()) {
@@ -143,12 +140,19 @@ public abstract class Contacto {
 			}
 			List<Mensaje> comunes = listaTexto.stream().filter(listaFechas::contains).collect(Collectors.toList());
 			List<Mensaje> comunes2 = listaUsuario.stream().filter(comunes::contains).collect(Collectors.toList());
-			
+
 			return comunes2;
-				
-			
+
 		}
 
+	}
+
+	// Método para conocer el porcentaje de mensajes enviados por un usaurio en el
+	// grupo
+	public double getPorcentajeUsuario(Usuario u) {
+		int nUsuario = (int) listaMensajes.stream().filter(m -> m.getEmisor().equals(u)).count();
+
+		return nUsuario / getListaMensajes().size();
 	}
 
 	@Override

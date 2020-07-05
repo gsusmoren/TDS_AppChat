@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -363,6 +364,17 @@ public class ControladorAppChat {
 		}else {
 			adapGP.modificarGrupo((Grupo) c);
 		}
+	}
+	
+	//Método para obtener el número de mensajes que manda el usuario en cada
+	// mes del año
+	public Integer[] getMensajesPorMeses() {
+		return usuarioActual.getMensajesPorMeses();
+	}
+	
+	//Método para obtener los grupos más activos y la participacion del usuario en ellos
+	public HashMap<Grupo, Double> getGruposMasActivos(){
+		return usuarioActual.getGruposMasActivos();
 	}
 	
 	private void inicializarAdaptadores() {

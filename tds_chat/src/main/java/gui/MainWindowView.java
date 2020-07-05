@@ -46,12 +46,12 @@ public class MainWindowView extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Panel de la derecha
-		
+
 		rPanel = new JPanel();
 		rPanel.setBackground(Color.gray);
-		rPanel.setMinimumSize(new Dimension(700,Constantes.mainWy_size));
-		rPanel.setMaximumSize(new Dimension(700,Constantes.mainWy_size));
-		
+		rPanel.setMinimumSize(new Dimension(700, Constantes.mainWy_size));
+		rPanel.setMaximumSize(new Dimension(700, Constantes.mainWy_size));
+
 		// Panel de la izquierda de la vista principal, este contiene la barra superior
 		// y los chats debajo
 		final JPanel lPanel = new JPanel();
@@ -71,13 +71,13 @@ public class MainWindowView extends JFrame {
 		topLpanel.setBackground(Color.gray);
 
 		// iconos superiores
-		//Reescalamos la imagen
+		// Reescalamos la imagen
 		ImageIcon icUseraux = new ImageIcon(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getImagen());
 		Image im = icUseraux.getImage();
 		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 		icUseraux = new ImageIcon(scaled);
 		final ImageIcon icUser = icUseraux;
-		
+
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
 		final JLabel userLb = new JLabel(icUser);
@@ -90,7 +90,6 @@ public class MainWindowView extends JFrame {
 		topLpanel.add(userLb);
 		topLpanel.add(Box.createRigidArea(new Dimension(170, 60)));
 
-		
 		topLpanel.add(opLb);
 		lPanel.add(topLpanel);
 		final JFrame copiaFrame = this;
@@ -99,17 +98,17 @@ public class MainWindowView extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// pasar saludo del usuario
 				EditProfileWindow eProf = new EditProfileWindow(copiaFrame);
-				
-				eProf.addWindowListener(new WindowAdapter(){
+
+				eProf.addWindowListener(new WindowAdapter() {
 					@Override
-					public void windowClosing(WindowEvent e){
-						ImageIcon i = new ImageIcon(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getImagen());
+					public void windowClosing(WindowEvent e) {
+						ImageIcon i = new ImageIcon(
+								ControladorAppChat.getUnicaInstancia().getUsuarioActual().getImagen());
 						Image im = i.getImage();
 						Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 						i = new ImageIcon(scaled);
 						userLb.setIcon(i);
 
-						
 					}
 				});
 
@@ -123,7 +122,7 @@ public class MainWindowView extends JFrame {
 		botLPanel.setMinimumSize(new Dimension(300, 700));
 		botLPanel.setMaximumSize(new Dimension(300, 700));
 		botLPanel.setBackground(Color.pink);
-		
+
 		JScrollPane js = new JScrollPane(botLPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lPanel.add(js);
@@ -156,7 +155,7 @@ public class MainWindowView extends JFrame {
 				}
 			}
 		});
-		
+
 		chatsRecientes();
 		mNuevoChat.addActionListener(new ActionListener() {
 
@@ -164,12 +163,14 @@ public class MainWindowView extends JFrame {
 				final JDialog j = new JDialog(copiaFrame, "Elegir contacto", true);
 				j.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 300);
 				DefaultListModel<String> lista = new DefaultListModel<String>();
-				
-				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
-				for(ContactoIndividual c : cont){
-				
-						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
-						lista.addElement(c.getNombre());
+
+				List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
+						.getContactosIndividuales();
+				for (ContactoIndividual c : cont) {
+
+					// TODO mostar aquellos contactos con los que no hayamos iniciado una
+					// conversacion
+					lista.addElement(c.getNombre());
 				}
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
@@ -190,8 +191,9 @@ public class MainWindowView extends JFrame {
 
 					public void actionPerformed(ActionEvent e) {
 						if (l.getSelectedIndex() != -1) {
-							ContactoIndividual  cont = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l.getSelectedValue());
-							OpenedChat o1 = new OpenedChat(cont,"", botLPanel,rPanel);
+							ContactoIndividual cont = ControladorAppChat.getUnicaInstancia()
+									.getContactoIndividual(l.getSelectedValue());
+							OpenedChat o1 = new OpenedChat(cont, "", botLPanel, rPanel);
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -200,7 +202,6 @@ public class MainWindowView extends JFrame {
 
 					}
 				});
-				
 
 				bCancelar.addActionListener(new ActionListener() {
 
@@ -214,199 +215,199 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-		
+
 		mNuevoGrupo.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
-				final JDialog grupoD = new JDialog();	
-				grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y,500, 500);
-				final DefaultListModel<String> l1=new DefaultListModel<String>();
-				List<ContactoIndividual> cont=ControladorAppChat.getUnicaInstancia().getUsuarioActual().getContactosIndividuales();
-				for(ContactoIndividual c : cont){
-						//TODO mostar aquellos contactos con los  que no hayamos iniciado una conversacion
-						l1.addElement(c.getNombre());
+				final JDialog grupoD = new JDialog();
+				grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500, 500);
+				final DefaultListModel<String> l1 = new DefaultListModel<String>();
+				List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
+						.getContactosIndividuales();
+				for (ContactoIndividual c : cont) {
+					// TODO mostar aquellos contactos con los que no hayamos iniciado una
+					// conversacion
+					l1.addElement(c.getNombre());
 				}
-				
-			
-				
-				
-				final JList l=new JList(l1);
+
+				final JList l = new JList(l1);
 				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				l.setMinimumSize(new Dimension(130, 480));
 				l.setMaximumSize(new Dimension(130, 480));
 				l.setPreferredSize(new Dimension(130, 480));
 				l.setBorder(BorderFactory.createTitledBorder("Contactos"));
-				grupoD.getContentPane().add(l,BorderLayout.WEST);
-				
-				final DefaultListModel<String> l2=new DefaultListModel<String>();
-				final JList ll=new JList(l2);
+				grupoD.getContentPane().add(l, BorderLayout.WEST);
+
+				final DefaultListModel<String> l2 = new DefaultListModel<String>();
+				final JList ll = new JList(l2);
 				ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				ll.setMinimumSize(new Dimension(130, 480));
 				ll.setMaximumSize(new Dimension(130, 480));
 				ll.setPreferredSize(new Dimension(130, 480));
 				ll.setBorder(BorderFactory.createTitledBorder("Contactos añadidos"));
-				grupoD.getContentPane().add(ll,BorderLayout.EAST);
-				
-				JPanel p1=new JPanel();
+				grupoD.getContentPane().add(ll, BorderLayout.EAST);
+
+				JPanel p1 = new JPanel();
 				p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-				final JTextField nombre=new JTextField("Nombre del grupo");
+				final JTextField nombre = new JTextField("Nombre del grupo");
 				nombre.addMouseListener(new MouseAdapter() {
-					
+
 					public void mouseClicked(MouseEvent e) {
 						nombre.setText("");
-						
+
 					}
 				});
 				nombre.setMaximumSize(new Dimension(350, 20));
 				ImageIcon icDer = new ImageIcon("pics/flecha-derecha.png");
 				ImageIcon icIzqu = new ImageIcon("pics/flecha-hacia-la-izquierda.png");
 
-				JButton quitar=new JButton(icIzqu);
-				JButton añadir=new JButton(icDer);
+				JButton quitar = new JButton(icIzqu);
+				JButton añadir = new JButton(icDer);
 				nombre.setColumns(15);
 				nombre.setAlignmentX(CENTER_ALIGNMENT);
 				p1.add(nombre);
 				p1.add(Box.createRigidArea(new Dimension(50, 150)));
 				p1.add(añadir);
 				p1.add(quitar);
-				grupoD.getContentPane().add(p1,BorderLayout.CENTER);
-				
-				JButton bAc=new JButton("Aceptar");
-				JButton bCanc=new JButton("Cancelar");
-				JPanel bot=new JPanel();
+				grupoD.getContentPane().add(p1, BorderLayout.CENTER);
+
+				JButton bAc = new JButton("Aceptar");
+				JButton bCanc = new JButton("Cancelar");
+				JPanel bot = new JPanel();
 				bot.setLayout(new FlowLayout());
 				bot.add(bAc);
 				bot.add(bCanc);
-				grupoD.add(bot,BorderLayout.SOUTH);
+				grupoD.add(bot, BorderLayout.SOUTH);
 				grupoD.setVisible(true);
-				
+
 				añadir.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
-						if(l.getSelectedIndex()!=-1) {
-							l2.addElement((String)l.getSelectedValue());
+						if (l.getSelectedIndex() != -1) {
+							l2.addElement((String) l.getSelectedValue());
 							l1.removeElement(l.getSelectedValue());
 						}
-						
+
 					}
 				});
-				
+
 				quitar.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
-						if(ll.getSelectedIndex()!=1) {
-							l1.addElement((String)ll.getSelectedValue());
+						if (ll.getSelectedIndex() != 1) {
+							l1.addElement((String) ll.getSelectedValue());
 							l2.removeElement(ll.getSelectedValue());
 						}
-						
+
 					}
 				});
-				
+
 				bAc.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
-						//TODO Adaptar openedChat a grupos
-						
-						//TODO hacer lista con los contactos seleccionados arriba y usar getContacto(mote)
-						if(nombre.getText().equals("")){
-							JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo","Error nombre grupo",JOptionPane.ERROR_MESSAGE);
+						// TODO Adaptar openedChat a grupos
+
+						// TODO hacer lista con los contactos seleccionados arriba y usar
+						// getContacto(mote)
+						if (nombre.getText().equals("")) {
+							JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo",
+									"Error nombre grupo", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
 						LinkedList<ContactoIndividual> contacs = new LinkedList<ContactoIndividual>();
 						ContactoIndividual ci;
-						for(int i = 0; i< l2.getSize();i++) {
-						
+						for (int i = 0; i < l2.getSize(); i++) {
+
 							ci = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i));
-							if(ci!=null) contacs.add(ci);
+							if (ci != null)
+								contacs.add(ci);
 						}
-						
-						if(contacs.size()<1){
-							JOptionPane.showMessageDialog(grupoD, "Se debe añadir al menos 1 persona al grupo","Error numero de usuarios",JOptionPane.ERROR_MESSAGE);
+
+						if (contacs.size() < 1) {
+							JOptionPane.showMessageDialog(grupoD, "Se debe añadir al menos 1 persona al grupo",
+									"Error numero de usuarios", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
-						
+
 						Grupo grupoReg = ControladorAppChat.getUnicaInstancia().crearGrupo(nombre.getText(), contacs);
-						
-						if(grupoReg!=null) {
-							
-							OpenedChat chatnew=new OpenedChat(grupoReg,"",botLPanel ,rPanel);
+
+						if (grupoReg != null) {
+
+							OpenedChat chatnew = new OpenedChat(grupoReg, "", botLPanel, rPanel);
 							botLPanel.add(chatnew);
 							botLPanel.revalidate();
 							botLPanel.repaint();
 							grupoD.dispose();
 						}
-						
+
 					}
 				});
-				
+
 				bCanc.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
 						grupoD.dispose();
-						
+
 					}
 				});
 			}
 		});
 
-		//Botón para crear un nuevo Contacto
+		// Botón para crear un nuevo Contacto
 		mCrearContacto.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				final JDialog ventReg = new JDialog(copiaFrame, "Registrar contacto", true);
 				ventReg.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 300, 150);
-				
+
 				final JPanel panelV = new JPanel();
-				
+
 				JButton aceptar = new JButton("Aceptar");
 				JButton cancelar = new JButton("Cancelar");
 				JLabel enunciado = new JLabel("Introduce su nombre y número de telefono");
-				panelV.add(enunciado,BorderLayout.NORTH);
-				
-				
+				panelV.add(enunciado, BorderLayout.NORTH);
+
 				final JTextField nombreCont = new JTextField(15);
 				final JTextField numero = new JTextField(15);
-				
+
 				JPanel panelCent = new JPanel();
 				panelCent.setLayout(new BoxLayout(panelCent, BoxLayout.Y_AXIS));
 				JPanel centralNom = new JPanel();
 				JPanel centralNum = new JPanel();
 				panelCent.add(centralNom);
 				panelCent.add(centralNum);
-				
-							
-				panelV.add(panelCent,BorderLayout.CENTER);
-				centralNom.add(new JLabel("Nombre :"));
-				centralNom.add(nombreCont,BorderLayout.CENTER);
-				centralNum.add(new JLabel("Número :"));
-				centralNum.add(numero,BorderLayout.CENTER);
 
-				panelV.add(aceptar,BorderLayout.SOUTH);
-				panelV.add(cancelar,BorderLayout.SOUTH);
-				
-			
-				
+				panelV.add(panelCent, BorderLayout.CENTER);
+				centralNom.add(new JLabel("Nombre :"));
+				centralNom.add(nombreCont, BorderLayout.CENTER);
+				centralNum.add(new JLabel("Número :"));
+				centralNum.add(numero, BorderLayout.CENTER);
+
+				panelV.add(aceptar, BorderLayout.SOUTH);
+				panelV.add(cancelar, BorderLayout.SOUTH);
+
 				aceptar.addActionListener(new ActionListener() {
-					
+
 					public void actionPerformed(ActionEvent e) {
-					//TODO usuario no repetido y que exista
+						// TODO usuario no repetido y que exista
 						String nombre = nombreCont.getText().trim();
 						String num = numero.getText().trim();
 						boolean isReg = ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
-						if(isReg && !num.equals(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getMovil())) {
-							JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente","Contacto Añadido",JOptionPane.INFORMATION_MESSAGE);
+						if (isReg
+								&& !num.equals(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getMovil())) {
+							JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente",
+									"Contacto Añadido", JOptionPane.INFORMATION_MESSAGE);
 							ventReg.dispose();
-						}else {
-							JOptionPane.showMessageDialog(panelV, "Contacto erroneo o repetido","Contacto No Añadido",JOptionPane.ERROR_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(panelV, "Contacto erroneo o repetido", "Contacto No Añadido",
+									JOptionPane.ERROR_MESSAGE);
 
 						}
-						
+
 					}
 				});
-				
-				
+
 				cancelar.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
@@ -414,16 +415,14 @@ public class MainWindowView extends JFrame {
 
 					}
 				});
-				
-				
+
 				ventReg.setUndecorated(true);
 				ventReg.add(panelV);
 				ventReg.setVisible(true);
-				
-				
+
 			}
 		});
-		
+
 		mContactos.addActionListener(new ActionListener() {
 
 			@Override
@@ -431,9 +430,8 @@ public class MainWindowView extends JFrame {
 				final JDialog cncDialog = new JDialog(copiaFrame, true);
 				cncDialog.setResizable(false);
 				cncDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 800, 600);
-				cncDialog.setMinimumSize(new Dimension(700,500));
-			
-				
+				cncDialog.setMinimumSize(new Dimension(700, 500));
+
 				JPanel numerosP = new JPanel();
 				numerosP.setLayout(new BoxLayout(numerosP, BoxLayout.Y_AXIS));
 				JPanel nombresP = new JPanel();
@@ -442,81 +440,108 @@ public class MainWindowView extends JFrame {
 				fotosP.setLayout(new BoxLayout(fotosP, BoxLayout.Y_AXIS));
 				JPanel gruposP = new JPanel();
 				gruposP.setLayout(new BoxLayout(gruposP, BoxLayout.Y_AXIS));
-				
-				cncDialog.getContentPane().setLayout( new BoxLayout(cncDialog.getContentPane(), BoxLayout.X_AXIS));
-				
-			
+
+				cncDialog.getContentPane().setLayout(new BoxLayout(cncDialog.getContentPane(), BoxLayout.X_AXIS));
+
 				cncDialog.setTitle("Sus Contactos");
 				Usuario act = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 				List<ContactoIndividual> contactos = act.getContactosIndividuales();
-				contactos.sort(Comparator.comparing(ContactoIndividual::getNombre));	
-				
-				for(ContactoIndividual ci : contactos) {
+				contactos.sort(Comparator.comparing(ContactoIndividual::getNombre));
+
+				for (ContactoIndividual ci : contactos) {
 					ImageIcon icCnt = new ImageIcon(ci.getImagen());
 					Image im = icCnt.getImage();
 					Image scaled = im.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 					icCnt = new ImageIcon(scaled);
 					JLabel fotico = new JLabel(icCnt);
 					fotosP.add(fotico);
-					fotosP.add(Box.createRigidArea(new Dimension(60,30)));
-					
-					nombresP.add(new JLabel("Nom: "+ci.getNombre() ));
-					nombresP.add(Box.createRigidArea(new Dimension(60,60)));
-					
-					numerosP.add(new JLabel("Telf: "+ci.getMovil() ));
-					numerosP.add(Box.createRigidArea(new Dimension(60,60)));
-					
-					gruposP.add(new JLabel( "Grupos Comunes: " +ControladorAppChat.getUnicaInstancia().getGruposComunes(ci) ));
-					gruposP.add(Box.createRigidArea(new Dimension(60,60)));
-					
+					fotosP.add(Box.createRigidArea(new Dimension(60, 30)));
+
+					nombresP.add(new JLabel("Nom: " + ci.getNombre()));
+					nombresP.add(Box.createRigidArea(new Dimension(60, 60)));
+
+					numerosP.add(new JLabel("Telf: " + ci.getMovil()));
+					numerosP.add(Box.createRigidArea(new Dimension(60, 60)));
+
+					gruposP.add(new JLabel(
+							"Grupos Comunes: " + ControladorAppChat.getUnicaInstancia().getGruposComunes(ci)));
+					gruposP.add(Box.createRigidArea(new Dimension(60, 60)));
+
 				}
 				JButton exportar = new JButton("Exportar PDF");
-				
+
 				cncDialog.getContentPane().add(fotosP);
 				cncDialog.getContentPane().add(nombresP);
 				cncDialog.getContentPane().add(numerosP);
 				cncDialog.getContentPane().add(gruposP);
-		
-		
-				
+
 				cncDialog.add(exportar);
-				
+
 				exportar.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
-						if(ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
+
+						if (ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
 
 							try {
 								ControladorAppChat.getUnicaInstancia().exportarContactosPDF();
 							} catch (FileNotFoundException | DocumentException e1) {
-								
+
 								e1.printStackTrace();
 							}
-							
-							JOptionPane.showMessageDialog(cncDialog, "Se ha creado un PDF con la información de sus contactos","Exportación Exitosa",JOptionPane.INFORMATION_MESSAGE);
-						}else {
-							JOptionPane.showMessageDialog(cncDialog, "Necesitas ser un Usuario Premium para exportar tus contactos","Hazte Premium",JOptionPane.INFORMATION_MESSAGE);
+
+							JOptionPane.showMessageDialog(cncDialog,
+									"Se ha creado un PDF con la información de sus contactos", "Exportación Exitosa",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(cncDialog,
+									"Necesitas ser un Usuario Premium para exportar tus contactos", "Hazte Premium",
+									JOptionPane.INFORMATION_MESSAGE);
 
 						}
 					}
 				});
-				
+
 				cncDialog.setVisible(true);
-		
+
+			}
+		});
+
+		mEstadisticas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
+					JOptionPane.showMessageDialog(copiaFrame,
+							"Debe ser un Usuario Premium para exportar sus estadísticas", "Hágase Premium",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+
+				}
+				
+				Graficas graf = new Graficas();
+				graf.exportarGraficas();
+				JOptionPane.showMessageDialog(copiaFrame,
+						"Se han generado sus estadísticas", "Exportación correcta",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+				
+				
+
 			}
 		});
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-				if(ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
-					JOptionPane.showMessageDialog(copiaFrame, "Usted ya es un Usaurio Premium :)","Premium Activado",JOptionPane.INFORMATION_MESSAGE);
+
+				if (ControladorAppChat.getUnicaInstancia().getUsuarioActual().isPremium()) {
+					JOptionPane.showMessageDialog(copiaFrame, "Usted ya es un Usaurio Premium :)", "Premium Activado",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 
 				}
-				
+
 				final JDialog prmDialog = new JDialog(copiaFrame, true);
 				prmDialog.setResizable(false);
 				prmDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500, 500);
@@ -596,12 +621,12 @@ public class MainWindowView extends JFrame {
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
 						// TODO
-						
+
 						// mostrar precio final.
 						double precioFinal = ControladorAppChat.getUnicaInstancia().getUsuarioActual().getDescuento();
-						
-						JTextArea desc2 = new JTextArea(
-								"Su precio final es de "+precioFinal+"€/año.\nIntroduzca su cuenta de PayPal®\npara finalizar la transacción.");
+
+						JTextArea desc2 = new JTextArea("Su precio final es de " + precioFinal
+								+ "€/año.\nIntroduzca su cuenta de PayPal®\npara finalizar la transacción.");
 
 						prmPanel2.add(desc2);
 
@@ -669,22 +694,24 @@ public class MainWindowView extends JFrame {
 								prmDialog2.dispose();
 							}
 						});
-						
+
 						accPP.addActionListener(new ActionListener() {
-							
+
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								System.out.println(ppLogin.getText()+ "  "+ new String(ppCont.getPassword()));
-								if(ControladorAppChat.getUnicaInstancia().loginPayPal(ppLogin.getText(), new String(ppCont.getPassword()))) {
-									//Hacer premium al usuario y mensaje ok
+								System.out.println(ppLogin.getText() + "  " + new String(ppCont.getPassword()));
+								if (ControladorAppChat.getUnicaInstancia().loginPayPal(ppLogin.getText(),
+										new String(ppCont.getPassword()))) {
+									// Hacer premium al usuario y mensaje ok
 									ControladorAppChat.getUnicaInstancia().setPremium();
-									JOptionPane.showMessageDialog(prmDialog2, "Ya es usted Premium","Exito Premium",JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(prmDialog2, "Ya es usted Premium", "Exito Premium",
+											JOptionPane.INFORMATION_MESSAGE);
 									prmDialog2.dispose();
-									
-									
-									
-								}else {
-									JOptionPane.showMessageDialog(prmDialog2, "Credenciales erroneas, revise los datos introducidos","Error Premium",JOptionPane.ERROR_MESSAGE);
+
+								} else {
+									JOptionPane.showMessageDialog(prmDialog2,
+											"Credenciales erroneas, revise los datos introducidos", "Error Premium",
+											JOptionPane.ERROR_MESSAGE);
 
 								}
 							}
@@ -700,53 +727,50 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-		
-		
-		
+
 		mExit.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				LoginView lv = new LoginView();
 				lv.mostrarVentana();
-				
+
 			}
 		});
 
 	}
-	
-	 public void chatsRecientes(){
+
+	public void chatsRecientes() {
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
-		
+
 		List<Contacto> c = u.getContactos();
 		List<OpenedChat> chats = new LinkedList<OpenedChat>();
-		
-		for(int i=0;i<c.size();i++){
-			String mensaje="";
+
+		for (int i = 0; i < c.size(); i++) {
+			String mensaje = "";
 			List<Mensaje> mnjs = c.get(i).getListaMensajes();
-			if(!mnjs.isEmpty() || c.get(i) instanceof Grupo){
-				if(!mnjs.isEmpty()){
-					Mensaje ult = mnjs.get(mnjs.size()-1);
-				
-					if(ult.getEmoji()==-1){
-						mensaje=ult.getTexto();
-					}else
-						mensaje="Emoji";
+			if (!mnjs.isEmpty() || c.get(i) instanceof Grupo) {
+				if (!mnjs.isEmpty()) {
+					Mensaje ult = mnjs.get(mnjs.size() - 1);
+
+					if (ult.getEmoji() == -1) {
+						mensaje = ult.getTexto();
+					} else
+						mensaje = "Emoji";
 				}
-				OpenedChat o=new OpenedChat(c.get(i), mensaje, botLPanel,rPanel);
+				OpenedChat o = new OpenedChat(c.get(i), mensaje, botLPanel, rPanel);
 				chats.add(o);
 			}
 		}
-		for(OpenedChat o : chats){
+		for (OpenedChat o : chats) {
 			botLPanel.add(o);
 		}
-		
+
 	}
 
 	public void mostrarVentana1() {
 		this.setVisible(true);
 
 	}
-
 
 }

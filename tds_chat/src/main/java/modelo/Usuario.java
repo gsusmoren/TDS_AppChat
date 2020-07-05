@@ -1,13 +1,17 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 public class Usuario {
-	
 
 	private int id;
 	private String nombre;
@@ -121,7 +125,7 @@ public class Usuario {
 	}
 
 	public boolean addContacto(Contacto c) {
-		if(!contactos.contains(c)){
+		if (!contactos.contains(c)) {
 			contactos.add(c);
 			return true;
 		}
@@ -136,19 +140,17 @@ public class Usuario {
 		}
 		return gl;
 	}
-	
 
-	
-	public boolean comprobarContacto(Usuario u){
-		for(Contacto c : contactos){
-			if(c instanceof ContactoIndividual){
-				if(((ContactoIndividual) c).getUsuario().movil.equals(u.getMovil()))
+	public boolean comprobarContacto(Usuario u) {
+		for (Contacto c : contactos) {
+			if (c instanceof ContactoIndividual) {
+				if (((ContactoIndividual) c).getUsuario().movil.equals(u.getMovil()))
 					return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public List<ContactoIndividual> getContactosIndividuales() {
 		List<ContactoIndividual> l = new LinkedList<ContactoIndividual>();
 		for (Contacto c : contactos) {
@@ -171,8 +173,8 @@ public class Usuario {
 
 	public Grupo crearGrupo(String nombre, List<ContactoIndividual> contactos) {
 		List<Grupo> l = getGrupos();
-		for(Grupo g1 : l){
-			if(g1.getNombre().equals(nombre)) 
+		for (Grupo g1 : l) {
+			if (g1.getNombre().equals(nombre))
 				return null;
 		}
 		Grupo g = new Grupo(nombre);
@@ -192,7 +194,7 @@ public class Usuario {
 		}
 		return null;
 	}
-	
+
 	public ContactoIndividual getContactoIndividual(Usuario u) {
 		// TODO Stream
 		for (ContactoIndividual c : getContactosIndividuales()) {
@@ -204,12 +206,12 @@ public class Usuario {
 	}
 
 	public Grupo getGrupo(String nombre) {
-		for(Grupo g : getGrupos()) {
-		
-			if(g.getNombre().equals(nombre)) {
+		for (Grupo g : getGrupos()) {
+
+			if (g.getNombre().equals(nombre)) {
 				return g;
 			}
-			
+
 		}
 		return null;
 	}
@@ -218,30 +220,62 @@ public class Usuario {
 		return this.contactos.remove(c);
 
 	}
-	
-	//Método para obtener los mensajes del ultimo mes
+
+	// Método para obtener los mensajes del ultimo mes
 	public int getNMensajesUltimoMes() {
-		
-		int  mesActual = LocalDateTime.now().getMonthValue();
-		long nMensajes = contactos.stream().flatMap(cont -> cont.getListaMensajes().stream()).filter(m -> m.getHora().getMonthValue() == (mesActual)).count();
+
+		int mesActual = LocalDateTime.now().getMonthValue();
+		long nMensajes = contactos.stream().flatMap(cont -> cont.getListaMensajes().stream())
+				.filter(m -> m.getHora().getMonthValue() == (mesActual)).count();
 		return (int) nMensajes;
 	}
-	
-	//Método para calcular los descuento de los que dispone el usuario
+
+	// Método para calcular los descuento de los que dispone el usuario
 	public double getDescuento() {
 		DescuentoEstudiante dis1 = new DescuentoEstudiante();
 		DescuentoFijo dis2 = new DescuentoFijo();
-			
-		if(dis1.calcDescuento(this) < dis2.calcDescuento(this)) {
+
+		if (dis1.calcDescuento(this) < dis2.calcDescuento(this)) {
 			return dis1.calcDescuento(this);
-		}else {
+		} else {
 			return dis2.calcDescuento(this);
 		}
-		
-		
-		
+
 	}
-	
+
+	// Método para contar el número de mensajes que manda el usuario en cada
+	// mes del año
+	public Integer[] getMensajesPorMeses() {
+		Integer[] meses = new Integer[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+		this.contactos.stream().flatMap(cont -> cont.getListaMensajes().stream())
+				.filter(msg -> msg.getEmisor().equals(this)).forEach(m -> {
+					int nMes = m.getHora().getMonthValue();
+					meses[nMes - 1]++;
+				});
+
+		return meses;
+	}
+
+	// Método para encontar los grupos en los que el usuario es más activo
+	public HashMap<Grupo, Double> getGruposMasActivos() {
+		HashMap<Grupo, Double> msgRate = new HashMap<Grupo, Double>();
+		List<Grupo> gruposOrd = getGrupos().stream().sorted((g1, g2) -> {
+			return (g1.getListaMensajes().size() - g2.getListaMensajes().size());
+		}).collect(Collectors.toList());
+
+		int maxGrupos = 6;
+		if (gruposOrd.size() < 6)
+			maxGrupos = gruposOrd.size();
+
+		for (int i = 0; i < maxGrupos; i++) {
+			double percent = gruposOrd.get(i).getPorcentajeUsuario(this);
+			msgRate.put(gruposOrd.get(i), percent);
+		}
+		return msgRate;
+
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
