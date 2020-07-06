@@ -140,7 +140,6 @@ public class MainWindowView extends JFrame {
 			}
 		});
 		
-
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
 		final JLabel userLb = new JLabel(icUser);
@@ -152,13 +151,10 @@ public class MainWindowView extends JFrame {
 		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
 		topLpanel.add(userLb);
 
-		topLpanel.add(Box.createRigidArea(new Dimension(170, 60)));
-
-
 		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
 		topLpanel.add(luz);
 		topLpanel.add(Box.createRigidArea(new Dimension(115, 60)));
-
+		
 		topLpanel.add(opLb);
 		lPanel.add(topLpanel);
 		final JFrame copiaFrame = this;

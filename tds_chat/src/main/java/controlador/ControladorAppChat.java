@@ -285,7 +285,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	// GetGRupo nick (NO VA?)
+	// GetGRupo nick 
 	public Grupo getGrupo(String nombre) {
 		Grupo g = usuarioActual.getGrupo(nombre);
 
@@ -392,7 +392,7 @@ public class ControladorAppChat implements MensajesListener {
 
 	@Override
 	public void nuevosMensajes(MensajesEvent e) {
-		System.out.println("ENTRAAAAAAAAAA");
+	
 		List<MensajeWhatsApp> listaMensajes= e.obtenerLista();
 		String contacto="";
 		for(MensajeWhatsApp m : listaMensajes){
