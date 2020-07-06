@@ -4,12 +4,8 @@ package gui;
 
 
 import java.awt.Dimension;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -23,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.omg.CORBA.REBIND;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -107,6 +102,10 @@ public class FiltroMensajesCI extends JDialog{
 		
 
 		
+	}
+
+	public ContactoIndividual getContacto() {
+		return contacto;
 	}
 	
 	

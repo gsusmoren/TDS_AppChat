@@ -72,11 +72,13 @@ public class EditProfileWindow extends JFrame {
 		editSaludo.setBorder(Constantes.borderB);
 		editSaludo.setBackground(Color.white);
 		//final JDialog auxJD = this;
+		
+		JFrame copiaFR = this;
 		editSaludo.addActionListener(new ActionListener() {
-
+		
 			public void actionPerformed(ActionEvent e) {
-				final JDialog diagIn = new JDialog(); 
-				diagIn.setBounds(Constantes.mainWindow_x * 2 + 40, Constantes.mainWindow_y * 3, 300, 50);
+				final JDialog diagIn = new JDialog(copiaFR, true); 
+				diagIn.setBounds(copiaFR.getX()+ 20, copiaFR.getY()+260, 300, 50);
 				final JTextField textS = new JTextField(saludo);
 				diagIn.getContentPane().add(textS);
 				KeyboardFocusManager kb = KeyboardFocusManager.getCurrentKeyboardFocusManager();
