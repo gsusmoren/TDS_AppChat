@@ -254,20 +254,26 @@ public class SelectedChat extends JPanel {
 				JPanel conInfPanel = new JPanel();
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
 				JLabel name = new JLabel(c.getNombre());
-				JTextArea tel;
+				JLabel tel;
+				
 				if (c instanceof ContactoIndividual) {
-					tel = new JTextArea("Telf: " + ((ContactoIndividual) c).getMovil());
+					tel = new JLabel("Telf: "+ ((ContactoIndividual) c).getMovil());
 				} else {
-					String s = "Miembros del Grupo:\n ";
+					
+					String s = "<html>Miembros del Grupo:<br/> ";
 					if (!((Grupo) c).getAdmin().equals(null))
-						s += ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "\n ";
+						s += ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "<br/>";
 					for (ContactoIndividual ci : ((Grupo) c).getContactos())
-						s += ci.getNombre() + "\n ";
-					tel = new JTextArea(s);
-					tel.setLineWrap(true);
-					tel.setEditable(false);
+						s += ci.getNombre() + "<br/>";
+					
+					s+= "</html>";
+					tel = new JLabel();
+					tel.setText(s);
+					//tel.setLineWrap(true);
+					//tel.setEditable(false);
 					tel.setFont(new Font("Monospaced", Font.PLAIN, 14));
-					tel.setMaximumSize(new Dimension(160, 200));
+					tel.setMaximumSize(new Dimension(200, 300));
+					
 				}
 				tel.setOpaque(false);
 				JLabel pic = new JLabel(icUInf);
