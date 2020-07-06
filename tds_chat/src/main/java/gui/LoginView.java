@@ -32,7 +32,8 @@ public class LoginView {
 		loginfrm = new JFrame();
 		loginfrm.setResizable(false);
 		loginfrm.setTitle("AppChat");
-
+		ImageIcon logo = new ImageIcon("pics/chat.png");
+		loginfrm.setIconImage(logo.getImage());
 		loginfrm.setBounds(700, 300, 458, 301);
 		loginfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loginfrm.getContentPane().setLayout(new BorderLayout(0, 0));

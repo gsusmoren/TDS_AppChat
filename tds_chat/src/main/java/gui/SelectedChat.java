@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,29 +73,34 @@ public class SelectedChat extends JPanel {
 	public SelectedChat(Contacto contacto, OpenedChat panel) {
 
 		setLayout(new BorderLayout());
-		// setSize(750, 700);
+
 
 		setMaximumSize(new Dimension(750, Constantes.mainWy_size));
 		setMinimumSize(new Dimension(750, Constantes.mainWy_size));
 		setBackground(Color.green);
 		// topPanel
-		c=contacto;
+		c = contacto;
 		topPanel = new JPanel();
 		o = panel;
 		topPanel.setPreferredSize(new Dimension(550, 70));
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 		topPanel.setBackground(Color.CYAN);
 
-		final ImageIcon icUInf ;
-		if(c instanceof ContactoIndividual) {
+		final ImageIcon icUInf;
+		if (c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
-			 ImageIcon icUInfCOP = new ImageIcon(ci.getImagen());
-			 icUInf = icUInfCOP;
-		}else {
-			 ImageIcon icUInfCOP = new ImageIcon("pics/equipo.png");
-			 icUInf = icUInfCOP;
+			ImageIcon icUInfCOP = new ImageIcon(ci.getImagen());
+			Image im = icUInfCOP.getImage();
+			Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
+
+			icUInfCOP = new ImageIcon(scaled);
+
+			icUInf = icUInfCOP;
+		} else {
+			ImageIcon icUInfCOP = new ImageIcon("pics/equipo.png");
+			icUInf = icUInfCOP;
 		}
-		
+
 		contactInfo = new JButton(c.getNombre(), icUInf);
 		contactInfo.setMaximumSize(new Dimension(200, 60));
 		contactInfo.setSize(200, 60);
@@ -113,9 +119,8 @@ public class SelectedChat extends JPanel {
 		puntos.setAlignmentX(RIGHT_ALIGNMENT);
 		topPanel.add(puntos);
 
-		
 		add(topPanel, BorderLayout.NORTH);
-		//Menú para borra mensajes o al Contacto.
+		// Menú para borra mensajes o al Contacto.
 		JPopupMenu menuDots = new JPopupMenu();
 		JMenuItem borrarMsgs = new JMenuItem("Vaciar Conversación");
 		JMenuItem elimCtcto = new JMenuItem("Eliminar Contacto");
@@ -129,80 +134,77 @@ public class SelectedChat extends JPanel {
 				}
 			}
 		});
-		//Opción para el borrado de un contacto
+		// Opción para el borrado de un contacto
 		elimCtcto.addActionListener(new ActionListener() {
-			
+
 			@Override
-			//TODO Hay que buscar una manera de actualizar los paneles principales desde aquí.
+			// TODO Hay que buscar una manera de actualizar los paneles principales desde
+			// aquí.
 			public void actionPerformed(ActionEvent e) {
 				o.eliminarChat();
 				boolean idDelt = ControladorAppChat.getUnicaInstancia().eliminarContacto(c);
-				if(idDelt) {
-					JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto correctamente","Contacto Eliminado",JOptionPane.INFORMATION_MESSAGE);	
-				
-				}else {
-					JOptionPane.showMessageDialog(null, "No se ha podido borrar el contacto ","Error Contacto Eliminado",JOptionPane.ERROR_MESSAGE);
+				if (idDelt) {
+					JOptionPane.showMessageDialog(null, "Se ha eliminado el contacto correctamente",
+							"Contacto Eliminado", JOptionPane.INFORMATION_MESSAGE);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "No se ha podido borrar el contacto ",
+							"Error Contacto Eliminado", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
-		//Opción para borrar todos los mensajes con el contacto
-		//Si es un grupo, el ususario debe ser admin
+		// Opción para borrar todos los mensajes con el contacto
+		// Si es un grupo, el ususario debe ser admin
 		borrarMsgs.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(c instanceof Grupo) {
+				if (c instanceof Grupo) {
 					Usuario us = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 					Grupo gp = (Grupo) c;
-					if(!gp.getAdmin().equals(us)) {
-						JOptionPane.showMessageDialog(null, "Debe ser Admin. para borrar los mensajes grupales","Error Borrado Mensajes",JOptionPane.ERROR_MESSAGE);
+					if (!gp.getAdmin().equals(us)) {
+						JOptionPane.showMessageDialog(null, "Debe ser Admin. para borrar los mensajes grupales",
+								"Error Borrado Mensajes", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					
+
 				}
 				ControladorAppChat.getUnicaInstancia().eliminarMensajes(c);
-				
+
 				midPanel.removeAll();
 				o.actualizarOpenedChat();
-				
+
 				midPanel.validate();
 				midPanel.repaint();
-				JOptionPane.showMessageDialog(null, "Mensajes eliminados con éxito","Borrado de Mensajes",JOptionPane.INFORMATION_MESSAGE);
-				
+				JOptionPane.showMessageDialog(null, "Mensajes eliminados con éxito", "Borrado de Mensajes",
+						JOptionPane.INFORMATION_MESSAGE);
+
 			}
 		});
-		
-		
-				
-				
-		
-		
-		//Ventana para filtrar Mesajes
-		
+
+		// Ventana para filtrar Mesajes
+
 		lupaLb.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				
-				 final JDialog vBuscar; 
-	
-				
+
+				final JDialog vBuscar;
+
 				if (c instanceof ContactoIndividual) {
 					vBuscar = new FiltroMensajesCI((ContactoIndividual) c);
-			
+
 				} else {
 					vBuscar = new FiltroMensajesGP((Grupo) c);
-				
+
 				}
-				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);			
-			
+				vBuscar.setBounds(getLocationOnScreen().x, getLocationOnScreen().y, 400, 500);
+
 				vBuscar.setVisible(true);
-				
-				
+
 			}
-			
+
 		});
-		
-		
+
 		// barra inferior
 		botPanel = new JPanel();
 		botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.X_AXIS));
@@ -221,29 +223,25 @@ public class SelectedChat extends JPanel {
 		ImageIcon icSend = new ImageIcon("pics/right-arrow.png");
 		sendBt = new JButton(icSend);
 		botPanel.add(sendBt);
-		add(botPanel,BorderLayout.SOUTH);
+		add(botPanel, BorderLayout.SOUTH);
 
 		midPanel = new JPanel();
-		
 
 		midPanel.setBackground(Color.GRAY);
-		//add(midPanel,BorderLayout.CENTER);
 
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-		
+
 		final JScrollPane jsCh = new JScrollPane(midPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsCh.setPreferredSize(new Dimension(600, 545));
 		jsCh.setSize(new Dimension(600, 545));
 		jsCh.setMaximumSize(new Dimension(600, 545));
 		jsCh.setMinimumSize(new Dimension(600, 545));
-		
-		
-		add(jsCh,BorderLayout.CENTER);
 
-		
+		add(jsCh, BorderLayout.CENTER);
+
 		// Informacion del contacto
-		
+
 		contactInfo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -257,18 +255,19 @@ public class SelectedChat extends JPanel {
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
 				JLabel name = new JLabel(c.getNombre());
 				JTextArea tel;
-				if(c instanceof ContactoIndividual) {
-					tel = new JTextArea("Telf: "+ ((ContactoIndividual) c).getMovil());
-				}else {
+				if (c instanceof ContactoIndividual) {
+					tel = new JTextArea("Telf: " + ((ContactoIndividual) c).getMovil());
+				} else {
 					String s = "Miembros del Grupo:\n ";
-					if(!((Grupo)c).getAdmin().equals(null)) s+= ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "\n ";
-					for(ContactoIndividual ci : ((Grupo)c).getContactos())
-						s+= ci.getNombre() + "\n ";
+					if (!((Grupo) c).getAdmin().equals(null))
+						s += ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "\n ";
+					for (ContactoIndividual ci : ((Grupo) c).getContactos())
+						s += ci.getNombre() + "\n ";
 					tel = new JTextArea(s);
 					tel.setLineWrap(true);
 					tel.setEditable(false);
 					tel.setFont(new Font("Monospaced", Font.PLAIN, 14));
-					tel.setMaximumSize(new Dimension(160,200));
+					tel.setMaximumSize(new Dimension(160, 200));
 				}
 				tel.setOpaque(false);
 				JLabel pic = new JLabel(icUInf);
@@ -276,7 +275,7 @@ public class SelectedChat extends JPanel {
 				conInfPanel.add(pic);
 				conInfPanel.add(name);
 				conInfPanel.add(tel);
-				
+
 				contactInfo.add(conInfPanel);
 				pic.setAlignmentX(CENTER_ALIGNMENT);
 				name.setAlignmentX(CENTER_ALIGNMENT);
@@ -291,21 +290,21 @@ public class SelectedChat extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (msgT.getText().length() > 0) {
-					//enviarMensaje(msgT.getText());
+					// enviarMensaje(msgT.getText());
 					Usuario actual = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 					ControladorAppChat.getUnicaInstancia().cMensajeTexto(msgT.getText(), c);
-					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, actual.getNombre(),BubbleText.SENT);
+					BubbleText borboja = new BubbleText(midPanel, msgT.getText(), Color.cyan, actual.getNombre(),
+							BubbleText.SENT);
 					midPanel.add(borboja);
 					// cambiar Last
 					o.actualizarOpenedChat();
-					
-					
+
 				}
 				msgT.setText("");
 				msgT.grabFocus();
-			
-			validate();
-			repaint();
+
+				validate();
+				repaint();
 			}
 		});
 
@@ -337,7 +336,8 @@ public class SelectedChat extends JPanel {
 							// Introducir Nombre del Usuario que los envía
 							Usuario actual = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 							ControladorAppChat.getUnicaInstancia().cMensajeEmoji(i2, c);
-							BubbleText borboja = new BubbleText(midPanel, i2, Color.cyan, actual.getNombre(),BubbleText.SENT, 15);
+							BubbleText borboja = new BubbleText(midPanel, i2, Color.cyan, actual.getNombre(),
+									BubbleText.SENT, 15);
 							midPanel.add(borboja);
 							o.actualizarOpenedChat();
 							midPanel.validate();
@@ -365,35 +365,36 @@ public class SelectedChat extends JPanel {
 		});
 
 	}
-	
-	public void mostrarBubbleText(){
-		
+
+	public void mostrarBubbleText() {
+
 		midPanel.removeAll();
-		
+
 		List<Mensaje> mensajes = c.getListaMensajes();
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
-		for(Mensaje m : mensajes){
-			
-			if(m.getEmisor().equals(u)){
+		for (Mensaje m : mensajes) {
+
+			if (m.getEmisor().equals(u)) {
 				BubbleText b;
-				if(m.getEmoji()==-1){
+				if (m.getEmoji() == -1) {
 					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, u.getNombre() + " ", BubbleText.SENT);
-				}else{
+				} else {
 					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, u.getNombre() + " ", BubbleText.SENT, 15);
 				}
 				midPanel.add(b);
-			}else{
+			} else {
 				BubbleText b;
-				if(m.getEmoji()==-1){
-					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN," " + m.getEmisor().getNombre(), BubbleText.RECEIVED);
-				}else{
-					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + m.getEmisor().getNombre(), BubbleText.RECEIVED, 15);
+				if (m.getEmoji() == -1) {
+					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, " " + m.getEmisor().getNombre(),
+							BubbleText.RECEIVED);
+				} else {
+					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + m.getEmisor().getNombre(),
+							BubbleText.RECEIVED, 15);
 				}
 				midPanel.add(b);
 			}
 		}
-		
-		
+
 	}
-	
+
 }

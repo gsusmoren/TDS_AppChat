@@ -14,7 +14,6 @@ import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 import controlador.ControladorAppChat;
-import modelo.ContactoIndividual;
 import modelo.Grupo;
 
 //Clase para la obteneción de las grafiacas del usuario

@@ -55,7 +55,7 @@ public class EditProfileWindow extends JFrame {
 		Image im=icon.getImage();
 		Image scaled = im.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(scaled);
-
+		
 		final JLabel imagenPLabel = new JLabel(icon);
 		final JLabel saludoLabel = new JLabel(saludo);
 		imagenPLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

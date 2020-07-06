@@ -1,26 +1,21 @@
 package controlador;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.eclipse.persistence.internal.sessions.factories.model.platform.NetWeaver_7_1_PlatformConfig;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import componente.cargador.CargadorMensajes;
@@ -28,7 +23,6 @@ import componente.cargador.MensajesEvent;
 import componente.cargador.MensajesListener;
 import componente.cargador.modelo.MensajeWhatsApp;
 import componente.cargador.modelo.Plataforma;
-import dao.AdaptadorContactoIndividualTDS;
 import dao.DAOException;
 import dao.FactoriaDAO;
 import dao.IAdaptadorContactoInidivualDAO;

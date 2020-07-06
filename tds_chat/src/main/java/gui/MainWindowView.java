@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.rmi.server.ExportException;
@@ -46,6 +49,8 @@ public class MainWindowView extends JFrame {
 
 	public MainWindowView() {
 		this.setTitle("ChatApp");
+		ImageIcon logo = new ImageIcon("pics/chat.png");
+		this.setIconImage(logo.getImage());
 		this.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 				Constantes.mainWy_size);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));

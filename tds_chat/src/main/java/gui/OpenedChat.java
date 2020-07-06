@@ -134,7 +134,7 @@ public class OpenedChat extends JPanel {
 
 		// this.add(Box.createRigidArea(new Dimension(60, 20)));
 		
-		setBackground(Color.red);
+		setBackground(new Color(254,66,95));
 	}
 	
 	
