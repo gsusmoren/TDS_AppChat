@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -279,7 +278,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	// GetGRupo nick 
+	// GetGRupo nick
 	public Grupo getGrupo(String nombre) {
 		Grupo g = usuarioActual.getGrupo(nombre);
 
@@ -288,6 +287,25 @@ public class ControladorAppChat implements MensajesListener {
 		} else {
 			return null;
 		}
+	}
+
+	//Método para editar un grupo
+	public Grupo modificarGrupo(String grupo, String nombre, List<ContactoIndividual> l) {
+		Grupo g = usuarioActual.getGrupo(grupo);
+		for (ContactoIndividual c : g.getContactos()) {
+			c.getUsuario().borrarContacto(g);
+			adapU.modificarUsuario(c.getUsuario());
+			catalogoUsuarios.actualizarUsuario(c.getUsuario());
+		}
+		g.setNombre(nombre);
+		g.setContactos(l);
+		adapGP.modificarGrupo(g);
+		for (ContactoIndividual c : l) {
+			c.getUsuario().addContacto(g);
+			adapU.modificarUsuario(c.getUsuario());
+			catalogoUsuarios.actualizarUsuario(c.getUsuario());
+		}
+		return g;
 	}
 
 	// Método para exportar un PDF con los contactos del usuario
@@ -386,60 +404,60 @@ public class ControladorAppChat implements MensajesListener {
 
 	@Override
 	public void nuevosMensajes(MensajesEvent e) {
-	
-		List<MensajeWhatsApp> listaMensajes= e.obtenerLista();
-		String contacto="";
-		for(MensajeWhatsApp m : listaMensajes){
-			if(!m.getAutor().equals(usuarioActual.getNombre())){
+
+		List<MensajeWhatsApp> listaMensajes = e.obtenerLista();
+		String contacto = "";
+		for (MensajeWhatsApp m : listaMensajes) {
+			if (!m.getAutor().equals(usuarioActual.getNombre())) {
 				contacto = m.getAutor();
 				break;
 			}
 		}
 		Contacto cont = null;
-		for(Contacto c : usuarioActual.getContactos()){
-			if(c.getNombre().equals(contacto)){
-				cont=c;
+		for (Contacto c : usuarioActual.getContactos()) {
+			if (c.getNombre().equals(contacto)) {
+				cont = c;
 				break;
 			}
 		}
-		
-		if(cont!=null){
-			for(MensajeWhatsApp m : listaMensajes){
-				String autor=m.getAutor();
-				if(autor.equals(usuarioActual.getNombre())){
+
+		if (cont != null) {
+			for (MensajeWhatsApp m : listaMensajes) {
+				String autor = m.getAutor();
+				if (autor.equals(usuarioActual.getNombre())) {
 					Mensaje m1 = new Mensaje(m.getTexto());
 					m1.setEmisor(usuarioActual);
 					m1.setReceptor(cont);
 					LocalDateTime f = m.getFecha();
 					m1.setHora(f);
-					
-					if(cont instanceof ContactoIndividual){
+
+					if (cont instanceof ContactoIndividual) {
 						cont.addMensaje(m1);
 						adapMS.registrarMensaje(m1);
-						adapCI.modificarContactoIndividual((ContactoIndividual)cont);
-					}else{
+						adapCI.modificarContactoIndividual((ContactoIndividual) cont);
+					} else {
 						cont.addMensaje(m1);
 						adapMS.registrarMensaje(m1);
-						adapGP.modificarGrupo((Grupo)cont);
+						adapGP.modificarGrupo((Grupo) cont);
 					}
-					
-				}else{
-					Usuario u=((ContactoIndividual)cont).getUsuario();
-					ContactoIndividual c_actual = new ContactoIndividual(usuarioActual.getNombre(), usuarioActual.getMovil());
+
+				} else {
+					Usuario u = ((ContactoIndividual) cont).getUsuario();
+					ContactoIndividual c_actual = new ContactoIndividual(usuarioActual.getNombre(),
+							usuarioActual.getMovil());
 					c_actual.setUsuario(usuarioActual);
 					Mensaje m1 = new Mensaje(m.getTexto());
 					m1.setEmisor(u);
 					m1.setReceptor(c_actual);
 					LocalDateTime f = m.getFecha();
 					m1.setHora(f);
-					
+
 					cont.addMensaje(m1);
 					adapMS.registrarMensaje(m1);
-					adapCI.modificarContactoIndividual((ContactoIndividual)cont);
+					adapCI.modificarContactoIndividual((ContactoIndividual) cont);
 				}
 			}
 		}
-		
 
 	}
 

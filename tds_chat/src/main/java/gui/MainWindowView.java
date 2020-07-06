@@ -90,61 +90,62 @@ public class MainWindowView extends JFrame {
 		icUseraux = new ImageIcon(scaled);
 		final ImageIcon icUser = icUseraux;
 
-		
 		Luz luz = new Luz();
 		luz.setMaximumSize(new Dimension(50, 50));
 		luz.addEncendidoListener(new IEncendidoListener() {
-			
+
 			public void enteradoCambioEncendido(EventObject arg0) {
-				if(luz.isEncendido()){
+				if (luz.isEncendido()) {
 					JFileChooser fileC = new JFileChooser();
-					fileC.setBounds(Constantes.mainWindow_x,Constantes.mainWindow_y,Constantes.mainWx_size,Constantes.mainWy_size);
-			
-					fileC.addChoosableFileFilter(new FileNameExtensionFilter("Txt files","txt","text"));
+					fileC.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
+							Constantes.mainWy_size);
+
+					fileC.addChoosableFileFilter(new FileNameExtensionFilter("Txt files", "txt", "text"));
 					fileC.setAcceptAllFileFilterUsed(false);
 					int returnVal = fileC.showOpenDialog(null);
-					
+
 					File f;
-					if(returnVal == JFileChooser.APPROVE_OPTION) {
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						f = fileC.getSelectedFile();
-						String pathString =fileC.getCurrentDirectory().toString()+"/";
+						String pathString = fileC.getCurrentDirectory().toString() + "/";
 						pathString = pathString.concat(fileC.getSelectedFile().getName());
 						Vector<String> options = new Vector<String>();
 						options.add("");
 						options.add("IOS");
 						options.add("Android 1");
 						options.add("Android 2");
-						
+
 						JComboBox b = new JComboBox(options);
 						b.setEditable(false);
-						
-						//JOptionPane.showMessageDialog(null, b, "Modificat grupo", JOptionPane.QUESTION_MESSAGE);
-						int res=JOptionPane.showConfirmDialog(null, b, "Seleccionar formato de txt", JOptionPane.YES_NO_OPTION);
-						if(res==JOptionPane.YES_OPTION && !b.getSelectedItem().equals("")){
-							String formato = (String)b.getSelectedItem();
-							String formatDate="";
-							Plataforma p=null;
-							if(formato.equals("IOS")){
+
+						// JOptionPane.showMessageDialog(null, b, "Modificat grupo",
+						// JOptionPane.QUESTION_MESSAGE);
+						int res = JOptionPane.showConfirmDialog(null, b, "Seleccionar formato de txt",
+								JOptionPane.YES_NO_OPTION);
+						if (res == JOptionPane.YES_OPTION && !b.getSelectedItem().equals("")) {
+							String formato = (String) b.getSelectedItem();
+							String formatDate = "";
+							Plataforma p = null;
+							if (formato.equals("IOS")) {
 								formatDate = "d/M/yy H:mm:ss";
 								p = Plataforma.IOS;
-							}else if(formato.equals("Android 1")){
+							} else if (formato.equals("Android 1")) {
 								formatDate = "d/M/yy H:mm";
 								p = Plataforma.ANDROID;
-							}else if(formato.equals("Android 2")){
+							} else if (formato.equals("Android 2")) {
 								formatDate = "d/M/yyyy H:mm";
 								p = Plataforma.ANDROID;
 							}
-							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString,formatDate, p);
-							
+							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString, formatDate, p);
+
 						}
-					}else if(returnVal==JFileChooser.CANCEL_OPTION || returnVal==JFileChooser.ERROR_OPTION)
+					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION)
 						return;
-					
-					
+
 				}
 			}
 		});
-		
+
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
 		final JLabel userLb = new JLabel(icUser);
@@ -159,7 +160,7 @@ public class MainWindowView extends JFrame {
 		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
 		topLpanel.add(luz);
 		topLpanel.add(Box.createRigidArea(new Dimension(115, 60)));
-		
+
 		topLpanel.add(opLb);
 		lPanel.add(topLpanel);
 		final JFrame copiaFrame = this;
@@ -577,6 +578,161 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
+//Ventana de modificar grupo
+		mModGrupo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Vector<String> options = new Vector<String>();
+				options.add("");
+				Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+				for (Grupo g : u.getGrupos()) {
+					options.add(g.getNombre());
+				}
+				JComboBox b = new JComboBox(options);
+				b.setEditable(false);
+
+				// JOptionPane.showMessageDialog(null, b, "Modificat grupo",
+				// JOptionPane.QUESTION_MESSAGE);
+				int res = JOptionPane.showConfirmDialog(null, b, "Modificar grupo", JOptionPane.YES_NO_OPTION);
+
+				if (res == JOptionPane.YES_OPTION) {
+					if (!b.getSelectedItem().equals("")) {
+						Grupo grupo = u.getGrupo((String) b.getSelectedItem());
+
+						final JDialog grupoD = new JDialog();
+						grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500,
+								500);
+						final DefaultListModel<String> l1 = new DefaultListModel<String>();
+						List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
+								.getContactosIndividuales();
+						for (ContactoIndividual c : cont) {
+							// TODO mostar aquellos contactos con los que no hayamos iniciado una
+							// conversacion
+							if (!grupo.getContactos().contains(c))
+								l1.addElement(c.getNombre());
+						}
+
+						final JList l = new JList(l1);
+						l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						l.setMinimumSize(new Dimension(130, 480));
+						l.setMaximumSize(new Dimension(130, 480));
+						l.setPreferredSize(new Dimension(130, 480));
+						l.setBorder(BorderFactory.createTitledBorder("Contactos sin añadir"));
+						grupoD.getContentPane().add(l, BorderLayout.WEST);
+
+						final DefaultListModel<String> l2 = new DefaultListModel<String>();
+						for (ContactoIndividual ci : grupo.getContactos()) {
+							l2.addElement(ci.getNombre());
+						}
+						final JList ll = new JList(l2);
+						ll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						ll.setMinimumSize(new Dimension(130, 480));
+						ll.setMaximumSize(new Dimension(130, 480));
+						ll.setPreferredSize(new Dimension(130, 480));
+						ll.setBorder(BorderFactory.createTitledBorder("Contactos de grupo"));
+						grupoD.getContentPane().add(ll, BorderLayout.EAST);
+
+						JPanel p1 = new JPanel();
+						p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
+						final JTextField nombre = new JTextField(grupo.getNombre());
+
+						nombre.setMaximumSize(new Dimension(350, 20));
+						ImageIcon icDer = new ImageIcon("pics/flecha-derecha.png");
+						ImageIcon icIzqu = new ImageIcon("pics/flecha-hacia-la-izquierda.png");
+
+						JButton quitar = new JButton(icIzqu);
+						JButton añadir = new JButton(icDer);
+						nombre.setColumns(15);
+						nombre.setAlignmentX(CENTER_ALIGNMENT);
+						p1.add(nombre);
+						p1.add(Box.createRigidArea(new Dimension(50, 150)));
+						p1.add(añadir);
+						p1.add(quitar);
+						grupoD.getContentPane().add(p1, BorderLayout.CENTER);
+
+						JButton bAc = new JButton("Aceptar");
+						JButton bCanc = new JButton("Cancelar");
+						JPanel bot = new JPanel();
+						bot.setLayout(new FlowLayout());
+						bot.add(bAc);
+						bot.add(bCanc);
+						grupoD.add(bot, BorderLayout.SOUTH);
+						grupoD.setVisible(true);
+
+						añadir.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+								if (l.getSelectedIndex() != -1) {
+									l2.addElement((String) l.getSelectedValue());
+									l1.removeElement(l.getSelectedValue());
+								}
+
+							}
+						});
+
+						quitar.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+								if (ll.getSelectedIndex() != 1) {
+									l1.addElement((String) ll.getSelectedValue());
+									l2.removeElement(ll.getSelectedValue());
+								}
+
+							}
+						});
+
+						bAc.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+								// TODO Adaptar openedChat a grupos
+
+								// TODO hacer lista con los contactos seleccionados arriba y usar
+								// getContacto(mote)
+								if (nombre.getText().equals("")) {
+									JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo",
+											"Error nombre grupo", JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+
+								LinkedList<ContactoIndividual> contacs = new LinkedList<ContactoIndividual>();
+								ContactoIndividual ci;
+								for (int i = 0; i < l2.getSize(); i++) {
+
+									ci = ControladorAppChat.getUnicaInstancia().getContactoIndividual(l2.get(i));
+									if (ci != null)
+										contacs.add(ci);
+								}
+
+								if (contacs.size() < 1) {
+									JOptionPane.showMessageDialog(grupoD, "Se debe añadir al menos 1 persona al grupo",
+											"Error numero de usuarios", JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+
+								Grupo g = ControladorAppChat.getUnicaInstancia().modificarGrupo(grupo.getNombre(),
+										nombre.getText(), contacs);
+								List<Mensaje> m = g.getListaMensajes();
+								OpenedChat chatnew;
+								if (!m.isEmpty())
+									chatnew = new OpenedChat(g, m.get(m.size() - 1).getTexto(), botLPanel, rPanel);
+								else
+									chatnew = new OpenedChat(g, "", botLPanel, rPanel);
+								botLPanel.removeAll();
+								chatsRecientes();
+								botLPanel.revalidate();
+								botLPanel.repaint();
+								grupoD.dispose();
+
+							}
+
+						});
+					}
+				}
+
+			}
+		});
 
 		mEstadisticas.addActionListener(new ActionListener() {
 
@@ -589,15 +745,12 @@ public class MainWindowView extends JFrame {
 					return;
 
 				}
-				
+
 				Graficas graf = new Graficas();
 				graf.exportarGraficas();
-				JOptionPane.showMessageDialog(copiaFrame,
-						"Se han generado sus estadísticas", "Exportación correcta",
+				JOptionPane.showMessageDialog(copiaFrame, "Se han generado sus estadísticas", "Exportación correcta",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
-				
-				
 
 			}
 		});
