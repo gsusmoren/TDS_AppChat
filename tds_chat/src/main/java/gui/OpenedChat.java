@@ -118,7 +118,6 @@ public class OpenedChat extends JPanel {
 						
 					}
 					List<Mensaje> m = contacto.getListaMensajes();
-					if(!m.isEmpty()) System.out.println("último mensaje: " + m.get(m.size()-1).getTexto());
 					rPanel.add(chat);
 					rPanel.validate();
 					rPanel.repaint();

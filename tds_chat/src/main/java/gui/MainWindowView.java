@@ -12,16 +12,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.rmi.server.ExportException;
 import java.util.Comparator;
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.itextpdf.text.DocumentException;
 
+import componente.cargador.modelo.Plataforma;
+import componente.pulsador.IEncendidoListener;
+import componente.pulsador.Luz;
 import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
@@ -78,6 +85,62 @@ public class MainWindowView extends JFrame {
 		icUseraux = new ImageIcon(scaled);
 		final ImageIcon icUser = icUseraux;
 
+		
+		Luz luz = new Luz();
+		luz.setMaximumSize(new Dimension(50, 50));
+		luz.addEncendidoListener(new IEncendidoListener() {
+			
+			public void enteradoCambioEncendido(EventObject arg0) {
+				if(luz.isEncendido()){
+					JFileChooser fileC = new JFileChooser();
+					fileC.setBounds(Constantes.mainWindow_x,Constantes.mainWindow_y,Constantes.mainWx_size,Constantes.mainWy_size);
+			
+					fileC.addChoosableFileFilter(new FileNameExtensionFilter("Txt files","txt","text"));
+					fileC.setAcceptAllFileFilterUsed(false);
+					int returnVal = fileC.showOpenDialog(null);
+					
+					File f;
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						f = fileC.getSelectedFile();
+						String pathString =fileC.getCurrentDirectory().toString()+"/";
+						pathString = pathString.concat(fileC.getSelectedFile().getName());
+						Vector<String> options = new Vector<String>();
+						options.add("");
+						options.add("IOS");
+						options.add("Android 1");
+						options.add("Android 2");
+						
+						JComboBox b = new JComboBox(options);
+						b.setEditable(false);
+						
+						//JOptionPane.showMessageDialog(null, b, "Modificat grupo", JOptionPane.QUESTION_MESSAGE);
+						int res=JOptionPane.showConfirmDialog(null, b, "Seleccionar formato de txt", JOptionPane.YES_NO_OPTION);
+						if(res==JOptionPane.YES_OPTION && !b.getSelectedItem().equals("")){
+							String formato = (String)b.getSelectedItem();
+							String formatDate="";
+							Plataforma p=null;
+							if(formato.equals("IOS")){
+								formatDate = "d/M/yy H:mm:ss";
+								p = Plataforma.IOS;
+							}else if(formato.equals("Android 1")){
+								formatDate = "d/M/yy H:mm";
+								p = Plataforma.ANDROID;
+							}else if(formato.equals("Android 2")){
+								formatDate = "d/M/yyyy H:mm";
+								p = Plataforma.ANDROID;
+							}
+							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString,formatDate, p);
+							
+						}
+					}else if(returnVal==JFileChooser.CANCEL_OPTION || returnVal==JFileChooser.ERROR_OPTION)
+						return;
+					
+					
+				}
+			}
+		});
+		
+
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
 
 		final JLabel userLb = new JLabel(icUser);
@@ -88,7 +151,13 @@ public class MainWindowView extends JFrame {
 		opLb.setMaximumSize(new Dimension(60, 60));
 		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
 		topLpanel.add(userLb);
+
 		topLpanel.add(Box.createRigidArea(new Dimension(170, 60)));
+
+
+		topLpanel.add(Box.createRigidArea(new Dimension(10, 60)));
+		topLpanel.add(luz);
+		topLpanel.add(Box.createRigidArea(new Dimension(115, 60)));
 
 		topLpanel.add(opLb);
 		lPanel.add(topLpanel);

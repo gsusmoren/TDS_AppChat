@@ -31,18 +31,15 @@ public class Graficas {
 
 		CategoryChart grafica = new CategoryChartBuilder().width(900).height(400)
 				.title("Número de Mensajes escritos cada mes").xAxisTitle("Meses").yAxisTitle("Mensajes").build();
-		
-		
-		grafica.getStyler().setLegendPosition(LegendPosition.InsideNW);
-	    grafica.getStyler().setHasAnnotations(true);
 
-	
-		
-		grafica.addSeries("Nmensajes", Arrays.asList(new String[] { "Enero", "Febrero", "Marzo",
-				"Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
-				"Noviembre", "Diciembre"}), Arrays.asList(nMensajesMes));
-		
-		
+		grafica.getStyler().setLegendPosition(LegendPosition.InsideNW);
+		grafica.getStyler().setHasAnnotations(true);
+
+		grafica.addSeries(
+				"Nmensajes", Arrays.asList(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+						"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }),
+				Arrays.asList(nMensajesMes));
+
 		try {
 			BitmapEncoder.saveBitmap(grafica, "./HistrogramasMensajes", BitmapFormat.PNG);
 		} catch (IOException e) {
@@ -50,37 +47,30 @@ public class Graficas {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void crearPieChart() {
 		PieChart pie = new PieChartBuilder().width(600).height(400).title("Grupos Más Activos").build();
-		Color[] sliceColors = new Color[] { new Color(238,211,160), new Color(160,238,162) , new Color(160,233,238), new Color(160,187,238), new Color(222,160,238),
-				new Color(238,160,172)};
-		
+		Color[] sliceColors = new Color[] { new Color(238, 211, 160), new Color(160, 238, 162),
+				new Color(160, 233, 238), new Color(160, 187, 238), new Color(222, 160, 238),
+				new Color(238, 160, 172) };
+
 		pie.getStyler().setSeriesColors(sliceColors);
 		pie.getStyler().setLegendVisible(true);
-		
-		
-		HashMap<Grupo,Double> gps = ControladorAppChat.getUnicaInstancia().getGruposMasActivos();
-		
-		for( Grupo g : gps.keySet()) {
-			
+
+		HashMap<Grupo, Double> gps = ControladorAppChat.getUnicaInstancia().getGruposMasActivos();
+
+		for (Grupo g : gps.keySet()) {
+
 			double percentMsg = gps.get(g) * 100;
-			pie.addSeries(g.getNombre()+" "+String.valueOf(percentMsg)+"%", percentMsg);
+			pie.addSeries(g.getNombre() + " " + String.valueOf(percentMsg) + "%", percentMsg);
 		}
-		
-		
+
 		try {
 			BitmapEncoder.saveBitmap(pie, "./PieGrupos", BitmapFormat.PNG);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-	}
-	
-	
-	
-	
 
+	}
 }
