@@ -124,8 +124,10 @@ public class SelectedChat extends JPanel {
 		JPopupMenu menuDots = new JPopupMenu();
 		JMenuItem borrarMsgs = new JMenuItem("Vaciar Conversación");
 		JMenuItem elimCtcto = new JMenuItem("Eliminar Contacto");
+		JMenuItem modCont = new JMenuItem("Modificar contacto");
 		menuDots.add(borrarMsgs);
 		menuDots.add(elimCtcto);
+		menuDots.add(modCont);
 
 		puntos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -180,6 +182,77 @@ public class SelectedChat extends JPanel {
 				JOptionPane.showMessageDialog(null, "Mensajes eliminados con éxito", "Borrado de Mensajes",
 						JOptionPane.INFORMATION_MESSAGE);
 
+			}
+		});
+		
+		modCont.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame modificar = new JFrame();
+				final JDialog ventReg = new JDialog(modificar, "Modificar contacto", true);
+				ventReg.setBounds(Constantes.mainWindow_x + 300, Constantes.mainWindow_y + 150, 300, 150);
+
+				final JPanel panelV = new JPanel();
+
+				JButton aceptar = new JButton("Aceptar");
+				JButton cancelar = new JButton("Cancelar");
+				JLabel enunciado = new JLabel("Introduce el nuevo nombre de contacto:");
+				panelV.add(enunciado, BorderLayout.NORTH);
+
+				final JTextField nombreCont = new JTextField(15);
+
+				JPanel panelCent = new JPanel();
+				panelCent.setLayout(new BoxLayout(panelCent, BoxLayout.Y_AXIS));
+				JPanel centralNom = new JPanel();
+				
+				panelCent.add(centralNom);
+				
+
+				panelV.add(panelCent, BorderLayout.CENTER);
+				centralNom.add(new JLabel("Nombre :"));
+				centralNom.add(nombreCont, BorderLayout.CENTER);
+
+				panelV.add(aceptar, BorderLayout.SOUTH);
+				panelV.add(cancelar, BorderLayout.SOUTH);
+
+				aceptar.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+						// TODO usuario no repetido y que exista
+						String nombre = nombreCont.getText().trim();
+						boolean isMod = ControladorAppChat.getUnicaInstancia().modificarContactoIndividual(nombre, ((ContactoIndividual)c));
+						if (isMod) {
+							JOptionPane.showMessageDialog(panelV, "Contacto modificado correctamente",
+									"Contacto Modificado", JOptionPane.INFORMATION_MESSAGE);
+							o.actualizarOpenedChat();
+							mostrarBubbleText();
+							validate();
+							o.repaint();
+							ventReg.dispose();
+						} else {
+							JOptionPane.showMessageDialog(panelV, "Ya existe un contacto con este nombre", "Contacto No Modificado",
+									JOptionPane.ERROR_MESSAGE);
+
+						}
+
+					}
+				});
+
+				cancelar.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+						ventReg.dispose();
+
+					}
+				});
+
+				ventReg.setUndecorated(true);
+				ventReg.add(panelV);
+				ventReg.setVisible(true);
+
+			
+				
 			}
 		});
 

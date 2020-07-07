@@ -96,6 +96,8 @@ public class MainWindowView extends JFrame {
 
 			public void enteradoCambioEncendido(EventObject arg0) {
 				if (luz.isEncendido()) {
+					luz.repaint();
+					
 					JFileChooser fileC = new JFileChooser();
 					fileC.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 							Constantes.mainWy_size);
@@ -137,11 +139,11 @@ public class MainWindowView extends JFrame {
 								p = Plataforma.ANDROID;
 							}
 							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString, formatDate, p);
-
+							
 						}
 					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION)
 						return;
-
+					
 				}
 			}
 		});

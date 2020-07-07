@@ -208,6 +208,20 @@ public class ControladorAppChat implements MensajesListener {
 		return null;
 
 	}
+	
+	public boolean modificarContactoIndividual(String nombre, ContactoIndividual c){
+		for(Contacto contacto : usuarioActual.getContactos()){
+			if(contacto.getNombre().equals(nombre)){
+				return false;
+			}
+		}
+		usuarioActual.borrarContacto(c);
+		c.setNombre(nombre);
+		usuarioActual.addContacto(c);
+		adapU.modificarUsuario(usuarioActual);
+		adapCI.modificarContactoIndividual(c);
+		return true;
+	}
 
 	public void cMensajeEmoji(int e, Contacto c) {
 		Mensaje m1 = new Mensaje(e);
