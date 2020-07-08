@@ -85,7 +85,7 @@ public class OpenedChat extends JPanel {
 		pRight.add(pRightBot);
 
 		nameL = new JLabel(name);
-		dateL = new JLabel(LocalDate.now().toString());
+		dateL = new JLabel();
 		last = new JLabel(ultMsg);
 		nameL.setMaximumSize(new Dimension(70, 20));
 
@@ -102,6 +102,7 @@ public class OpenedChat extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
+					
 					if (rPanel.getComponentCount() <= 1) {
 						Component[] listaComp = rPanel.getComponents();
 
@@ -138,12 +139,15 @@ public class OpenedChat extends JPanel {
 					m = ult.getTexto();
 				} else
 					m = "Emoji";
-
+				this.setLstDate(ult.getHora().toLocalDate());
+				dateL.setText(lstDate.toString());
 				this.setUltMsg(m);
 				last.setText(ultMsg);
-
+				
 			}
 		else {
+			this.setLstDate(LocalDate.now());
+			dateL.setText(lstDate.toString());
 			this.setUltMsg("");
 			last.setText(ultMsg);
 			this.revalidate();
