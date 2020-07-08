@@ -2,48 +2,32 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 import controlador.ControladorAppChat;
-import dao.AdaptadorContactoIndividualTDS;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
@@ -53,10 +37,8 @@ import tds.BubbleText;
 
 /**
  * Este es el panel que aparece al clicar en una conversacion de la barra de la
- * izquierda
+ * izquierda. Muestra un panel con el chat.
  * 
- * @author Jesus
- *
  */
 @SuppressWarnings("serial")
 public class SelectedChat extends JPanel {
@@ -366,8 +348,7 @@ public class SelectedChat extends JPanel {
 			}
 		});
 
-		// Son 25 emogis
-
+		// Son 25 emogis en una cuadrícula
 		sendBt.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -403,7 +384,6 @@ public class SelectedChat extends JPanel {
 				JPanel emoPanel = new JPanel();
 				emos.getContentPane().add(emoPanel);
 				emoPanel.setLayout(new GridLayout(5, 5));
-				// hay 25 emogis
 				JLabel emo[] = new JLabel[25];
 
 				for (int i = 0; i < 25; i++) {
@@ -437,7 +417,7 @@ public class SelectedChat extends JPanel {
 					}
 
 					public void focusGained(FocusEvent e) {
-						// TODO Auto-generated method stub
+						
 
 					}
 				});

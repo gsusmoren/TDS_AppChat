@@ -25,9 +25,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.itextpdf.text.DocumentException;
 
+
 import componente.cargador.modelo.Plataforma;
 import componente.pulsador.IEncendidoListener;
 import componente.pulsador.Luz;
+
+
+
+
 import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
