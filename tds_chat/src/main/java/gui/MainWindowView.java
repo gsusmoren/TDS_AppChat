@@ -97,7 +97,7 @@ public class MainWindowView extends JFrame {
 			public void enteradoCambioEncendido(EventObject arg0) {
 				if (luz.isEncendido()) {
 					luz.repaint();
-					
+
 					JFileChooser fileC = new JFileChooser();
 					fileC.setBounds(Constantes.mainWindow_x, Constantes.mainWindow_y, Constantes.mainWx_size,
 							Constantes.mainWy_size);
@@ -120,8 +120,6 @@ public class MainWindowView extends JFrame {
 						JComboBox b = new JComboBox(options);
 						b.setEditable(false);
 
-						// JOptionPane.showMessageDialog(null, b, "Modificat grupo",
-						// JOptionPane.QUESTION_MESSAGE);
 						int res = JOptionPane.showConfirmDialog(null, b, "Seleccionar formato de txt",
 								JOptionPane.YES_NO_OPTION);
 						if (res == JOptionPane.YES_OPTION && !b.getSelectedItem().equals("")) {
@@ -139,13 +137,23 @@ public class MainWindowView extends JFrame {
 								p = Plataforma.ANDROID;
 							}
 							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString, formatDate, p);
-							
+							//luz.setEncendido(false);
+							//luz.repaint();
 						}
-					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION)
+					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION) {
+						luz.setEncendido(false);
+						luz.repaint();
 						return;
-					
+					}
+
+					luz.setEncendido(false);
+					luz.repaint();
+				
+
 				}
+				
 			}
+			
 		});
 
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
