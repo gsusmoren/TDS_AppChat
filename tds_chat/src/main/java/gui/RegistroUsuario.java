@@ -161,7 +161,6 @@ public class RegistroUsuario extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				txtClave.setText("");
 				txtClave.setFocusable(true);
-				// txtClave.setFont(f_2);
 				txtClave.setEchoChar('*');
 			}
 		});

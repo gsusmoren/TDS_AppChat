@@ -303,7 +303,6 @@ public class SelectedChat extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				JFrame infoFrame = new JFrame();
-				// Poner nombre del contacto real
 				JDialog contactInfo = new JDialog(infoFrame, "Nombre Completo del Contacto", true);
 				contactInfo.setBounds(300, 300, 300, 350);
 				contactInfo.setResizable(false);

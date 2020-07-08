@@ -59,7 +59,6 @@ public class OpenedChat extends JPanel {
 		if (c != null)
 			name = c.getNombre();
 
-		// TODO getUltimoMensaje
 		ultMsg = s;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
@@ -103,8 +102,6 @@ public class OpenedChat extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
-					// Queremos eliminar lo que hay en ese panel con anterioridad
-					// quizá lo tenga que hacer la clase que lo crea
 					if (rPanel.getComponentCount() <= 1) {
 						Component[] listaComp = rPanel.getComponents();
 
