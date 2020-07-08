@@ -152,9 +152,7 @@ public abstract class Contacto {
 	public double getPorcentajeUsuario(Usuario u) {
 		
 		List<Mensaje> mensU = filtrarMensajesPorUsuario(u.getNombre());
-		
-		System.out.println(mensU.size() / getListaMensajes().size());
-		
+		if(mensU.size() == 0) return 0.00;	
 		double res = (double) mensU.size() / (double) getListaMensajes().size();
 		return res;
 	}

@@ -595,7 +595,7 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-//Ventana de modificar grupo
+		//Ventana de modificar grupo
 		mModGrupo.addActionListener(new ActionListener() {
 
 			@Override
@@ -610,14 +610,19 @@ public class MainWindowView extends JFrame {
 				JComboBox b = new JComboBox(options);
 				b.setEditable(false);
 
-				// JOptionPane.showMessageDialog(null, b, "Modificat grupo",
-				// JOptionPane.QUESTION_MESSAGE);
+		
 				int res = JOptionPane.showConfirmDialog(null, b, "Modificar grupo", JOptionPane.YES_NO_OPTION);
 
 				if (res == JOptionPane.YES_OPTION) {
 					if (!b.getSelectedItem().equals("")) {
 						Grupo grupo = u.getGrupo((String) b.getSelectedItem());
-
+						
+						if(!ControladorAppChat.getUnicaInstancia().isAdmin(grupo)) {
+							JOptionPane.showMessageDialog(copiaFrame, "Debes ser Administrador para editar un grupo",
+									"Error Editar Grupo", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						
 						final JDialog grupoD = new JDialog();
 						grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500,
 								500);
@@ -625,8 +630,7 @@ public class MainWindowView extends JFrame {
 						List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
 								.getContactosIndividuales();
 						for (ContactoIndividual c : cont) {
-							// TODO mostar aquellos contactos con los que no hayamos iniciado una
-							// conversacion
+							
 							if (!grupo.getContactos().contains(c))
 								l1.addElement(c.getNombre());
 						}

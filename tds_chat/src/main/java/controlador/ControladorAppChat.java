@@ -84,7 +84,12 @@ public class ControladorAppChat implements MensajesListener {
 
 		return usuarioActual;
 	}
-
+	//Método que devuelve si el usuario es Admin del grupo
+	public boolean isAdmin(Grupo g) {
+		if(g.getAdmin() == null) return false;
+		return g.getAdmin().equals(usuarioActual);
+	}
+	
 	// Método que permite a un usuario ingresar en la aplicación con sus
 	// credenciales
 	public boolean loginUsuario(String login, String passwd) {
@@ -260,6 +265,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
+	
 	public void cMensajeTexto(String t, Contacto c) {
 		Mensaje m1 = new Mensaje(t);
 		m1.setEmisor(usuarioActual);
@@ -377,6 +383,7 @@ public class ControladorAppChat implements MensajesListener {
         if (usuarioActual.getContactos().contains(c)) {
             if (c instanceof Grupo) {
                 Grupo gp = (Grupo) c;
+                if(usuarioActual.getNick() == null) gp.setAdmin(null);
                 if(usuarioActual.getNick().equals(gp.getAdmin().getNick()))
                     gp.setAdmin(null);
                 else{

@@ -143,9 +143,8 @@ public class SelectedChat extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (c instanceof Grupo) {
-					Usuario us = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 					Grupo gp = (Grupo) c;
-					if (!gp.getAdmin().equals(us)) {
+					if (!ControladorAppChat.getUnicaInstancia().isAdmin(gp)) {
 						JOptionPane.showMessageDialog(null, "Debe ser Admin. para borrar los mensajes grupales",
 								"Error Borrado Mensajes", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -342,6 +341,7 @@ public class SelectedChat extends JPanel {
 
 				contactInfo.add(conInfPanel);
 				pic.setAlignmentX(CENTER_ALIGNMENT);
+				name.setFont(new Font("Monospaced", Font.BOLD, 22));
 				name.setAlignmentX(CENTER_ALIGNMENT);
 				tel.setAlignmentX(CENTER_ALIGNMENT);
 				contactInfo.setVisible(true);

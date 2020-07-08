@@ -51,5 +51,4 @@ public  class Grupo extends Contacto {
 		this.admin = a;
 	}
 	
-	
 }

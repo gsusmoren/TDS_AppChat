@@ -3,7 +3,6 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -20,7 +19,6 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
-import controlador.ControladorAppChat;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
@@ -43,7 +41,11 @@ public class FiltroMensajesGP extends JDialog {
 		if(gp.getAdmin()!=null)
 		cntactos.addItem(gp.getAdmin().getNombre());
 		for (ContactoIndividual ci : gp.getContactos()) {
-			cntactos.addItem(ci.getNombre());
+			
+			
+			cntactos.addItem(ci.getUsuario().getNombre());
+			
+			
 		}
 
 		JPanel panel = new JPanel();
@@ -103,6 +105,10 @@ public class FiltroMensajesGP extends JDialog {
 		add(panel);
 		setVisible(true);
 
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
 	}
 
 }
