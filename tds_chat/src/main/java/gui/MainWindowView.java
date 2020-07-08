@@ -25,13 +25,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.itextpdf.text.DocumentException;
 
-
 import componente.cargador.modelo.Plataforma;
 import componente.pulsador.IEncendidoListener;
 import componente.pulsador.Luz;
-
-
-
 
 import controlador.ControladorAppChat;
 import modelo.Contacto;
@@ -40,6 +36,13 @@ import modelo.Grupo;
 import modelo.Mensaje;
 import modelo.Usuario;
 
+/**
+ * Clase principal que agrupa los distintos paneles y dialogos que componen la
+ * interfaz de la aplicación.
+ * 
+ * @author Jesus
+ *
+ */
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
 
@@ -106,6 +109,7 @@ public class MainWindowView extends JFrame {
 					fileC.setAcceptAllFileFilterUsed(false);
 					int returnVal = fileC.showOpenDialog(null);
 
+					@SuppressWarnings("unused")
 					File f;
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						f = fileC.getSelectedFile();
@@ -117,6 +121,7 @@ public class MainWindowView extends JFrame {
 						options.add("Android 1");
 						options.add("Android 2");
 
+						@SuppressWarnings({ "unchecked", "rawtypes" })
 						JComboBox b = new JComboBox(options);
 						b.setEditable(false);
 
@@ -137,8 +142,7 @@ public class MainWindowView extends JFrame {
 								p = Plataforma.ANDROID;
 							}
 							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString, formatDate, p);
-							// luz.setEncendido(false);
-							// luz.repaint();
+
 						}
 					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION) {
 						luz.setEncendido(false);
@@ -176,7 +180,6 @@ public class MainWindowView extends JFrame {
 		userLb.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				// pasar saludo del usuario
 				EditProfileWindow eProf = new EditProfileWindow(copiaFrame);
 
 				eProf.addWindowListener(new WindowAdapter() {
@@ -207,7 +210,7 @@ public class MainWindowView extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lPanel.add(js);
 
-		// Boton de Opciones
+		// Boton de Opciones de 3 puntos
 		final JPopupMenu menuDots = new JPopupMenu("Crear Chat");
 
 		JMenuItem mNuevoChat = new JMenuItem("Nuevo Chat");
@@ -235,8 +238,9 @@ public class MainWindowView extends JFrame {
 				}
 			}
 		});
-
+		// Actualizamos el panel con los chats que teníamos abiertos
 		chatsRecientes();
+		// Ventana para Abrir un chat con un Contacto
 		mNuevoChat.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -248,8 +252,6 @@ public class MainWindowView extends JFrame {
 						.getContactosIndividuales();
 				for (ContactoIndividual c : cont) {
 
-					// TODO mostar aquellos contactos con los que no hayamos iniciado una
-					// conversacion
 					if (c.getListaMensajes().size() == 0)
 						lista.addElement(c.getNombre());
 				}
@@ -298,6 +300,7 @@ public class MainWindowView extends JFrame {
 			}
 		});
 
+		// Ventana para crear un grupo nuevo
 		mNuevoGrupo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -307,8 +310,7 @@ public class MainWindowView extends JFrame {
 				List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
 						.getContactosIndividuales();
 				for (ContactoIndividual c : cont) {
-					// TODO mostar aquellos contactos con los que no hayamos iniciado una
-					// conversacion
+
 					l1.addElement(c.getNombre());
 				}
 
@@ -387,10 +389,7 @@ public class MainWindowView extends JFrame {
 				bAc.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
-						// TODO Adaptar openedChat a grupos
 
-						// TODO hacer lista con los contactos seleccionados arriba y usar
-						// getContacto(mote)
 						if (nombre.getText().equals("")) {
 							JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo",
 									"Error nombre grupo", JOptionPane.ERROR_MESSAGE);
@@ -472,7 +471,7 @@ public class MainWindowView extends JFrame {
 				aceptar.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
-						// TODO usuario no repetido y que exista
+
 						String nombre = nombreCont.getText().trim();
 
 						if (nombre.isEmpty() || nombre.length() > 12) {
@@ -595,7 +594,8 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-		//Ventana de modificar grupo
+
+		// Ventana de modificar grupo
 		mModGrupo.addActionListener(new ActionListener() {
 
 			@Override
@@ -610,19 +610,18 @@ public class MainWindowView extends JFrame {
 				JComboBox b = new JComboBox(options);
 				b.setEditable(false);
 
-		
 				int res = JOptionPane.showConfirmDialog(null, b, "Modificar grupo", JOptionPane.YES_NO_OPTION);
 
 				if (res == JOptionPane.YES_OPTION) {
 					if (!b.getSelectedItem().equals("")) {
 						Grupo grupo = u.getGrupo((String) b.getSelectedItem());
-						
-						if(!ControladorAppChat.getUnicaInstancia().isAdmin(grupo)) {
+
+						if (!ControladorAppChat.getUnicaInstancia().isAdmin(grupo)) {
 							JOptionPane.showMessageDialog(copiaFrame, "Debes ser Administrador para editar un grupo",
 									"Error Editar Grupo", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
 						final JDialog grupoD = new JDialog();
 						grupoD.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500,
 								500);
@@ -630,7 +629,7 @@ public class MainWindowView extends JFrame {
 						List<ContactoIndividual> cont = ControladorAppChat.getUnicaInstancia().getUsuarioActual()
 								.getContactosIndividuales();
 						for (ContactoIndividual c : cont) {
-							
+
 							if (!grupo.getContactos().contains(c))
 								l1.addElement(c.getNombre());
 						}
@@ -707,10 +706,7 @@ public class MainWindowView extends JFrame {
 						bAc.addActionListener(new ActionListener() {
 
 							public void actionPerformed(ActionEvent e) {
-								// TODO Adaptar openedChat a grupos
 
-								// TODO hacer lista con los contactos seleccionados arriba y usar
-								// getContacto(mote)
 								if (nombre.getText().equals("")) {
 									JOptionPane.showMessageDialog(grupoD, "No se ha introducido nombre de grupo",
 											"Error nombre grupo", JOptionPane.ERROR_MESSAGE);
@@ -754,7 +750,7 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-
+		// Opción para exportar las estadísticas del usuario
 		mEstadisticas.addActionListener(new ActionListener() {
 
 			@Override
@@ -775,6 +771,8 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
+
+		// Opción para hacerse Usuario Premium
 		mPremium.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -790,7 +788,6 @@ public class MainWindowView extends JFrame {
 				prmDialog.setResizable(false);
 				prmDialog.setBounds(lPanel.getLocationOnScreen().x + 300, lPanel.getLocationOnScreen().y, 500, 500);
 				final JPanel prmPanel = new JPanel();
-				// Ver si el usuario puede aplicar algún descuento.
 				prmDialog.add(prmPanel);
 				prmPanel.setLayout(new BoxLayout(prmPanel, BoxLayout.Y_AXIS));
 				prmPanel.setBackground(new Color(246, 219, 142));
@@ -808,7 +805,6 @@ public class MainWindowView extends JFrame {
 				desc.setEditable(false);
 				desc.setFont(new Font("Monospaced", Font.PLAIN, 20));
 				desc.setMaximumSize(new Dimension(350, 150));
-				// desc.setMinimumSize(new Dimension(200,300));
 				desc.setPreferredSize(new Dimension(350, 150));
 
 				JTextArea desc1 = new JTextArea(
@@ -818,7 +814,6 @@ public class MainWindowView extends JFrame {
 				desc1.setEditable(false);
 				desc1.setFont(new Font("Monospaced", Font.PLAIN, 14));
 				desc1.setMaximumSize(new Dimension(350, 100));
-				// desc.setMinimumSize(new Dimension(200,300));
 				desc1.setPreferredSize(new Dimension(350, 100));
 
 				prmPanel.add(desc);
@@ -864,9 +859,7 @@ public class MainWindowView extends JFrame {
 						prmPanel2.setLayout(new BoxLayout(prmPanel2, BoxLayout.Y_AXIS));
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
-						// TODO
-
-						// mostrar precio final.
+						//mostramos precio final calculado.
 						double precioFinal = ControladorAppChat.getUnicaInstancia().getUsuarioActual().getDescuento();
 
 						JTextArea desc2 = new JTextArea("Su precio final es de " + precioFinal
@@ -971,7 +964,7 @@ public class MainWindowView extends JFrame {
 
 			}
 		});
-
+		//Opción para cerrar la sesión actual
 		mExit.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -983,7 +976,7 @@ public class MainWindowView extends JFrame {
 		});
 
 	}
-
+	//Método para actualizar los Opened Chat de la izquierda de la vista
 	public void chatsRecientes() {
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
 

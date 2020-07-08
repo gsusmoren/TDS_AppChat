@@ -16,7 +16,13 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 import controlador.ControladorAppChat;
 import modelo.Grupo;
 
-//Clase para la obteneción de las grafiacas del usuario
+/**
+ * Clase para la obteneción de las graficas procendentes de la inteacción del
+ * Usuario con sus contactos
+ * 
+ * @author Jesus
+ *
+ */
 public class Graficas {
 
 	public void exportarGraficas() {
@@ -47,6 +53,13 @@ public class Graficas {
 		}
 	}
 
+	/**
+	 * Esta gráfica muestra en porcentaje cuanto ha interactuado el usuario dentro
+	 * de un grupo en comparación con los demás, es decir, cuantos mensajes ha
+	 * enviado respecto a los demás contactos.
+	 * 
+	 * El pie muestra en proporcion visual los grupos con más mensajes del usuario
+	 */
 	private void crearPieChart() {
 		PieChart pie = new PieChartBuilder().width(600).height(400).title("Grupos Más Activos").build();
 		Color[] sliceColors = new Color[] { new Color(238, 211, 160), new Color(160, 238, 162),

@@ -22,7 +22,11 @@ import com.toedter.calendar.JDateChooser;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
-
+/**
+ * Ventana de diálogo para el filtrado de mensajes dentro de un Grupo
+ * @author Jesus
+ *
+ */
 @SuppressWarnings("serial")
 public class FiltroMensajesGP extends JDialog {
 

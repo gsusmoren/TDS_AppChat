@@ -10,6 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Clase para la representación del "Login". El usuario tiene un campo para su
+ * nick y para su contraseña así como la opción de registrarse en la aplicación.
+ * 
+ * @author Jesus
+ *
+ */
 public class LoginView {
 
 	private JFrame loginfrm;
@@ -18,16 +25,10 @@ public class LoginView {
 	private JButton inic;
 	private JButton regis;
 
-	/**
-	 * Create the application.
-	 */
 	public LoginView() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		loginfrm = new JFrame();
 		loginfrm.setResizable(false);
@@ -38,7 +39,6 @@ public class LoginView {
 		loginfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loginfrm.getContentPane().setLayout(new BorderLayout(0, 0));
 		loginfrm.getContentPane().setBackground(new Color(50, 50, 50));
-		// loginfrm.setUndecorated(true);
 
 		final JPanel panel_north = new JPanel();
 		panel_north.setOpaque(false);
@@ -136,18 +136,19 @@ public class LoginView {
 		inic.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-			
+
 				boolean isLogged = ControladorAppChat.getUnicaInstancia().loginUsuario(textLogin.getText(),
 						new String(textPassword.getPassword()));
-				
-				if(isLogged) {
+
+				if (isLogged) {
 					loginfrm.dispose();
 					loginfrm = new MainWindowView();
-					loginfrm.setVisible(true);				
-				}else {
-					//credenciales malas
-					JOptionPane.showMessageDialog(loginfrm, "Nombre o Contraseña erroneos","Error Login",JOptionPane.ERROR_MESSAGE);
-				}		
+					loginfrm.setVisible(true);
+				} else {
+					// credenciales malas
+					JOptionPane.showMessageDialog(loginfrm, "Nombre o Contraseña erroneos", "Error Login",
+							JOptionPane.ERROR_MESSAGE);
+				}
 
 			}
 		});
@@ -157,6 +158,5 @@ public class LoginView {
 		loginfrm.setVisible(true);
 
 	}
-
 
 }

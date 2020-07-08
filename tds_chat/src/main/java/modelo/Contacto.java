@@ -67,7 +67,6 @@ public abstract class Contacto {
 
 	// Método para obtener Mensajes dado el nombre del usuario
 	public List<Mensaje> filtrarMensajesPorUsuario(String nombre) {
-		// TODO la búsqueda es por propio Nick
 		if (nombre.isEmpty())
 			return new LinkedList<Mensaje>();
 		List<Mensaje> lista = listaMensajes.stream().filter(m -> m.getEmisor().getNombre().equals(nombre))
@@ -85,6 +84,8 @@ public abstract class Contacto {
 
 	}
 
+	// Método para el filtrado con las opciones que se introduzcan, dependiendo de
+	// los parámetros de entrada
 	public List<Mensaje> filtradorGeneralMensajes(String texto, String nombre, Date f1, Date f2) {
 
 		List<Mensaje> listaUsuario = new LinkedList<Mensaje>();
@@ -147,12 +148,13 @@ public abstract class Contacto {
 
 	}
 
-	// Método para conocer el porcentaje de mensajes enviados por un usaurio en el
-	// grupo
+	// Método para conocer el porcentaje de mensajes enviados por un usaurio
+	// respecto al contacto
 	public double getPorcentajeUsuario(Usuario u) {
-		
+
 		List<Mensaje> mensU = filtrarMensajesPorUsuario(u.getNombre());
-		if(mensU.size() == 0) return 0.00;	
+		if (mensU.size() == 0)
+			return 0.00;
 		double res = (double) mensU.size() / (double) getListaMensajes().size();
 		return res;
 	}

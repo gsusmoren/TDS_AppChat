@@ -75,7 +75,7 @@ public class Mensaje {
 	public void setReceptor(Contacto receptor) {
 		this.receptor = receptor;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -117,6 +117,5 @@ public class Mensaje {
 	public String toString() {
 		return "\nMensaje [Texto=" + texto + ", Dia=" + hora + ", Emisor=" + emisor.getNombre() + "]";
 	}
-	
 
 }

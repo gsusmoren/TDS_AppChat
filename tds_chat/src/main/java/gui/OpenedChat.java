@@ -1,8 +1,4 @@
-/*
- * Esta Clase representa graficamente un chat abierto con cierto contacto 
- * en el lado izquierdo de la pantalla principal
- * 
- */
+
 package gui;
 
 import java.awt.Color;
@@ -14,7 +10,6 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -25,13 +20,15 @@ import javax.swing.JPanel;
 
 import javax.swing.border.LineBorder;
 
-import controlador.ControladorAppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
-import modelo.Grupo;
 import modelo.Mensaje;
-import modelo.Usuario;
 
+/*
+ * Esta Clase representa graficamente un chat abierto con cierto contacto 
+ * en el lado izquierdo de la pantalla principal. Es una conversación iniciada o un grupo nuevo. 
+ * 
+ */
 @SuppressWarnings("serial")
 public class OpenedChat extends JPanel {
 
@@ -53,7 +50,7 @@ public class OpenedChat extends JPanel {
 
 			icono = new ImageIcon(ci.getUsuario().getImagen());
 		} else {
-			Grupo g = (Grupo) c;
+
 			icono = new ImageIcon("pics/equipo.png");
 		}
 		this.contacto = c;
@@ -99,6 +96,7 @@ public class OpenedChat extends JPanel {
 		last.setMaximumSize(new Dimension(200, 20));
 		last.setPreferredSize(new Dimension(200, 20));
 		pRightBot.add(last);
+
 		// El chat desplegado que se abrirá en la derecha
 		chat = new SelectedChat(contacto, this);
 		addMouseListener(new MouseAdapter() {
@@ -117,11 +115,10 @@ public class OpenedChat extends JPanel {
 						}
 
 					}
-					List<Mensaje> m = contacto.getListaMensajes();
+
 					rPanel.add(chat);
 					rPanel.validate();
 					rPanel.repaint();
-					// setBackground(Color.pink );
 				}
 				chat.mostrarBubbleText();
 				actualizarOpenedChat();
@@ -129,7 +126,6 @@ public class OpenedChat extends JPanel {
 				repaint();
 			}
 		});
-
 
 		setBackground(new Color(254, 66, 95));
 	}
@@ -148,23 +144,23 @@ public class OpenedChat extends JPanel {
 
 				this.setUltMsg(m);
 				last.setText(ultMsg);
-			
+
 			}
 		else {
 			this.setUltMsg("");
 			last.setText(ultMsg);
 			this.revalidate();
 			this.repaint();
-		
+
 		}
-		
+
 		this.name = contacto.getNombre();
 		nameL.setText(name);
 		this.revalidate();
 		this.repaint();
 		lPanel.revalidate();
 		lPanel.repaint();
-		
+
 	}
 
 	public void eliminarChat() {
@@ -193,12 +189,11 @@ public class OpenedChat extends JPanel {
 	}
 
 	public LocalDate getLstDate() {
-		// TODO fecha del ultiomo mensaje
+
 		return lstDate;
 	}
 
 	public void setLstDate(LocalDate lstDate) {
-		// TODO fecha ultimo msg
 		this.lstDate = lstDate;
 	}
 

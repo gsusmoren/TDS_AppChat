@@ -37,7 +37,7 @@ import tds.BubbleText;
 
 /**
  * Este es el panel que aparece al clicar en una conversacion de la barra de la
- * izquierda. Muestra un panel con el chat.
+ * izquierda (Conversaciones abiertas). Muestra un panel con este chat.
  * 
  */
 @SuppressWarnings("serial")

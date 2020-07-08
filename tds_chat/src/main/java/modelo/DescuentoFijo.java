@@ -1,5 +1,7 @@
 package modelo;
-
+/*
+ * Descuento aplicable a cualquier usuario
+ */
 public class DescuentoFijo implements Descuento {
 
 	@Override

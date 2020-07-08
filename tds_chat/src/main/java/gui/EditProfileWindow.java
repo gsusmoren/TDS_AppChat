@@ -29,7 +29,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.ControladorAppChat;
 import modelo.Usuario;
 
-
+/**
+ * Ventana que muestra y modifica la imagen del Usurio Actual con su Saludo
+ * @author Jesus
+ *
+ */
 @SuppressWarnings("serial")
 public class EditProfileWindow extends JFrame {
 
@@ -71,7 +75,6 @@ public class EditProfileWindow extends JFrame {
 		editSaludo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		editSaludo.setBorder(Constantes.borderB);
 		editSaludo.setBackground(Color.white);
-		//final JDialog auxJD = this;
 		
 		JFrame copiaFR = this;
 		editSaludo.addActionListener(new ActionListener() {
@@ -124,9 +127,7 @@ public class EditProfileWindow extends JFrame {
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					String pathString =fileC.getCurrentDirectory().toString()+"/";
 					pathString = pathString.concat(fileC.getSelectedFile().getName());
-				
-					//cambiar en la clase padre
-				
+								
 					ImageIcon nImageIcon = new ImageIcon(pathString);
 					
 					Usuario actual = ControladorAppChat.getUnicaInstancia().getUsuarioActual();

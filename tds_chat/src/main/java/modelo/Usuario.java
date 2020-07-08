@@ -1,12 +1,10 @@
 package modelo;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -22,7 +20,7 @@ public class Usuario {
 	private String email;
 	private String saludo;
 	private boolean premium;
-	private Descuento descuento; // Propiedad calculada
+	//Atributo descuento calculado.
 	private List<Contacto> contactos;
 
 	// Constructor de Usuario
@@ -161,7 +159,6 @@ public class Usuario {
 
 	// Metodos Adicionales
 	public ContactoIndividual addContactoI(String nombre, String movil, Usuario u) {
-		// comprobar si ya existe
 
 		ContactoIndividual c = new ContactoIndividual(nombre, movil, u);
 		if (this.getContactos().contains(c))
@@ -185,7 +182,6 @@ public class Usuario {
 	}
 
 	public ContactoIndividual getContactoIndividual(String nombre) {
-		// TODO Stream
 		for (ContactoIndividual c : getContactosIndividuales()) {
 			if (c.getNombre().equals(nombre)) {
 				return c;
@@ -195,7 +191,6 @@ public class Usuario {
 	}
 
 	public ContactoIndividual getContactoIndividual(Usuario u) {
-		// TODO Stream
 		for (ContactoIndividual c : getContactosIndividuales()) {
 			if (c.getUsuario().getMovil().equals(u.getMovil())) {
 				return c;
@@ -235,9 +230,11 @@ public class Usuario {
 		DescuentoFijo dis2 = new DescuentoFijo();
 
 		if (dis1.calcDescuento(this) < dis2.calcDescuento(this)) {
+		
 			return dis1.calcDescuento(this);
 		} else {
 			return dis2.calcDescuento(this);
+			
 		}
 
 	}
@@ -277,7 +274,6 @@ public class Usuario {
 			msgRate.put(gruposOrd.get(i), percent);
 			
 			
-			System.out.println("K:"+ gruposOrd.get(i)+" V:"+ percent);
 		}
 		return msgRate;
 

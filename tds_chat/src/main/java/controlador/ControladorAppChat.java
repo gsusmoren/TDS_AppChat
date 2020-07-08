@@ -84,12 +84,14 @@ public class ControladorAppChat implements MensajesListener {
 
 		return usuarioActual;
 	}
-	//Método que devuelve si el usuario es Admin del grupo
+
+	// Método que devuelve si el usuario es Admin del grupo
 	public boolean isAdmin(Grupo g) {
-		if(g.getAdmin() == null) return false;
+		if (g.getAdmin() == null)
+			return false;
 		return g.getAdmin().equals(usuarioActual);
 	}
-	
+
 	// Método que permite a un usuario ingresar en la aplicación con sus
 	// credenciales
 	public boolean loginUsuario(String login, String passwd) {
@@ -103,7 +105,8 @@ public class ControladorAppChat implements MensajesListener {
 		return false;
 	}
 
-	// Método para comprobar credenciales al introducir los datos de pago
+	// Método para comprobar credenciales al introducir los datos de pago para el
+	// Premium
 	public boolean loginPayPal(String correo, String passwd) {
 		System.out.println(usuarioActual.getEmail());
 		if (usuarioActual.getEmail().equals(correo) && usuarioActual.getContrasena().equals(passwd)) {
@@ -143,17 +146,7 @@ public class ControladorAppChat implements MensajesListener {
 		actualizarUsuario(usuarioActual);
 	}
 
-	public boolean comprobarContacto(String nombre, String numero, ContactoIndividual c) {
-		List<ContactoIndividual> contactos = usuarioActual.getContactosIndividuales();
-		for (ContactoIndividual cont : contactos) {
-			if ((cont.getNombre().equals(nombre) && !cont.equals(c))
-					// ese equals está mal
-					|| (cont.getMovil().equals(numero) && !cont.equals(numero)))
-				return false;
-		}
-		return true;
-	}
-
+	// Método para añadir
 	public boolean addContacto(String login, Contacto c) {
 		Usuario u = catalogoUsuarios.getUsuarioNick(login);
 
@@ -172,7 +165,7 @@ public class ControladorAppChat implements MensajesListener {
 		return false;
 	}
 
-	// Metodo para obtener los grupos comunes ambos
+	// Metodo para obtener los grupos comunes ambos , usaurio y contacto
 	public String getGruposComunes(ContactoIndividual ci) {
 		List<Grupo> userG = usuarioActual.getGrupos();
 		List<Grupo> ciG = ci.getUsuario().getGrupos();
@@ -194,7 +187,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	// Método para crear un nuevo grupo.
+	// Método para crear un nuevo grupo
 	public Grupo crearGrupo(String nombre, List<ContactoIndividual> ctcs) {
 		Grupo grupo = usuarioActual.crearGrupo(nombre, ctcs);
 
@@ -216,6 +209,7 @@ public class ControladorAppChat implements MensajesListener {
 
 	}
 
+	// Método para modificar el nombre del contacto individaul seleccionado
 	public boolean modificarContactoIndividual(String nombre, ContactoIndividual c) {
 		for (Contacto contacto : usuarioActual.getContactos()) {
 			if (contacto.getNombre().equals(nombre)) {
@@ -230,6 +224,7 @@ public class ControladorAppChat implements MensajesListener {
 		return true;
 	}
 
+	// Método para crear y enviar un mensaje con un Emoji
 	public void cMensajeEmoji(int e, Contacto c) {
 		Mensaje m1 = new Mensaje(e);
 		m1.setEmisor(usuarioActual);
@@ -265,7 +260,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	
+	// Método para crear y enviar un mensaje con un Texto dentro
 	public void cMensajeTexto(String t, Contacto c) {
 		Mensaje m1 = new Mensaje(t);
 		m1.setEmisor(usuarioActual);
@@ -300,7 +295,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	// GetGRupo nick
+	// Método para obtener un grupo según su nombre
 	public Grupo getGrupo(String nombre) {
 		Grupo g = usuarioActual.getGrupo(nombre);
 
@@ -379,29 +374,29 @@ public class ControladorAppChat implements MensajesListener {
 
 	// Método para eliminar a un Contacto
 	public boolean eliminarContacto(Contacto c) {
-        // TODO Comprobar usuario como admin
-        if (usuarioActual.getContactos().contains(c)) {
-            if (c instanceof Grupo) {
-                Grupo gp = (Grupo) c;
-                if(usuarioActual.getNick() == null) gp.setAdmin(null);
-                if(usuarioActual.getNick().equals(gp.getAdmin().getNick()))
-                    gp.setAdmin(null);
-                else{
-                    for(ContactoIndividual ci : gp.getContactos()){
-                        if(ci.getUsuario().equals(usuarioActual))
-                            gp.removeContacto(ci);
-                    }
-                }
-                adapGP.modificarGrupo(gp);
-            }
-            usuarioActual.borrarContacto(c);
-            adapU.modificarUsuario(usuarioActual);
-            catalogoUsuarios.actualizarUsuario(usuarioActual);
-            return true;
-        }
-        return false;
+		if (usuarioActual.getContactos().contains(c)) {
+			if (c instanceof Grupo) {
+				Grupo gp = (Grupo) c;
+				if (usuarioActual.getNick() == null)
+					gp.setAdmin(null);
+				if (usuarioActual.getNick().equals(gp.getAdmin().getNick()))
+					gp.setAdmin(null);
+				else {
+					for (ContactoIndividual ci : gp.getContactos()) {
+						if (ci.getUsuario().equals(usuarioActual))
+							gp.removeContacto(ci);
+					}
+				}
+				adapGP.modificarGrupo(gp);
+			}
+			usuarioActual.borrarContacto(c);
+			adapU.modificarUsuario(usuarioActual);
+			catalogoUsuarios.actualizarUsuario(usuarioActual);
+			return true;
+		}
+		return false;
 
-    }
+	}
 
 	// Método para eliminar los mensajes con un Contacto
 	public void eliminarMensajes(Contacto c) {
@@ -426,12 +421,15 @@ public class ControladorAppChat implements MensajesListener {
 		return usuarioActual.getGruposMasActivos();
 	}
 
+	// Método para iniciar el importación de mensajes
 	public void ficheroImportado(String rutaFichero, String formato, Plataforma p) {
 		CargadorMensajes cargadorm = new CargadorMensajes();
 		cargadorm.addMensajeListener(ControladorAppChat.getUnicaInstancia());
 		cargadorm.setFichero(rutaFichero, formato, p);
 	}
 
+	// Método para introducir los mensajes de WhatsApp en nuestro chat
+	// transformándolos previamente
 	@Override
 	public void nuevosMensajes(MensajesEvent e) {
 

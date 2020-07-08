@@ -24,6 +24,13 @@ import com.toedter.calendar.JDateChooser;
 
 import controlador.ControladorAppChat;
 
+/**
+ * Panel que brinda al usuario la posibilidad de registrarse introdciendo sus
+ * datos personales
+ * 
+ * @author Jesus
+ *
+ */
 @SuppressWarnings("serial")
 public class RegistroUsuario extends JPanel {
 
