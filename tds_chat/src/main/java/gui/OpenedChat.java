@@ -84,8 +84,14 @@ public class OpenedChat extends JPanel {
 		JPanel pRightBot = new JPanel();
 		pRight.add(pRightBot);
 
+		
+		LocalDate fechaultima = c.getUltimaFechaMsg();
+		if(fechaultima == null) {
+			fechaultima = LocalDate.now();
+		}
+		
 		nameL = new JLabel(name);
-		dateL = new JLabel();
+		dateL = new JLabel(fechaultima.toString());
 		last = new JLabel(ultMsg);
 		nameL.setMaximumSize(new Dimension(70, 20));
 

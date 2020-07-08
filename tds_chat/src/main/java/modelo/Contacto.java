@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -146,6 +147,11 @@ public abstract class Contacto {
 
 		}
 
+	}
+	public LocalDate getUltimaFechaMsg() {
+		if(!getListaMensajes().isEmpty())
+		return getListaMensajes().get(getListaMensajes().size()-1).getHora().toLocalDate();
+		return null;
 	}
 
 	// Método para conocer el porcentaje de mensajes enviados por un usaurio
