@@ -58,14 +58,14 @@ public class OpenedChat extends JPanel {
 		this.rPanel = derPanel;
 		if (c != null)
 			name = c.getNombre();
-
+		
 		ultMsg = s;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
 		this.setSize(300, 60);
 		this.setMaximumSize(new Dimension(300, 60));
 		this.setMinimumSize(new Dimension(300, 60));
-
+		
 		Image im = icono.getImage();
 		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 		icono = new ImageIcon(scaled);

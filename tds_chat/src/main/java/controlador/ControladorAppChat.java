@@ -377,9 +377,9 @@ public class ControladorAppChat implements MensajesListener {
 		if (usuarioActual.getContactos().contains(c)) {
 			if (c instanceof Grupo) {
 				Grupo gp = (Grupo) c;
-				if (usuarioActual.getNick() == null)
+				if (gp.getAdmin().getNick() == null)
 					gp.setAdmin(null);
-				if (usuarioActual.getNick().equals(gp.getAdmin().getNick()))
+				else if (usuarioActual.getNick().equals(gp.getAdmin().getNick()))
 					gp.setAdmin(null);
 				else {
 					for (ContactoIndividual ci : gp.getContactos()) {
