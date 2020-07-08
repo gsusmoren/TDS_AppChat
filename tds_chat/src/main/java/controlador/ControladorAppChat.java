@@ -72,6 +72,7 @@ public class ControladorAppChat implements MensajesListener {
 
 	}
 
+	// Método para comprobar que no existen dos usuarios iguales
 	public boolean isUsuarioUnico(String movil, String nick) {
 		if ((catalogoUsuarios.getUsuarioMovil(movil) == null) && (catalogoUsuarios.getUsuarioNick(nick) == null)) {
 			return true;
@@ -84,7 +85,8 @@ public class ControladorAppChat implements MensajesListener {
 		return usuarioActual;
 	}
 
-	// Método para logear a un usaurio.....Posibilidad de login con movil
+	// Método que permite a un usuario ingresar en la aplicación con sus
+	// credenciales
 	public boolean loginUsuario(String login, String passwd) {
 		Usuario usuario = catalogoUsuarios.getUsuarioNick(login);
 
@@ -96,7 +98,7 @@ public class ControladorAppChat implements MensajesListener {
 		return false;
 	}
 
-	// Método para comprobar credecnciales al usar paypal
+	// Método para comprobar credenciales al introducir los datos de pago
 	public boolean loginPayPal(String correo, String passwd) {
 		System.out.println(usuarioActual.getEmail());
 		if (usuarioActual.getEmail().equals(correo) && usuarioActual.getContrasena().equals(passwd)) {
@@ -208,10 +210,10 @@ public class ControladorAppChat implements MensajesListener {
 		return null;
 
 	}
-	
-	public boolean modificarContactoIndividual(String nombre, ContactoIndividual c){
-		for(Contacto contacto : usuarioActual.getContactos()){
-			if(contacto.getNombre().equals(nombre)){
+
+	public boolean modificarContactoIndividual(String nombre, ContactoIndividual c) {
+		for (Contacto contacto : usuarioActual.getContactos()) {
+			if (contacto.getNombre().equals(nombre)) {
 				return false;
 			}
 		}
@@ -303,7 +305,7 @@ public class ControladorAppChat implements MensajesListener {
 		}
 	}
 
-	//Método para editar un grupo
+	// Método para editar un grupo
 	public Grupo modificarGrupo(String grupo, String nombre, List<ContactoIndividual> l) {
 		Grupo g = usuarioActual.getGrupo(grupo);
 		for (ContactoIndividual c : g.getContactos()) {
@@ -371,21 +373,28 @@ public class ControladorAppChat implements MensajesListener {
 
 	// Método para eliminar a un Contacto
 	public boolean eliminarContacto(Contacto c) {
-		// TODO Comprobar usuario como admin
-		if (usuarioActual.getContactos().contains(c)) {
-			if (c instanceof Grupo) {
-				Grupo gp = (Grupo) c;
-				((Grupo) c).setAdmin(null);
-				adapGP.modificarGrupo(gp);
-			}
-			usuarioActual.borrarContacto(c);
-			adapU.modificarUsuario(usuarioActual);
-			catalogoUsuarios.actualizarUsuario(usuarioActual);
-			return true;
-		}
-		return false;
+        // TODO Comprobar usuario como admin
+        if (usuarioActual.getContactos().contains(c)) {
+            if (c instanceof Grupo) {
+                Grupo gp = (Grupo) c;
+                if(usuarioActual.getNick().equals(gp.getAdmin().getNick()))
+                    gp.setAdmin(null);
+                else{
+                    for(ContactoIndividual ci : gp.getContactos()){
+                        if(ci.getUsuario().equals(usuarioActual))
+                            gp.removeContacto(ci);
+                    }
+                }
+                adapGP.modificarGrupo(gp);
+            }
+            usuarioActual.borrarContacto(c);
+            adapU.modificarUsuario(usuarioActual);
+            catalogoUsuarios.actualizarUsuario(usuarioActual);
+            return true;
+        }
+        return false;
 
-	}
+    }
 
 	// Método para eliminar los mensajes con un Contacto
 	public void eliminarMensajes(Contacto c) {

@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.rmi.server.ExportException;
 import java.util.Comparator;
 import java.util.EventObject;
 import java.util.LinkedList;
@@ -38,7 +34,6 @@ import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Mensaje;
 import modelo.Usuario;
-import tds.BubbleText;
 
 @SuppressWarnings("serial")
 public class MainWindowView extends JFrame {
@@ -137,8 +132,8 @@ public class MainWindowView extends JFrame {
 								p = Plataforma.ANDROID;
 							}
 							ControladorAppChat.getUnicaInstancia().ficheroImportado(pathString, formatDate, p);
-							//luz.setEncendido(false);
-							//luz.repaint();
+							// luz.setEncendido(false);
+							// luz.repaint();
 						}
 					} else if (returnVal == JFileChooser.CANCEL_OPTION || returnVal == JFileChooser.ERROR_OPTION) {
 						luz.setEncendido(false);
@@ -148,12 +143,11 @@ public class MainWindowView extends JFrame {
 
 					luz.setEncendido(false);
 					luz.repaint();
-				
 
 				}
-				
+
 			}
-			
+
 		});
 
 		ImageIcon icOpt = new ImageIcon("pics/menu.png");
@@ -251,8 +245,8 @@ public class MainWindowView extends JFrame {
 
 					// TODO mostar aquellos contactos con los que no hayamos iniciado una
 					// conversacion
-					if(c.getListaMensajes().size() == 0 )
-					lista.addElement(c.getNombre());
+					if (c.getListaMensajes().size() == 0)
+						lista.addElement(c.getNombre());
 				}
 
 				final JList<String> l = new JList<String>(lista);
@@ -277,7 +271,6 @@ public class MainWindowView extends JFrame {
 							ContactoIndividual cont = ControladorAppChat.getUnicaInstancia()
 									.getContactoIndividual(l.getSelectedValue());
 							OpenedChat o1 = new OpenedChat(cont, "", botLPanel, rPanel);
-							
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -476,19 +469,25 @@ public class MainWindowView extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// TODO usuario no repetido y que exista
 						String nombre = nombreCont.getText().trim();
-						String num = numero.getText().trim();
-						boolean isReg = ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
-						if (isReg
-								&& !num.equals(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getMovil())) {
-							JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente",
-									"Contacto Añadido", JOptionPane.INFORMATION_MESSAGE);
-							ventReg.dispose();
-						} else {
-							JOptionPane.showMessageDialog(panelV, "Contacto erroneo o repetido", "Contacto No Añadido",
+
+						if (nombre.isEmpty() || nombre.length() > 12) {
+							JOptionPane.showMessageDialog(panelV, "Nombre incompatible", "Contacto No Añadido",
 									JOptionPane.ERROR_MESSAGE);
+						} else {
 
+							String num = numero.getText().trim();
+							boolean isReg = ControladorAppChat.getUnicaInstancia().addContactoIndividual(nombre, num);
+							if (isReg && !num
+									.equals(ControladorAppChat.getUnicaInstancia().getUsuarioActual().getMovil())) {
+								JOptionPane.showMessageDialog(panelV, "Contacto registrado correctamente",
+										"Contacto Añadido", JOptionPane.INFORMATION_MESSAGE);
+								ventReg.dispose();
+							} else {
+								JOptionPane.showMessageDialog(panelV, "Contacto erroneo o repetido",
+										"Contacto No Añadido", JOptionPane.ERROR_MESSAGE);
+
+							}
 						}
-
 					}
 				});
 
@@ -856,7 +855,8 @@ public class MainWindowView extends JFrame {
 						prmPanel2.setLayout(new BoxLayout(prmPanel2, BoxLayout.Y_AXIS));
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
-					
+						// TODO
+
 						// mostrar precio final.
 						double precioFinal = ControladorAppChat.getUnicaInstancia().getUsuarioActual().getDescuento();
 

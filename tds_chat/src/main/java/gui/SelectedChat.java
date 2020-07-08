@@ -74,10 +74,9 @@ public class SelectedChat extends JPanel {
 
 		setLayout(new BorderLayout());
 
-
 		setMaximumSize(new Dimension(750, Constantes.mainWy_size));
 		setMinimumSize(new Dimension(750, Constantes.mainWy_size));
-		setBackground(Color.green);
+
 		// topPanel
 		c = contacto;
 		topPanel = new JPanel();
@@ -102,8 +101,8 @@ public class SelectedChat extends JPanel {
 		}
 
 		contactInfo = new JButton(c.getNombre(), icUInf);
-		contactInfo.setMaximumSize(new Dimension(200, 60));
-		contactInfo.setSize(200, 60);
+		contactInfo.setMaximumSize(new Dimension(250, 60));
+		// contactInfo.setSize(200, 60);
 		contactInfo.setPreferredSize(new Dimension(200, 60));
 		ImageIcon icSearch = new ImageIcon("pics/magnifying-glass.png");
 		ImageIcon icDots = new ImageIcon("pics/menu.png");
@@ -127,7 +126,8 @@ public class SelectedChat extends JPanel {
 		JMenuItem modCont = new JMenuItem("Modificar contacto");
 		menuDots.add(borrarMsgs);
 		menuDots.add(elimCtcto);
-		menuDots.add(modCont);
+		if (c instanceof ContactoIndividual)
+			menuDots.add(modCont);
 
 		puntos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -140,8 +140,6 @@ public class SelectedChat extends JPanel {
 		elimCtcto.addActionListener(new ActionListener() {
 
 			@Override
-			// TODO Hay que buscar una manera de actualizar los paneles principales desde
-			// aquí.
 			public void actionPerformed(ActionEvent e) {
 				o.eliminarChat();
 				boolean idDelt = ControladorAppChat.getUnicaInstancia().eliminarContacto(c);
@@ -184,9 +182,9 @@ public class SelectedChat extends JPanel {
 
 			}
 		});
-		
+
 		modCont.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame modificar = new JFrame();
@@ -205,9 +203,8 @@ public class SelectedChat extends JPanel {
 				JPanel panelCent = new JPanel();
 				panelCent.setLayout(new BoxLayout(panelCent, BoxLayout.Y_AXIS));
 				JPanel centralNom = new JPanel();
-				
+
 				panelCent.add(centralNom);
-				
 
 				panelV.add(panelCent, BorderLayout.CENTER);
 				centralNom.add(new JLabel("Nombre :"));
@@ -221,20 +218,27 @@ public class SelectedChat extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						// TODO usuario no repetido y que exista
 						String nombre = nombreCont.getText().trim();
-						boolean isMod = ControladorAppChat.getUnicaInstancia().modificarContactoIndividual(nombre, ((ContactoIndividual)c));
-						if (isMod) {
-							JOptionPane.showMessageDialog(panelV, "Contacto modificado correctamente",
-									"Contacto Modificado", JOptionPane.INFORMATION_MESSAGE);
-							o.actualizarOpenedChat();
-							mostrarBubbleText();
-							validate();
-							o.repaint();
-							contactInfo.setText(nombre);
-							ventReg.dispose();
-						} else {
-							JOptionPane.showMessageDialog(panelV, "Ya existe un contacto con este nombre", "Contacto No Modificado",
-									JOptionPane.ERROR_MESSAGE);
 
+						if (nombre.length() > 10 || nombre.length() == 0) {
+							JOptionPane.showMessageDialog(panelV, "Contacto No Modificado: Nombre muy largo o vacío",
+									"Contacto Modificado", JOptionPane.ERROR_MESSAGE);
+						} else {
+							boolean isMod = ControladorAppChat.getUnicaInstancia().modificarContactoIndividual(nombre,
+									((ContactoIndividual) c));
+							if (isMod) {
+								JOptionPane.showMessageDialog(panelV, "Contacto modificado correctamente",
+										"Contacto Modificado", JOptionPane.INFORMATION_MESSAGE);
+								o.actualizarOpenedChat();
+								mostrarBubbleText();
+								// validate();
+								o.repaint();
+								contactInfo.setText(nombre);
+								ventReg.dispose();
+							} else {
+								JOptionPane.showMessageDialog(panelV, "Ya existe un contacto con este nombre",
+										"Contacto No Modificado", JOptionPane.ERROR_MESSAGE);
+
+							}
 						}
 
 					}
@@ -252,8 +256,6 @@ public class SelectedChat extends JPanel {
 				ventReg.add(panelV);
 				ventReg.setVisible(true);
 
-			
-				
 			}
 		});
 
@@ -329,24 +331,25 @@ public class SelectedChat extends JPanel {
 				conInfPanel.setLayout(new BoxLayout(conInfPanel, BoxLayout.Y_AXIS));
 				JLabel name = new JLabel(c.getNombre());
 				JLabel tel;
-				
+
 				if (c instanceof ContactoIndividual) {
-					tel = new JLabel("Telf: "+ ((ContactoIndividual) c).getMovil());
+					tel = new JLabel("Telf: " + ((ContactoIndividual) c).getMovil());
 				} else {
-					
+
 					String s = "<html>Miembros del Grupo:<br/> ";
-					if (!((Grupo) c).getAdmin().equals(null))
-						s += ControladorAppChat.getUnicaInstancia().getUsuarioActual().getNick() + "<br/>";
+					if (((Grupo) c).getAdmin() != null)
+
+						s += ((Grupo) c).getAdmin().getNombre() + "<br/>";
 					for (ContactoIndividual ci : ((Grupo) c).getContactos())
 						s += ci.getNombre() + "<br/>";
-					
-					s+= "</html>";
+
+					s += "</html>";
 					tel = new JLabel();
 					tel.setText(s);
-				
+
 					tel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 					tel.setMaximumSize(new Dimension(200, 300));
-					
+
 				}
 				tel.setOpaque(false);
 				JLabel pic = new JLabel(icUInf);
@@ -451,6 +454,10 @@ public class SelectedChat extends JPanel {
 
 		List<Mensaje> mensajes = c.getListaMensajes();
 		Usuario u = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+
+		boolean isGrupo = (c instanceof Grupo);
+		Usuario userAct = ControladorAppChat.getUnicaInstancia().getUsuarioActual();
+
 		for (Mensaje m : mensajes) {
 
 			if (m.getEmisor().equals(u)) {
@@ -462,13 +469,26 @@ public class SelectedChat extends JPanel {
 				}
 				midPanel.add(b);
 			} else {
+				String nombreAux = "";
+
+				if (isGrupo) {
+					if (userAct.comprobarContacto(m.getEmisor())) {
+						nombreAux = userAct.getContactoIndividual(m.getEmisor()).getNombre();
+
+					} else {
+						nombreAux = "+34" + m.getEmisor().getMovil();
+
+					}
+
+				} else {
+					nombreAux = c.getNombre();
+				}
+
 				BubbleText b;
 				if (m.getEmoji() == -1) {
-					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, " " + c.getNombre(),
-							BubbleText.RECEIVED);
+					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, " " + nombreAux, BubbleText.RECEIVED);
 				} else {
-					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + c.getNombre(),
-							BubbleText.RECEIVED, 15);
+					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + nombreAux, BubbleText.RECEIVED, 15);
 				}
 				midPanel.add(b);
 			}

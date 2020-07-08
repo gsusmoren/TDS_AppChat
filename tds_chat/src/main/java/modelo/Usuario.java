@@ -139,7 +139,7 @@ public class Usuario {
 		}
 		return gl;
 	}
-
+//Método que devuelve si el ususario posee ese contacto
 	public boolean comprobarContacto(Usuario u) {
 		for (Contacto c : contactos) {
 			if (c instanceof ContactoIndividual) {

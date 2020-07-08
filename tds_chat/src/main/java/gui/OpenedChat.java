@@ -91,7 +91,7 @@ public class OpenedChat extends JPanel {
 		nameL = new JLabel(name);
 		dateL = new JLabel(LocalDate.now().toString());
 		last = new JLabel(ultMsg);
-		nameL.setMaximumSize(new Dimension(80, 20));
+		nameL.setMaximumSize(new Dimension(70, 20));
 
 		pRightTop.add(nameL);
 		pRightTop.add(Box.createRigidArea(new Dimension(40, 10)));
@@ -130,14 +130,13 @@ public class OpenedChat extends JPanel {
 			}
 		});
 
-		// this.add(Box.createRigidArea(new Dimension(60, 20)));
 
 		setBackground(new Color(254, 66, 95));
 	}
 
 	public void actualizarOpenedChat() {
 		List<Mensaje> mensajes = contacto.getListaMensajes();
-		if (!mensajes.isEmpty() || contacto.getClass().equals(Grupo.class))
+		if (!mensajes.isEmpty())
 			for (int i = 0; i < mensajes.size(); i++) {
 				String m = "";
 				Mensaje ult = mensajes.get(mensajes.size() - 1);

@@ -15,60 +15,58 @@ import modelo.Usuario;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
-public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
-	
+public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO {
+
 	private ServicioPersistencia servPersistencia;
 	private static AdaptadorGrupoTDS unicaInstancia = null;
-	
+
 	public static AdaptadorGrupoTDS getUnicaInstancia() {
 		if (unicaInstancia == null)
 			return new AdaptadorGrupoTDS();
 		else
 			return unicaInstancia;
 	}
-	
+
 	public AdaptadorGrupoTDS() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 	}
-	
-		
+
 	public void registrarGrupo(Grupo grupo) {
-		
+
 		Entidad eGrupo;
 		boolean existe = true;
-		
+
 		// Si la entidad está registrada no la registra de nuevo
 		try {
 			eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
 		} catch (NullPointerException e) {
 			existe = false;
 		}
-		
-		if (existe) return;
-		
+
+		if (existe)
+			return;
+
 		// Registrar primero los atributos que son objetos
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
-		for (Mensaje m : grupo.getListaMensajes()){
+		for (Mensaje m : grupo.getListaMensajes()) {
 			aMensaje.registrarMensaje(m);
 		}
-		
+
 		AdaptadorUsuarioTDS aUsuario = AdaptadorUsuarioTDS.getUnicaInstancia();
 		aUsuario.registrarUsuario(grupo.getAdmin());
-	
+
 		AdaptadorContactoIndividualTDS aContacto = AdaptadorContactoIndividualTDS.getUnicaInstancia();
-		for (ContactoIndividual c : grupo.getContactos()){
+		for (ContactoIndividual c : grupo.getContactos()) {
 			aContacto.registrarContactoIndividual(c);
 		}
-		
+
 		eGrupo = new Entidad();
-		
+
 		eGrupo.setNombre("grupo");
-		eGrupo.setPropiedades(
-				new ArrayList<Propiedad>(Arrays.asList(
-						new Propiedad("nombre", grupo.getNombre()),
-						new Propiedad("listaMensajes", obtenerIdListaMensajes(grupo.getListaMensajes())),
-						new Propiedad("admin", String.valueOf(grupo.getAdmin().getId())),
-						new Propiedad("contactos", obtenerIdContactos(grupo.getContactos())))));
+		eGrupo.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("nombre", grupo.getNombre()),
+				new Propiedad("listaMensajes", obtenerIdListaMensajes(grupo.getListaMensajes())),
+				new Propiedad("admin", String.valueOf(grupo.getAdmin().getId())),
+				new Propiedad("contactos", obtenerIdContactos(grupo.getContactos())))));
 		eGrupo = servPersistencia.registrarEntidad(eGrupo);
 		grupo.setId(eGrupo.getId());
 	}
@@ -76,7 +74,7 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 	public void borrarGrupo(Grupo grupo) {
 		Entidad eGrupo;
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
-		for (Mensaje m : grupo.getListaMensajes()){
+		for (Mensaje m : grupo.getListaMensajes()) {
 			aMensaje.borrarMensaje(m);
 		}
 		eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
@@ -85,16 +83,21 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 
 	public void modificarGrupo(Grupo grupo) {
 		Entidad eGrupo;
-		
+
 		eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "nombre");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "nombre", grupo.getNombre());
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, "listaMensajes");		
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "listaMensajes", obtenerIdListaMensajes(grupo.getListaMensajes()));
-		/*
+		servPersistencia.eliminarPropiedadEntidad(eGrupo, "listaMensajes");
+		servPersistencia.anadirPropiedadEntidad(eGrupo, "listaMensajes",
+				obtenerIdListaMensajes(grupo.getListaMensajes()));
+
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "admin");
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", String.valueOf(grupo.getAdmin().getId()));
-		*/
+		if (grupo.getAdmin() != null) {
+			servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", String.valueOf(grupo.getAdmin().getId()));
+		} else {
+			servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", null);
+		}
+
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "contactos");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "contactos", obtenerIdContactos(grupo.getContactos()));
 
@@ -103,85 +106,83 @@ public class AdaptadorGrupoTDS implements IAdaptadorGrupoDAO{
 	public Grupo recuperarGrupo(int id) {
 		if (PoolDAO.getUnicaInstancia().contiene(id))
 			return (Grupo) PoolDAO.getUnicaInstancia().getObjeto(id);
-		
+
 		Entidad eGrupo = servPersistencia.recuperarEntidad(id);
-		
+
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, "nombre");
 		String adm = servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin");
-		
+
 		Grupo grupo = new Grupo(nombre);
-		
+
 		PoolDAO.getUnicaInstancia().addObjeto(id, grupo);
-		
+
 		grupo.setId(id);
-		
+
 		List<Mensaje> mensajes = obtenerMensajesCodigo(
 				servPersistencia.recuperarPropiedadEntidad(eGrupo, "listaMensajes"));
 
 		grupo.setListaMensajes(mensajes);
-		
+
 		AdaptadorUsuarioTDS aUsuario = AdaptadorUsuarioTDS.getUnicaInstancia();
 
-		if(adm!=null){
+		if (adm != null) {
 			Usuario admin = aUsuario.recuperarUsuario(Integer.parseInt(adm));
 			grupo.setAdmin(admin);
 		}
 		List<ContactoIndividual> contactos = obtenerContactosCodigo(
 				servPersistencia.recuperarPropiedadEntidad(eGrupo, "contactos"));
 		grupo.setContactos(contactos);
-		
+
 		return grupo;
 	}
 
-	
-
 	public List<Grupo> recuperarTodosGrupos() {
 		List<Grupo> grupos = new LinkedList<Grupo>();
-		List<Entidad> eGrupos= servPersistencia.recuperarEntidades("grupo");
-		
-		for (Entidad e : eGrupos){
+		List<Entidad> eGrupos = servPersistencia.recuperarEntidades("grupo");
+
+		for (Entidad e : eGrupos) {
 			grupos.add(recuperarGrupo(e.getId()));
 		}
 		return grupos;
 	}
 
-	private String obtenerIdListaMensajes(List<Mensaje> listaMensajes){
-		String mensajes="";
-		for(Mensaje m : listaMensajes){
+	private String obtenerIdListaMensajes(List<Mensaje> listaMensajes) {
+		String mensajes = "";
+		for (Mensaje m : listaMensajes) {
 			mensajes += m.getId() + " ";
 		}
 		return mensajes.trim();
 	}
-	
+
 	private String obtenerIdContactos(List<ContactoIndividual> contactos) {
-		String cont="";
-		for(ContactoIndividual c : contactos){
+		String cont = "";
+		for (ContactoIndividual c : contactos) {
 			cont += c.getId() + " ";
 		}
 		return cont.trim();
 	}
-	
-	private List<Mensaje> obtenerMensajesCodigo(String m){
+
+	private List<Mensaje> obtenerMensajesCodigo(String m) {
 		List<Mensaje> mensajes = new LinkedList<Mensaje>();
 		AdaptadorMensajeTDS aMensaje = AdaptadorMensajeTDS.getUnicaInstancia();
-		if(m==null || m.equals("")) return mensajes;
+		if (m == null || m.equals(""))
+			return mensajes;
 		StringTokenizer strTok = new StringTokenizer(m, " ");
-		while(strTok.hasMoreTokens()){
-			mensajes.add( aMensaje.recuperarMensaje(
-							Integer.valueOf((String)strTok.nextElement())));
+		while (strTok.hasMoreTokens()) {
+			mensajes.add(aMensaje.recuperarMensaje(Integer.valueOf((String) strTok.nextElement())));
 		}
-		
+
 		return mensajes;
 	}
-	
+
 	private List<ContactoIndividual> obtenerContactosCodigo(String c) {
 		List<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
 		AdaptadorContactoIndividualTDS aContacto = AdaptadorContactoIndividualTDS.getUnicaInstancia();
-		if(c==null || c.equals("")) return contactos;
+		if (c == null || c.equals(""))
+			return contactos;
 		StringTokenizer strTok = new StringTokenizer(c, " ");
-		while(strTok.hasMoreTokens()){
-			contactos.add(aContacto.recuperarContactoIndividual(
-					Integer.valueOf((String)strTok.nextElement())));
+		while (strTok.hasMoreTokens()) {
+			contactos.add(aContacto.recuperarContactoIndividual(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return contactos;
 	}
