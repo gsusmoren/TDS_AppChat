@@ -5,7 +5,6 @@
  */
 package gui;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -47,29 +46,30 @@ public class OpenedChat extends JPanel {
 	JLabel nameL;
 	JLabel dateL;
 	JLabel last;
-	
-	public OpenedChat(Contacto c ,String s, JPanel lPanel,final JPanel derPanel) {
-		if(c instanceof ContactoIndividual) {
+
+	public OpenedChat(Contacto c, String s, JPanel lPanel, final JPanel derPanel) {
+		if (c instanceof ContactoIndividual) {
 			ContactoIndividual ci = (ContactoIndividual) c;
-			
+
 			icono = new ImageIcon(ci.getUsuario().getImagen());
-		}else {
-			Grupo g = (Grupo)c;
+		} else {
+			Grupo g = (Grupo) c;
 			icono = new ImageIcon("pics/equipo.png");
 		}
 		this.contacto = c;
 		this.lPanel = lPanel;
 		this.rPanel = derPanel;
-		if(c!=null) name = c.getNombre();
-		
-		//TODO getUltimoMensaje
+		if (c != null)
+			name = c.getNombre();
+
+		// TODO getUltimoMensaje
 		ultMsg = s;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setBorder(new LineBorder(Color.GRAY, 1));
 		this.setSize(300, 60);
 		this.setMaximumSize(new Dimension(300, 60));
 		this.setMinimumSize(new Dimension(300, 60));
-		
+
 		Image im = icono.getImage();
 		Image scaled = im.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 		icono = new ImageIcon(scaled);
@@ -99,29 +99,29 @@ public class OpenedChat extends JPanel {
 		last.setMaximumSize(new Dimension(200, 20));
 		last.setPreferredSize(new Dimension(200, 20));
 		pRightBot.add(last);
-		//El chat desplegado que se abrirá en la derecha
+		// El chat desplegado que se abrirá en la derecha
 		chat = new SelectedChat(contacto, this);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1 && !chat.isDisplayable()) {
-					//Queremos eliminar lo que hay en ese panel con anterioridad
-					//quizá lo tenga que hacer la clase que lo crea
-					if(rPanel.getComponentCount() <= 1) {
-					Component[] listaComp = rPanel.getComponents();
-					
-					for(Component c : listaComp) {
-						if(c instanceof SelectedChat) {
-							rPanel.remove(c);
-						}	
-					}
-						
+					// Queremos eliminar lo que hay en ese panel con anterioridad
+					// quizá lo tenga que hacer la clase que lo crea
+					if (rPanel.getComponentCount() <= 1) {
+						Component[] listaComp = rPanel.getComponents();
+
+						for (Component c : listaComp) {
+							if (c instanceof SelectedChat) {
+								rPanel.remove(c);
+							}
+						}
+
 					}
 					List<Mensaje> m = contacto.getListaMensajes();
 					rPanel.add(chat);
 					rPanel.validate();
 					rPanel.repaint();
-					//setBackground(Color.pink );	
+					// setBackground(Color.pink );
 				}
 				chat.mostrarBubbleText();
 				actualizarOpenedChat();
@@ -130,46 +130,45 @@ public class OpenedChat extends JPanel {
 			}
 		});
 
-	
-
 		// this.add(Box.createRigidArea(new Dimension(60, 20)));
-		
-		setBackground(new Color(254,66,95));
+
+		setBackground(new Color(254, 66, 95));
 	}
-	
-	
-	
-	
-	public void actualizarOpenedChat(){
+
+	public void actualizarOpenedChat() {
 		List<Mensaje> mensajes = contacto.getListaMensajes();
-		if(!mensajes.isEmpty() || contacto.getClass().equals(Grupo.class))
-			for(int i=0;i<mensajes.size();i++){
-				String m="";
-				Mensaje ult = mensajes.get(mensajes.size()-1);
-				
-				if(ult.getEmoji()==-1){
-					m=ult.getTexto();
-				}else
-					m="Emoji";
-				
+		if (!mensajes.isEmpty() || contacto.getClass().equals(Grupo.class))
+			for (int i = 0; i < mensajes.size(); i++) {
+				String m = "";
+				Mensaje ult = mensajes.get(mensajes.size() - 1);
+
+				if (ult.getEmoji() == -1) {
+					m = ult.getTexto();
+				} else
+					m = "Emoji";
+
 				this.setUltMsg(m);
 				last.setText(ultMsg);
-				this.revalidate();
-				this.repaint();
-				lPanel.revalidate();
-				lPanel.repaint();	
+			
 			}
-		else{
+		else {
 			this.setUltMsg("");
 			last.setText(ultMsg);
 			this.revalidate();
 			this.repaint();
-			lPanel.revalidate();
-			lPanel.repaint();
+		
 		}
+		
+		this.name = contacto.getNombre();
+		nameL.setText(name);
+		this.revalidate();
+		this.repaint();
+		lPanel.revalidate();
+		lPanel.repaint();
+		
 	}
 
-	public void eliminarChat(){
+	public void eliminarChat() {
 		lPanel.remove(this);
 		rPanel.remove(chat);
 		lPanel.revalidate();
@@ -177,7 +176,6 @@ public class OpenedChat extends JPanel {
 		rPanel.revalidate();
 		rPanel.repaint();
 	}
-	
 
 	public ImageIcon getIcono() {
 		return icono;
@@ -196,27 +194,22 @@ public class OpenedChat extends JPanel {
 	}
 
 	public LocalDate getLstDate() {
-		//TODO fecha del ultiomo mensaje
+		// TODO fecha del ultiomo mensaje
 		return lstDate;
 	}
 
 	public void setLstDate(LocalDate lstDate) {
-		//TODO fecha ultimo msg
+		// TODO fecha ultimo msg
 		this.lstDate = lstDate;
 	}
-	
 
 	public Contacto getContacto() {
 		return contacto;
 	}
 
-
-
 	public void setContacto(Contacto contacto) {
 		this.contacto = contacto;
 	}
-
-
 
 	public String getUltMsg() {
 		return ultMsg;
@@ -225,7 +218,6 @@ public class OpenedChat extends JPanel {
 	public void setUltMsg(String ultMsg) {
 		this.ultMsg = ultMsg;
 	}
-
 
 	public SelectedChat getChat() {
 		return chat;

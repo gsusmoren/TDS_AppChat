@@ -229,6 +229,7 @@ public class SelectedChat extends JPanel {
 							mostrarBubbleText();
 							validate();
 							o.repaint();
+							contactInfo.setText(nombre);
 							ventReg.dispose();
 						} else {
 							JOptionPane.showMessageDialog(panelV, "Ya existe un contacto con este nombre", "Contacto No Modificado",
@@ -342,8 +343,7 @@ public class SelectedChat extends JPanel {
 					s+= "</html>";
 					tel = new JLabel();
 					tel.setText(s);
-					//tel.setLineWrap(true);
-					//tel.setEditable(false);
+				
 					tel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 					tel.setMaximumSize(new Dimension(200, 300));
 					
@@ -464,10 +464,10 @@ public class SelectedChat extends JPanel {
 			} else {
 				BubbleText b;
 				if (m.getEmoji() == -1) {
-					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, " " + m.getEmisor().getNombre(),
+					b = new BubbleText(midPanel, m.getTexto(), Color.CYAN, " " + c.getNombre(),
 							BubbleText.RECEIVED);
 				} else {
-					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + m.getEmisor().getNombre(),
+					b = new BubbleText(midPanel, m.getEmoji(), Color.CYAN, " " + c.getNombre(),
 							BubbleText.RECEIVED, 15);
 				}
 				midPanel.add(b);

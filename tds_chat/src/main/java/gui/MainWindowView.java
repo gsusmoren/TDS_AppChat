@@ -251,8 +251,10 @@ public class MainWindowView extends JFrame {
 
 					// TODO mostar aquellos contactos con los que no hayamos iniciado una
 					// conversacion
+					if(c.getListaMensajes().size() == 0 )
 					lista.addElement(c.getNombre());
 				}
+
 				final JList<String> l = new JList<String>(lista);
 				j.add(l);
 				l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -275,6 +277,7 @@ public class MainWindowView extends JFrame {
 							ContactoIndividual cont = ControladorAppChat.getUnicaInstancia()
 									.getContactoIndividual(l.getSelectedValue());
 							OpenedChat o1 = new OpenedChat(cont, "", botLPanel, rPanel);
+							
 							botLPanel.add(o1);
 							botLPanel.revalidate();
 							botLPanel.repaint();
@@ -853,8 +856,7 @@ public class MainWindowView extends JFrame {
 						prmPanel2.setLayout(new BoxLayout(prmPanel2, BoxLayout.Y_AXIS));
 						prmPanel2.setBackground(new Color(246, 219, 142));
 
-						// TODO
-
+					
 						// mostrar precio final.
 						double precioFinal = ControladorAppChat.getUnicaInstancia().getUsuarioActual().getDescuento();
 
